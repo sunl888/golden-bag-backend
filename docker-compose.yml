@@ -1,0 +1,23 @@
+version: '3'
+services:
+  app:
+    build: .
+#      args:
+#          USERNAME: sunlong
+#          USERGROUP: sunlong
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ~/.m2:/root/.m2
+    ports:
+      - "8080:8080"
+    command: mvn clean spring-boot:run -Dspring.profiles.active=docker
+    networks:
+      - app_env
+#    environment:
+#     - MAVEN_CONFIG=/var/maven/.m2
+#     - USERNAME=sunlong
+networks:
+  app_env:
+    external:
+      name: app_env
