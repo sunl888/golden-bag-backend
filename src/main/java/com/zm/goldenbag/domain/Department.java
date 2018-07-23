@@ -1,8 +1,15 @@
 package com.zm.goldenbag.domain;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
+/**
+ * 部門表
+ */
 @Entity
 public class Department {
 
@@ -13,12 +20,18 @@ public class Department {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @CreatedDate
+    private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
+
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "parent_id", referencedColumnName = "id")
     private Department parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
-    private Set<Department> projectGroups;
+    private Set<Department> departments;
 
     public Department() {
     }
@@ -52,12 +65,27 @@ public class Department {
         this.parent = parent;
     }
 
-    public Set<Department> getProjectGroups() {
-        return projectGroups;
+    public Set<Department> getDepartments() {
+        return departments;
     }
 
-    public void setProjectGroups(Set<Department> projectGroups) {
-        this.projectGroups = projectGroups;
+    public void setDepartments(Set<Department> departments) {
+        this.departments = departments;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

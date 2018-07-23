@@ -2,6 +2,9 @@ package com.zm.goldenbag.domain;
 
 import javax.persistence.*;
 
+/**
+ * 考核表中的工作总结等輸入框
+ */
 @Entity
 public class AssessmentInput {
     @Id

@@ -3,6 +3,10 @@ package com.zm.goldenbag.domain;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * 考核表中的考核標準
+ */
+
 @Entity
 public class AssessmentProject {
     @Id

@@ -4,7 +4,7 @@ package com.zm.goldenbag.domain;
 import javax.persistence.*;
 
 /**
- * assessment 和 assessmentProject 多对多中间表
+ * 考核表中的每個項目的自評分數,直接經理評分,備註 和 考核記錄 對應
  */
 @Entity
 public class AssessmentProjectScore {
@@ -24,6 +24,8 @@ public class AssessmentProjectScore {
     private int selfScore;
 
     private int managerScore;
+
+    private String remarks;
 
 
     public Assessment getAssessment() {
@@ -64,5 +66,13 @@ public class AssessmentProjectScore {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }

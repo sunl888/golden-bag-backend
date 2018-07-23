@@ -3,6 +3,9 @@ package com.zm.goldenbag.domain;
 
 import javax.persistence.*;
 
+/**
+ * 考核表中的工作总结等輸入框輸入的內容 和 考核記錄 對應
+ */
 @Entity
 public class AssessmentInputContent {
 
