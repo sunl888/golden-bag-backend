@@ -1,13 +1,13 @@
-package com.zm.goldenbag.domain;
+package com.zmdev.goldenbag.domain;
 
 
 import javax.persistence.*;
 
 /**
- * assessment 和 assessmentProject 多对多中间表
+ * 考核表中的工作总结等輸入框輸入的內容 和 考核記錄 對應
  */
 @Entity
-public class AssessmentProjectScore {
+public class AssessmentInputContent {
 
     @Id
     @GeneratedValue
@@ -21,10 +21,7 @@ public class AssessmentProjectScore {
     @PrimaryKeyJoinColumn(name = "assessment_project_id")
     private AssessmentProject assessmentProject;
 
-    private int selfScore;
-
-    private int managerScore;
-
+    private String content;
 
     public Assessment getAssessment() {
         return assessment;
@@ -42,20 +39,12 @@ public class AssessmentProjectScore {
         this.assessmentProject = assessmentProject;
     }
 
-    public int getSelfScore() {
-        return selfScore;
+    public String getContent() {
+        return content;
     }
 
-    public void setSelfScore(int selfScore) {
-        this.selfScore = selfScore;
-    }
-
-    public int getManagerScore() {
-        return managerScore;
-    }
-
-    public void setManagerScore(int managerScore) {
-        this.managerScore = managerScore;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Long getId() {

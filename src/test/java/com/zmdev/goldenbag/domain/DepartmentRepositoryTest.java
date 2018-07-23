@@ -1,15 +1,16 @@
-package com.zm.goldenbag.domain;
+package com.zmdev.goldenbag.domain;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DepartmentRepositoryTest {
+public class DepartmentRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -25,9 +26,5 @@ public class DepartmentRepositoryTest {
         Department d = departmentRepository.findByName("开发部门");
 
         Assert.assertEquals(d.getName(), "开发部门");
-        Assert.assertEquals(d.getProjectGroups().size(), 3);
-
     }
-
-
 }

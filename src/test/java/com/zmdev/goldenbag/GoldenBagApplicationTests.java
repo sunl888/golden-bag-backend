@@ -1,4 +1,4 @@
-package com.zm.goldenbag;
+package com.zmdev.goldenbag;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class GoldenBagApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
-
+    @Test
+    public void contextLoads() {
+    }
 }

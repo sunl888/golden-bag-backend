@@ -1,9 +1,15 @@
-package com.zm.goldenbag.domain;
+package com.zmdev.goldenbag.domain;
 
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * 員工表
+ */
 @Entity
 public class User {
 
@@ -14,6 +20,12 @@ public class User {
 
     @Id
     private Long id;
+
+    @CreatedDate
+    private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
 
     @Column(nullable = false)
     private String name;
@@ -111,5 +123,21 @@ public class User {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

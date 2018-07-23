@@ -1,9 +1,18 @@
-package com.zm.goldenbag.domain;
+package com.zmdev.goldenbag.domain;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * 季度表
+ */
 @Entity
 public class Auarter {
     @Id
@@ -18,7 +27,13 @@ public class Auarter {
 
     private Double price;
 
-    @OneToMany
+    @CreatedDate
+    private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
+
+    @OneToMany(mappedBy = "auarter")
     private Set<AssessmentTemplate> assessmentTemplates;
 
     public Long getId() {
@@ -67,5 +82,21 @@ public class Auarter {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

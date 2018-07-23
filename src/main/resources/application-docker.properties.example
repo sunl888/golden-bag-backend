@@ -1,11 +1,10 @@
 ######  db config start ######
-spring.datasource.url=jdbc:mysql://mysql:3306/test_docker?useUnicode=true&characterEncoding=utf-8
+spring.datasource.url=jdbc:mysql://mysql:3306/golden_bag_docker?useUnicode=true&characterEncoding=utf-8
 spring.datasource.username=root
 spring.datasource.password=root
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
-spring.datasource.hikari.connectionInitSql=SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 ######   logging config start ######
-logging.file=/app/golden.log
+logging.file=./golden.log
 logging.level.com.favorites=INFO
 logging.level.org.springframework.web=INFO
 logging.level.org.hibernate=in
