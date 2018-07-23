@@ -1,8 +1,6 @@
 package com.zm.goldenbag.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class AssessmentProjectItem {
@@ -13,6 +11,10 @@ public class AssessmentProjectItem {
     private int score;
 
     private String title;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "assessment_project_id")
+    private AssessmentProject assessmentProject;
 
     public Long getId() {
         return id;
@@ -38,4 +40,11 @@ public class AssessmentProjectItem {
         this.title = title;
     }
 
+    public AssessmentProject getAssessmentProject() {
+        return assessmentProject;
+    }
+
+    public void setAssessmentProject(AssessmentProject assessmentProject) {
+        this.assessmentProject = assessmentProject;
+    }
 }

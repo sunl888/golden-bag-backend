@@ -11,8 +11,11 @@ public class AssessmentProject {
 
     private String title;
 
-    @OneToMany
-    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "assessment_template_id")
+    private AssessmentTemplate assessmentTemplate;
+
+    @OneToMany(mappedBy = "assessmentProject")
     private Set<AssessmentProjectItem> items;
 
     public Long getId() {
@@ -39,6 +42,13 @@ public class AssessmentProject {
         this.items = items;
     }
 
+    public AssessmentTemplate getAssessmentTemplate() {
+        return assessmentTemplate;
+    }
+
+    public void setAssessmentTemplate(AssessmentTemplate assessmentTemplate) {
+        this.assessmentTemplate = assessmentTemplate;
+    }
 }
 
 

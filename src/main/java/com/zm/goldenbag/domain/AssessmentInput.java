@@ -1,8 +1,6 @@
 package com.zm.goldenbag.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class AssessmentInput {
@@ -11,6 +9,10 @@ public class AssessmentInput {
     private Long id;
 
     private String title;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "assessment_template_id")
+    private AssessmentTemplate assessmentTemplate;
 
     public Long getId() {
         return id;
@@ -28,4 +30,11 @@ public class AssessmentInput {
         this.title = title;
     }
 
+    public AssessmentTemplate getAssessmentTemplate() {
+        return assessmentTemplate;
+    }
+
+    public void setAssessmentTemplate(AssessmentTemplate assessmentTemplate) {
+        this.assessmentTemplate = assessmentTemplate;
+    }
 }

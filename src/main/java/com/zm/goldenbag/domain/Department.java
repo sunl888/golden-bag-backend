@@ -14,7 +14,7 @@ public class Department {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "parent_id")
+    @PrimaryKeyJoinColumn(name = "parent_id", referencedColumnName = "id")
     private Department parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
@@ -59,6 +59,5 @@ public class Department {
     public void setProjectGroups(Set<Department> projectGroups) {
         this.projectGroups = projectGroups;
     }
-
 
 }
