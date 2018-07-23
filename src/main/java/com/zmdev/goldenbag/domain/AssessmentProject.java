@@ -1,12 +1,14 @@
-package com.zm.goldenbag.domain;
+package com.zmdev.goldenbag.domain;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
- * 考核表中的工作总结等輸入框
+ * 考核表中的考核標準
  */
+
 @Entity
-public class AssessmentInput {
+public class AssessmentProject {
     @Id
     @GeneratedValue
     private Long id;
@@ -16,6 +18,9 @@ public class AssessmentInput {
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "assessment_template_id")
     private AssessmentTemplate assessmentTemplate;
+
+    @OneToMany(mappedBy = "assessmentProject")
+    private Set<AssessmentProjectItem> items;
 
     public Long getId() {
         return id;
@@ -33,6 +38,14 @@ public class AssessmentInput {
         this.title = title;
     }
 
+    public Set<AssessmentProjectItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<AssessmentProjectItem> items) {
+        this.items = items;
+    }
+
     public AssessmentTemplate getAssessmentTemplate() {
         return assessmentTemplate;
     }
@@ -41,3 +54,5 @@ public class AssessmentInput {
         this.assessmentTemplate = assessmentTemplate;
     }
 }
+
+

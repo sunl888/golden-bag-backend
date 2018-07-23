@@ -1,4 +1,4 @@
-package com.zm.goldenbag.web;
+package com.zmdev.goldenbag.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

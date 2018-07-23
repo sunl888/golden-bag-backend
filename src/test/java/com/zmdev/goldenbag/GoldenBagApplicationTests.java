@@ -1,4 +1,4 @@
-package com.zm.goldenbag;
+package com.zmdev.goldenbag;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

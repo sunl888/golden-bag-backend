@@ -1,4 +1,4 @@
-package com.zm.goldenbag.domain;
+package com.zmdev.goldenbag.domain;
 
 import org.junit.Assert;
 import org.junit.Test;

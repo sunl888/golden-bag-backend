@@ -1,13 +1,13 @@
-package com.zm.goldenbag.domain;
+package com.zmdev.goldenbag.domain;
 
 
 import javax.persistence.*;
 
 /**
- * 考核表中的工作总结等輸入框輸入的內容 和 考核記錄 對應
+ * 考核表中的每個項目的自評分數,直接經理評分,備註 和 考核記錄 對應
  */
 @Entity
-public class AssessmentInputContent {
+public class AssessmentProjectScore {
 
     @Id
     @GeneratedValue
@@ -21,7 +21,12 @@ public class AssessmentInputContent {
     @PrimaryKeyJoinColumn(name = "assessment_project_id")
     private AssessmentProject assessmentProject;
 
-    private String content;
+    private int selfScore;
+
+    private int managerScore;
+
+    private String remarks;
+
 
     public Assessment getAssessment() {
         return assessment;
@@ -39,12 +44,20 @@ public class AssessmentInputContent {
         this.assessmentProject = assessmentProject;
     }
 
-    public String getContent() {
-        return content;
+    public int getSelfScore() {
+        return selfScore;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setSelfScore(int selfScore) {
+        this.selfScore = selfScore;
+    }
+
+    public int getManagerScore() {
+        return managerScore;
+    }
+
+    public void setManagerScore(int managerScore) {
+        this.managerScore = managerScore;
     }
 
     public Long getId() {
@@ -53,5 +66,13 @@ public class AssessmentInputContent {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }
