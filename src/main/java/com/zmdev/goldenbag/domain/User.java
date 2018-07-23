@@ -30,7 +30,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    private Date entryTime;
+    private Date entryDate;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -69,12 +69,12 @@ public class User {
         this.name = name;
     }
 
-    public Date getEntryTime() {
-        return entryTime;
+    public Date getEntryDate() {
+        return entryDate;
     }
 
-    public void setEntryTime(Date entryTime) {
-        this.entryTime = entryTime;
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
     }
 
     public Department getDepartment() {
