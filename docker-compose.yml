@@ -7,7 +7,7 @@ services:
       - .:/app
       - ~/.m2:/root/.m2
     ports:
-      - "8080:8080"
+      - "8080:8Department080"
 #   command: mvn clean spring-boot:run -Dspring.profiles.active=docker
     command: mvn clean spring-boot:run
     environment:
