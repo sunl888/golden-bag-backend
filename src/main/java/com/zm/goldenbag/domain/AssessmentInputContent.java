@@ -11,11 +11,11 @@ public class AssessmentInputContent {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "assessment_id")
+    @PrimaryKeyJoinColumn(name = "assessment_id")
     private Assessment assessment;
 
     @ManyToOne
-    @JoinColumn(name = "assessment_project_id")
+    @PrimaryKeyJoinColumn(name = "assessment_project_id")
     private AssessmentProject assessmentProject;
 
     private String content;
@@ -42,5 +42,13 @@ public class AssessmentInputContent {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

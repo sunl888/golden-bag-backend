@@ -18,19 +18,19 @@ public class User {
     // 职级系数
     private float rankCoefficient;
 
-    // 岗位
-    private String post;
+    // 角色（岗位）
+    private String role;
 
     @OneToOne
-    @JoinColumn(name = "direct_manager_id")
+    @PrimaryKeyJoinColumn(name = "direct_manager_id")
     private User directManager;
 
     @OneToOne
-    @JoinColumn(name = "indirect_manager_id")
+    @PrimaryKeyJoinColumn(name = "indirect_manager_id")
     private User indirectManager;
 
     @ManyToOne
-    @JoinColumn(name = "department_id")
+    @PrimaryKeyJoinColumn(name = "department_id")
     private Department department;
 
     public Long getId() {
@@ -73,12 +73,12 @@ public class User {
         this.rankCoefficient = rankCoefficient;
     }
 
-    public String getPost() {
-        return post;
+    public String getRole() {
+        return role;
     }
 
-    public void setPost(String post) {
-        this.post = post;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public User getDirectManager() {

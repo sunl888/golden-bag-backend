@@ -14,11 +14,11 @@ public class AssessmentProjectScore {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "assessment_id")
+    @PrimaryKeyJoinColumn(name = "assessment_id")
     private Assessment assessment;
 
     @ManyToOne
-    @JoinColumn(name = "assessment_project_id")
+    @PrimaryKeyJoinColumn(name = "assessment_project_id")
     private AssessmentProject assessmentProject;
 
     private int selfScore;

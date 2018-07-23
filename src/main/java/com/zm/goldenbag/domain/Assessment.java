@@ -13,13 +13,13 @@ public class Assessment {
     private Date assessmentDate;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @PrimaryKeyJoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "assessment", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "assessment")
     private Set<AssessmentProjectScore> assessmentProjectScores;
 
-    @OneToMany(mappedBy = "assessment", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "assessment")
     private Set<AssessmentInputContent> assessmentInputContents;
 
     @ManyToOne
@@ -28,6 +28,7 @@ public class Assessment {
     private String indirectManagerAuditComments;
 
     private String remarks;
+
     public Long getId() {
         return id;
     }
@@ -58,5 +59,37 @@ public class Assessment {
 
     public void setAssessmentProjectScores(Set<AssessmentProjectScore> assessmentProjectScores) {
         this.assessmentProjectScores = assessmentProjectScores;
+    }
+
+    public Set<AssessmentInputContent> getAssessmentInputContents() {
+        return assessmentInputContents;
+    }
+
+    public void setAssessmentInputContents(Set<AssessmentInputContent> assessmentInputContents) {
+        this.assessmentInputContents = assessmentInputContents;
+    }
+
+    public AssessmentTemplate getAssessmentTemplate() {
+        return assessmentTemplate;
+    }
+
+    public void setAssessmentTemplate(AssessmentTemplate assessmentTemplate) {
+        this.assessmentTemplate = assessmentTemplate;
+    }
+
+    public String getIndirectManagerAuditComments() {
+        return indirectManagerAuditComments;
+    }
+
+    public void setIndirectManagerAuditComments(String indirectManagerAuditComments) {
+        this.indirectManagerAuditComments = indirectManagerAuditComments;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }
