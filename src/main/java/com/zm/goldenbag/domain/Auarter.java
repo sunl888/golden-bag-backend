@@ -16,6 +16,8 @@ public class Auarter {
 
     private Date startAssessmentDate;
 
+    private Double price;
+
     @OneToMany
     private Set<AssessmentTemplate> assessmentTemplates;
 
@@ -57,5 +59,13 @@ public class Auarter {
 
     public void setAssessmentTemplates(Set<AssessmentTemplate> assessmentTemplates) {
         this.assessmentTemplates = assessmentTemplates;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

@@ -7,6 +7,11 @@ import java.util.Date;
 @Entity
 public class User {
 
+    public enum Gender {
+        Man,
+        WOMAN
+    }
+
     @Id
     private Long id;
 
@@ -15,8 +20,11 @@ public class User {
 
     private Date entryTime;
 
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
     // 职级系数
-    private float rankCoefficient;
+    private Double rankCoefficient;
 
     // 角色（岗位）
     private String role;
@@ -65,11 +73,11 @@ public class User {
         this.department = department;
     }
 
-    public float getRankCoefficient() {
+    public Double getRankCoefficient() {
         return rankCoefficient;
     }
 
-    public void setRankCoefficient(float rankCoefficient) {
+    public void setRankCoefficient(Double rankCoefficient) {
         this.rankCoefficient = rankCoefficient;
     }
 
@@ -95,5 +103,13 @@ public class User {
 
     public void setIndirectManager(User indirectManager) {
         this.indirectManager = indirectManager;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

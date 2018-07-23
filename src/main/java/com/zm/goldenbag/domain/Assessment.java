@@ -29,6 +29,10 @@ public class Assessment {
 
     private String remarks;
 
+    // 职级系数
+    private Double rankCoefficient;
+
+
     public Long getId() {
         return id;
     }
@@ -91,5 +95,13 @@ public class Assessment {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public Double getRankCoefficient() {
+        return rankCoefficient;
+    }
+
+    public void setRankCoefficient(Double rankCoefficient) {
+        this.rankCoefficient = rankCoefficient;
     }
 }
