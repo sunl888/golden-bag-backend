@@ -45,5 +45,10 @@
 /nbdist/
 /.nb-gradle/
 
+### config ###
+src/main/resources/application-dev.properties
+src/main/resources/application-docker.properties
+
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
