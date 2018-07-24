@@ -1,12 +1,13 @@
 package com.zmdev.goldenbag.web;
 
 import com.zmdev.goldenbag.domain.Department;
-import com.zmdev.goldenbag.domain.User;
-import com.zmdev.goldenbag.domain.result.Response;
-import com.zmdev.goldenbag.domain.result.ResponseData;
 import com.zmdev.goldenbag.service.DepartmentService;
+import com.zmdev.goldenbag.web.result.Result;
+import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/departments", produces = "application/json;charset=UTF-8")
@@ -26,23 +27,35 @@ public class DepartmentController extends BaseController {
      */
     @GetMapping
     @ResponseBody
-    public Response index() {
-        return new ResponseData(departmentService.findTopDepartment());
+    public Result<List<Department>> index() {
+        return ResultGenerator.genSuccessResult(departmentService.findTopDepartment());
     }
 
+    /**
+     * 添加部門
+     *
+     * @param department
+     * @return Response
+     */
     @PostMapping
     @ResponseBody
-    public Response store(@RequestBody Department department) {
+    public Result store(@RequestBody Department department) {
         departmentService.save(department);
-        return new Response();
+        return ResultGenerator.genSuccessResult();
     }
 
+    /**
+     * 刪除部門
+     *
+     * @param id
+     * @return Response
+     */
     @DeleteMapping("/{id}")
     @ResponseBody
-    public Response destroy(@PathVariable Long id) {
+    public Result destroy(@PathVariable Long id) {
         System.out.println(id);
         departmentService.deleteById(id);
-        return new Response();
+        return ResultGenerator.genSuccessResult();
     }
 
 }

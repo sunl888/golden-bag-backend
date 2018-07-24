@@ -1,5 +1,6 @@
 package com.zmdev.goldenbag.service.impl;
 
+import com.sun.xml.internal.ws.model.RuntimeModelerException;
 import com.zmdev.goldenbag.domain.Department;
 import com.zmdev.goldenbag.domain.DepartmentRepository;
 import com.zmdev.goldenbag.service.DepartmentService;
@@ -40,7 +41,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         // TODO 這裡的外鍵約束關係暫時不考慮
 //        List<Department> departments = departmentRepository.findByParentId(id);
 //        departmentRepository.deleteInBatch(departments);
+        int childDepartmentSize = departmentRepository.findByParentId(id).size();
+        if (childDepartmentSize != 0) {
+            throw new RuntimeModelerException("刪除失敗,該部門有子部門");
+        }
         departmentRepository.deleteById(id);
     }
-
 }
