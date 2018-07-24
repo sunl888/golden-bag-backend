@@ -11,4 +11,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
     List<Department> findByParent(Department parent);
 
+    List<Department> findByParentId(Long parent_id);
+
+    void deleteById(Long id);
 }

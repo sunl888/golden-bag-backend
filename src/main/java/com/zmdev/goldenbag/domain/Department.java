@@ -1,5 +1,6 @@
 package com.zmdev.goldenbag.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -28,17 +29,18 @@ public class Department {
     private Date updatedAt;
 
     @ManyToOne
-    @JsonIgnore
-    @PrimaryKeyJoinColumn(name = "parent_id", columnDefinition = "Default 0")
+//    @JsonIgnore // 這裡必須要忽略 parent,否則會導致無限遞歸
+    @JsonBackReference // 解決雙向引用導致的無限遞歸問題
+    @PrimaryKeyJoinColumn(name = "parent_id")
     private Department parent;
 
     @OneToMany(mappedBy = "parent")
-    private Set<Department> departments;
+    private Set<Department> children;
 
-    public Department() {
+    Department() {
     }
 
-    public Department(String name, Department parent) {
+    Department(String name, Department parent) {
         this.name = name;
         this.parent = parent;
     }
@@ -67,12 +69,12 @@ public class Department {
         this.parent = parent;
     }
 
-    public Set<Department> getDepartments() {
-        return departments;
+    public Set<Department> getChildren() {
+        return children;
     }
 
-    public void setDepartments(Set<Department> departments) {
-        this.departments = departments;
+    public void setChildren(Set<Department> children) {
+        this.children = children;
     }
 
     public Date getCreatedAt() {

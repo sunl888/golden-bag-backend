@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -34,5 +35,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentRepository.save(department);
     }
 
+    public void deleteById(Long id) {
+        // 刪除部門時先刪除他的所有子部門
+        // TODO 這裡的外鍵約束關係暫時不考慮
+//        List<Department> departments = departmentRepository.findByParentId(id);
+//        departmentRepository.deleteInBatch(departments);
+        departmentRepository.deleteById(id);
+    }
 
 }
