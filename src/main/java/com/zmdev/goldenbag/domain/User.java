@@ -32,7 +32,7 @@ public class User {
 
     private Date entryDate;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated
     private Gender gender;
 
     // 职级系数

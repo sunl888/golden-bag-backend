@@ -20,8 +20,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping
-    public Response index(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
-
+    public Response index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return new ResponseData(
                 userService.findAllByPage(
                         PageRequest.of(page, size,
@@ -29,6 +28,7 @@ public class UserController extends BaseController {
                         )
                 )
         );
+
     }
 
     @GetMapping("/{id}")
