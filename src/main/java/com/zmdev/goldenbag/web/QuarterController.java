@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/quarter")
+@RequestMapping("/quarters")
 public class QuarterController extends BaseController {
     private QuarterService quarterService;
 
