@@ -30,7 +30,7 @@ public class Department {
     @PrimaryKeyJoinColumn(name = "parent_id", columnDefinition = "Default 0")
     private Department parent;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parent")
     private Set<Department> departments;
 
     public Department() {
