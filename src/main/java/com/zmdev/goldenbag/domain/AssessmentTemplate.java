@@ -2,6 +2,7 @@ package com.zmdev.goldenbag.domain;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Set;
  * 考核模板
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class AssessmentTemplate {
 
     @CreatedDate
