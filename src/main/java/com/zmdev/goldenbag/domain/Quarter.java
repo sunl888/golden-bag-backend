@@ -2,11 +2,9 @@ package com.zmdev.goldenbag.domain;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -14,6 +12,7 @@ import java.util.Set;
  * 季度表
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Quarter {
     @Id
     @GeneratedValue
