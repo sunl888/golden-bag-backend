@@ -42,11 +42,11 @@ public class User {
     private String role;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "direct_manager_id")
+    @JoinColumn(name = "direct_manager_id")
     private User directManager;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "indirect_manager_id")
+    @JoinColumn(name = "indirect_manager_id")
     private User indirectManager;
 
     @ManyToOne

@@ -5,6 +5,7 @@ import com.zmdev.goldenbag.domain.result.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+
 @Controller
 public class BaseController {
 
