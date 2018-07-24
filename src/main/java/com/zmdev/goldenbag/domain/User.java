@@ -3,6 +3,7 @@ package com.zmdev.goldenbag.domain;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Date;
  * 員工表
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
     public enum Gender {
@@ -19,6 +21,7 @@ public class User {
     }
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @CreatedDate
@@ -30,9 +33,11 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    private Date entryTime;
+    private String phone;
 
-    @Enumerated(EnumType.STRING)
+    private Date entryDate;
+
+    @Enumerated
     private Gender gender;
 
     // 职级系数
@@ -42,11 +47,11 @@ public class User {
     private String role;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "direct_manager_id")
+    @JoinColumn(name = "direct_manager_id")
     private User directManager;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "indirect_manager_id")
+    @JoinColumn(name = "indirect_manager_id")
     private User indirectManager;
 
     @ManyToOne
@@ -69,12 +74,12 @@ public class User {
         this.name = name;
     }
 
-    public Date getEntryTime() {
-        return entryTime;
+    public Date getEntryDate() {
+        return entryDate;
     }
 
-    public void setEntryTime(Date entryTime) {
-        this.entryTime = entryTime;
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
     }
 
     public Department getDepartment() {
@@ -139,5 +144,30 @@ public class User {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", name='" + name + '\'' +
+                ", entryDate=" + entryDate +
+                ", gender=" + gender +
+                ", rankCoefficient=" + rankCoefficient +
+                ", role='" + role + '\'' +
+                ", directManager=" + directManager +
+                ", indirectManager=" + indirectManager +
+                ", department=" + department +
+                '}';
     }
 }

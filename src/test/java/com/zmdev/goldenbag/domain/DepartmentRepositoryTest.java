@@ -8,9 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DepartmentRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class DepartmentRepositoryTest{
 
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -27,4 +29,13 @@ public class DepartmentRepositoryTest extends AbstractTransactionalJUnit4SpringC
 
         Assert.assertEquals(d.getName(), "开发部门");
     }
+
+    @Test
+    public void testFindAll() {
+        List<Department> departments = departmentRepository.findAll();
+        for (Department item : departments) {
+            System.out.println(item.getName());
+        }
+    }
+
 }
