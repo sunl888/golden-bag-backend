@@ -33,6 +33,8 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    private String phone;
+
     private Date entryDate;
 
     @Enumerated
@@ -142,6 +144,14 @@ public class User {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override

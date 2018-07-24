@@ -6,12 +6,9 @@ import com.zmdev.goldenbag.service.QuarterService;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/quarters")
@@ -24,7 +21,7 @@ public class QuarterController extends BaseController {
 
     @GetMapping
     public Result index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return ResultGenerator.<Page<Quarter>>genSuccessResult(quarterService.findAllByPage(
+        return ResultGenerator.genSuccessResult(quarterService.findAllByPage(
             PageRequest.of(page, size,
                     new Sort(Sort.Direction.DESC, "startDate")
             )
@@ -33,7 +30,7 @@ public class QuarterController extends BaseController {
 
     @GetMapping("/{id}")
     public Result show(@PathVariable Long id) {
-        return ResultGenerator.<Optional<Quarter>>genSuccessResult(quarterService.findById(id));
+        return ResultGenerator.genSuccessResult(quarterService.findById(id));
     }
 
     @PostMapping
