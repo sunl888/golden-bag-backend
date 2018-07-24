@@ -21,6 +21,7 @@ public class User {
     }
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @CreatedDate
@@ -141,5 +142,22 @@ public class User {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", name='" + name + '\'' +
+                ", entryDate=" + entryDate +
+                ", gender=" + gender +
+                ", rankCoefficient=" + rankCoefficient +
+                ", role='" + role + '\'' +
+                ", directManager=" + directManager +
+                ", indirectManager=" + indirectManager +
+                ", department=" + department +
+                '}';
     }
 }

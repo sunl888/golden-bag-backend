@@ -1,7 +1,6 @@
 package com.zmdev.goldenbag.web;
 
 import com.zmdev.goldenbag.domain.Department;
-import com.zmdev.goldenbag.domain.User;
 import com.zmdev.goldenbag.domain.result.Response;
 import com.zmdev.goldenbag.domain.result.ResponseData;
 import com.zmdev.goldenbag.service.DepartmentService;
@@ -27,7 +26,7 @@ public class DepartmentController extends BaseController {
     @GetMapping
     @ResponseBody
     public Response index() {
-        return new ResponseData(departmentService.findTopDepartment());
+        return new ResponseData(departmentService.findAll());
     }
 
     @PostMapping

@@ -1,16 +1,14 @@
 package com.zmdev.goldenbag.web;
 
 
+import com.zmdev.goldenbag.domain.Quarter;
 import com.zmdev.goldenbag.domain.result.Response;
 import com.zmdev.goldenbag.domain.result.ResponseData;
 import com.zmdev.goldenbag.service.QuarterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/quarters")
@@ -29,4 +27,16 @@ public class QuarterController extends BaseController {
             )
        ));
     }
+
+    @GetMapping("/{id}")
+    public Response show(@PathVariable Long id) {
+        return new ResponseData(quarterService.findById(id));
+    }
+
+    @PostMapping
+    public Response store(@RequestBody Quarter quarter) {
+        quarterService.save(quarter);
+        return new Response();
+    }
+
 }
