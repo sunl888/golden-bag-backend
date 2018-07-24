@@ -27,7 +27,7 @@ public class Department {
     private Date updatedAt;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "parent_id", referencedColumnName = "id")
+    @PrimaryKeyJoinColumn(name = "parent_id", columnDefinition = "Default 0")
     private Department parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
