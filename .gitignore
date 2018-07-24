@@ -48,6 +48,7 @@
 ### config ###
 src/main/resources/application-dev.properties
 src/main/resources/application-docker.properties
+src/main/resources/fate.properties
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
