@@ -26,7 +26,7 @@ public class DepartmentController extends BaseController {
     @GetMapping
     @ResponseBody
     public Result index() {
-        return ResultGenerator.genSuccessResult(departmentService.findAll());
+        return ResultGenerator.genSuccessResult(departmentService.findAllByParent(null));
     }
 
     /**
