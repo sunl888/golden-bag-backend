@@ -14,7 +14,7 @@ import java.util.Set;
  * 季度表
  */
 @Entity
-public class Auarter {
+public class Quarter {
     @Id
     @GeneratedValue
     private Long id;
@@ -33,7 +33,7 @@ public class Auarter {
     @LastModifiedDate
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "auarter")
+    @OneToMany(mappedBy = "quarter")
     private Set<AssessmentTemplate> assessmentTemplates;
 
     public Long getId() {

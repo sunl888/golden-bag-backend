@@ -22,8 +22,8 @@ public class AssessmentTemplate {
     @LastModifiedDate
     private Date updatedAt;
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "auarter_id")
-    private Auarter auarter;
+    @PrimaryKeyJoinColumn(name = "quarter_id")
+    private Quarter quarter;
 
     private String name;
 
@@ -36,8 +36,8 @@ public class AssessmentTemplate {
     @OneToMany(mappedBy = "assessmentTemplate")
     private Set<AssessmentInput> assessmentInputs;
 
-    public Auarter getAuarter() {
-        return auarter;
+    public Quarter getQuarter() {
+        return quarter;
     }
 
     public Long getId() {
@@ -80,8 +80,8 @@ public class AssessmentTemplate {
         this.assessmentInputs = assessmentInputs;
     }
 
-    public void setAuarter(Auarter auarter) {
-        this.auarter = auarter;
+    public void setQuarter(Quarter quarter) {
+        this.quarter = quarter;
     }
 
     public Date getCreatedAt() {
