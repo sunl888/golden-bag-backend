@@ -23,8 +23,8 @@ public class QuarterController extends BaseController {
     }
 
     @GetMapping
-    public Result<Page<Quarter>> index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return ResultGenerator.genSuccessResult(quarterService.findAllByPage(
+    public Result index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return ResultGenerator.<Page<Quarter>>genSuccessResult(quarterService.findAllByPage(
             PageRequest.of(page, size,
                     new Sort(Sort.Direction.DESC, "startDate")
             )
@@ -32,8 +32,8 @@ public class QuarterController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    public Result<Optional<Quarter>> show(@PathVariable Long id) {
-        return ResultGenerator.genSuccessResult(quarterService.findById(id));
+    public Result show(@PathVariable Long id) {
+        return ResultGenerator.<Optional<Quarter>>genSuccessResult(quarterService.findById(id));
     }
 
     @PostMapping

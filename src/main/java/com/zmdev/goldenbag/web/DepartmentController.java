@@ -7,8 +7,6 @@ import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "/departments", produces = "application/json;charset=UTF-8")
 public class DepartmentController extends BaseController {
@@ -27,7 +25,7 @@ public class DepartmentController extends BaseController {
      */
     @GetMapping
     @ResponseBody
-    public Result<List<Department>> index() {
+    public Result index() {
         return ResultGenerator.genSuccessResult(departmentService.findAll());
     }
 
@@ -53,7 +51,6 @@ public class DepartmentController extends BaseController {
     @DeleteMapping("/{id}")
     @ResponseBody
     public Result destroy(@PathVariable Long id) {
-        System.out.println(id);
         departmentService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }

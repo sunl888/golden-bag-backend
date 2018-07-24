@@ -5,12 +5,9 @@ import com.zmdev.goldenbag.service.UserService;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 
 @RestController
@@ -23,7 +20,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping
-    public Result<Page<User>> index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Result index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return ResultGenerator.genSuccessResult(
                 userService.findAllByPage(
                         PageRequest.of(page, size,
@@ -34,7 +31,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    public Result<Optional<User>> show(@PathVariable Long id) {
+    public Result show(@PathVariable Long id) {
         return ResultGenerator.genSuccessResult(userService.findById(id));
     }
 

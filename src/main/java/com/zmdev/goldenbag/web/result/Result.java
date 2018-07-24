@@ -3,10 +3,9 @@ package com.zmdev.goldenbag.web.result;
 /**
  * 统一API响应结果封装
  */
-public class Result<T> {
+public class Result {
     private int code;
     private String message;
-    private T data;
 
     public int getCode() {
         return code;
@@ -25,14 +24,4 @@ public class Result<T> {
         this.message = message;
         return this;
     }
-
-    public T getData() {
-        return data;
-    }
-
-    public Result setData(T data) {
-        this.data = data;
-        return this;
-    }
-
 }

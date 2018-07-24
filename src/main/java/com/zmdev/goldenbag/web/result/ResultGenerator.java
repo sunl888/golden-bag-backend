@@ -12,11 +12,10 @@ public class ResultGenerator {
                 .setMessage(DEFAULT_SUCCESS_MESSAGE);
     }
 
-    public static <T> Result<T> genSuccessResult(T data) {
-        return new Result()
+    public static <T> Result genSuccessResult(T data) {
+        return new ResultData<T>(data)
                 .setCode(ResultCode.SUCCESS)
-                .setMessage(DEFAULT_SUCCESS_MESSAGE)
-                .setData(data);
+                .setMessage(DEFAULT_SUCCESS_MESSAGE);
     }
 
     public static Result genFailResult(String message) {
