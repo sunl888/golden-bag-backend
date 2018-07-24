@@ -12,7 +12,7 @@ import java.util.Optional;
 public abstract class BaseServiceImpl<T, ID, REPOSITORY extends JpaRepository<T, ID>> implements BaseService<T, ID> {
 
     @Autowired
-    private REPOSITORY repository;
+    protected REPOSITORY repository;
 
     public void save(T model) {
         repository.save(model);

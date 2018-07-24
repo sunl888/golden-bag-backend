@@ -2,13 +2,16 @@ package com.zmdev.goldenbag.web;
 
 
 import com.zmdev.goldenbag.domain.Quarter;
-import com.zmdev.goldenbag.domain.result.Response;
-import com.zmdev.goldenbag.domain.result.ResponseData;
 import com.zmdev.goldenbag.service.QuarterService;
+import com.zmdev.goldenbag.web.result.Result;
+import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/quarters")
@@ -20,8 +23,8 @@ public class QuarterController extends BaseController {
     }
 
     @GetMapping
-    public Response index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-       return new ResponseData(quarterService.findAllByPage(
+    public Result<Page<Quarter>> index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return ResultGenerator.genSuccessResult(quarterService.findAllByPage(
             PageRequest.of(page, size,
                     new Sort(Sort.Direction.DESC, "startDate")
             )
@@ -29,14 +32,14 @@ public class QuarterController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    public Response show(@PathVariable Long id) {
-        return new ResponseData(quarterService.findById(id));
+    public Result<Optional<Quarter>> show(@PathVariable Long id) {
+        return ResultGenerator.genSuccessResult(quarterService.findById(id));
     }
 
     @PostMapping
-    public Response store(@RequestBody Quarter quarter) {
+    public Result store(@RequestBody Quarter quarter) {
         quarterService.save(quarter);
-        return new Response();
+        return ResultGenerator.genSuccessResult();
     }
 
 }

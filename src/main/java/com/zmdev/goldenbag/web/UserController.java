@@ -1,13 +1,16 @@
 package com.zmdev.goldenbag.web;
 
 import com.zmdev.goldenbag.domain.User;
-import com.zmdev.goldenbag.domain.result.Response;
-import com.zmdev.goldenbag.domain.result.ResponseData;
 import com.zmdev.goldenbag.service.UserService;
+import com.zmdev.goldenbag.web.result.Result;
+import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @RestController
@@ -20,31 +23,30 @@ public class UserController extends BaseController {
     }
 
     @GetMapping
-    public Response index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return new ResponseData(
+    public Result<Page<User>> index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return ResultGenerator.genSuccessResult(
                 userService.findAllByPage(
                         PageRequest.of(page, size,
                                 new Sort(Sort.Direction.DESC, "createdAt")
                         )
                 )
         );
-
     }
 
     @GetMapping("/{id}")
-    public Response show(@PathVariable Long id){
-        return new ResponseData(userService.findById(id));
+    public Result<Optional<User>> show(@PathVariable Long id) {
+        return ResultGenerator.genSuccessResult(userService.findById(id));
     }
 
     @PostMapping
-    public Response store(@RequestBody User user) {
+    public Result store(@RequestBody User user) {
         userService.save(user);
-        return new Response();
+        return ResultGenerator.genSuccessResult();
     }
 
     @DeleteMapping("/{id}")
-    public Response destroy(@PathVariable Long id) {
+    public Result destroy(@PathVariable Long id) {
         userService.deleteById(id);
-        return new Response();
+        return ResultGenerator.genSuccessResult();
     }
 }
