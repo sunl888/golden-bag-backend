@@ -6,5 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface QuarterRepository extends JpaRepository<Quarter, Long> {
-    Page<Quarter> findAll(Pageable pageable);
 }
