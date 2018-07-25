@@ -6,6 +6,8 @@ import com.zmdev.goldenbag.service.AssessmentTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTemplate, Long, AssessmentTemplateRepository> implements AssessmentTemplateService {
 
@@ -14,6 +16,11 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
 
     public AssessmentTemplateServiceImpl(@Autowired AssessmentProjectRepository assessmentProjectRepository) {
         this.assessmentProjectRepository = assessmentProjectRepository;
+    }
+
+    @Override
+    public List<AssessmentTemplate> findByType(AssessmentTemplate.Type type) {
+        return repository.findByType(type);
     }
 
     public void saveProject(Long templateId, AssessmentProject project) {

@@ -2,6 +2,7 @@ package com.zmdev.goldenbag.web;
 
 import com.zmdev.goldenbag.domain.AssessmentProject;
 import com.zmdev.goldenbag.domain.AssessmentProjectItem;
+import com.zmdev.goldenbag.domain.AssessmentTemplate;
 import com.zmdev.goldenbag.service.AssessmentTemplateService;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
@@ -19,8 +20,16 @@ public class TemplateController extends BaseController {
     }
 
     @GetMapping
-    public Result index() {
-        return ResultGenerator.genSuccessResult(assessmentTemplateService.findAll());
+    public Result index(@RequestParam(defaultValue = "") String type) {
+        if ("".equals(type)) {
+            return ResultGenerator.genSuccessResult(assessmentTemplateService.findAll());
+        }
+        return ResultGenerator.genSuccessResult(
+                assessmentTemplateService.findByType(
+                        "staff".equals(type) ? AssessmentTemplate.Type.STAFF_TEMPLATE :
+                                AssessmentTemplate.Type.MANAGER_TEMPLATE
+                )
+        );
     }
 
 
