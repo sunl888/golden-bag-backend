@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @SpringBootTest
 public class DepartmentControllerTest {
 
-    private MockMvc mvc;
+    /*private MockMvc mvc;
 
     @Autowired
     private DepartmentController departmentController;
@@ -24,7 +24,7 @@ public class DepartmentControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         mvc = MockMvcBuilders.standaloneSetup(departmentController).build();
-    }
+    }*/
 
     /*@Test
     public void index() throws Exception {
