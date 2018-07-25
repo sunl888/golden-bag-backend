@@ -1,5 +1,7 @@
 package com.zmdev.goldenbag.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 /**
@@ -16,6 +18,7 @@ public class AssessmentProjectItem {
     private String title;
 
     @ManyToOne
+    @JsonBackReference
     @PrimaryKeyJoinColumn(name = "assessment_project_id")
     private AssessmentProject assessmentProject;
 

@@ -29,7 +29,7 @@ public class AssessmentTemplate {
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated
     private Type type;
 
     @OneToMany(mappedBy = "assessmentTemplate")

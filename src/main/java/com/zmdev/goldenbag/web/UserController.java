@@ -42,8 +42,16 @@ public class UserController extends BaseController {
 
     @PostMapping
     public Result store(@RequestBody User user) {
+        user.setId(null);
         userService.save(user);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(user);
+    }
+
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public Result update(@PathVariable Long id, @RequestBody User user) {
+        user.setId(id);
+        userService.save(user);
+        return ResultGenerator.genSuccessResult(user);
     }
 
     @DeleteMapping("/{id}")

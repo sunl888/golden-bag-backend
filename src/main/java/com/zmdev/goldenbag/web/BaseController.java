@@ -9,3 +9,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class BaseController {
 }
+

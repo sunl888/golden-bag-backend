@@ -35,6 +35,7 @@ public class QuarterController extends BaseController {
 
     @PostMapping
     public Result store(@RequestBody Quarter quarter) {
+        quarter.setId(null);
         quarterService.save(quarter);
         return ResultGenerator.genSuccessResult();
     }
