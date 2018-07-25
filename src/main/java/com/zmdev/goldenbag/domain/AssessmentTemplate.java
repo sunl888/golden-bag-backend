@@ -106,4 +106,5 @@ public class AssessmentTemplate {
         STAFF_TEMPLATE, // 員工模板
         MANAGER_TEMPLATE // 經理模板
     }
+
 }

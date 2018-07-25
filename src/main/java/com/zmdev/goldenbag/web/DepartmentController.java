@@ -13,8 +13,12 @@ import java.util.List;
 @RequestMapping(value = "/departments", produces = "application/json;charset=UTF-8")
 public class DepartmentController extends BaseController {
 
-    @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    public void setDepartmentService(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     /**
      * 顯示部門以及項目組列表

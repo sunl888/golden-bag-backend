@@ -2,6 +2,7 @@ package com.zmdev.goldenbag.domain;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,15 +12,12 @@ import java.util.Set;
  * 考核記錄
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Assessment {
-    @CreatedDate
-    private Date createdAt;
-
     @Id
     @GeneratedValue
     private Long id;
-    @LastModifiedDate
-    private Date updatedAt;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -35,10 +33,18 @@ public class Assessment {
 
     @ManyToOne
     private AssessmentTemplate assessmentTemplate;
+
     // 間接經理審核意見
     private String indirectManagerAuditComments;
+
     // 直接經理評價
     private String directManagerEvaluation;
+
+    @LastModifiedDate
+    private Date updatedAt;
+
+    @CreatedDate
+    private Date createdAt;
 
     public Date getCreatedAt() {
         return createdAt;
