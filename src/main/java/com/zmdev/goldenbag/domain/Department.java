@@ -71,6 +71,9 @@ public class Department {
     }
 
     public Set<Department> getChildren() {
+        if (children.size() == 0) {
+            return null;
+        }
         return children;
     }
 

@@ -6,7 +6,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 員工表
@@ -36,6 +39,9 @@ public class User {
     private String phone;
 
     private Date entryDate;
+
+    @Transient
+    private List<Long> ids = new ArrayList<>();
 
     @Enumerated
     private Gender gender;
@@ -152,6 +158,21 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Long> getIds() {
+        Department temp = this.department;
+
+        while (temp != null) {
+            ids.add(temp.getId());
+            temp = temp.getParent();
+        }
+        Collections.reverse(ids);
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
     }
 
     @Override
