@@ -7,16 +7,14 @@ import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
+@RestController // 直接用@RestController替代@Controller就不需要再配置@ResponseBody，默认返回json格式
 @RequestMapping(value = "/departments", produces = "application/json;charset=UTF-8")
 public class DepartmentController extends BaseController {
 
-    private final DepartmentService departmentService;
-
     @Autowired
-    public DepartmentController(DepartmentService departmentService) {
-        this.departmentService = departmentService;
-    }
+    private DepartmentService departmentService;
 
     /**
      * 顯示部門以及項目組列表
@@ -24,9 +22,13 @@ public class DepartmentController extends BaseController {
      * @return Response
      */
     @GetMapping
-    @ResponseBody
     public Result index() {
-        return ResultGenerator.genSuccessResult(departmentService.findAllByParent(null));
+        try {
+            List<Department> departmentList = departmentService.findAllByParent(null);
+            return ResultGenerator.genSuccessResult(departmentList);
+        } catch (Exception e) {
+            return ResultGenerator.genSuccessResult();
+        }
     }
 
     /**
@@ -36,7 +38,6 @@ public class DepartmentController extends BaseController {
      * @return Response
      */
     @PostMapping
-    @ResponseBody
     public Result store(@RequestBody Department department) {
         departmentService.save(department);
         return ResultGenerator.genSuccessResult();
@@ -49,10 +50,8 @@ public class DepartmentController extends BaseController {
      * @return Response
      */
     @DeleteMapping("/{id}")
-    @ResponseBody
     public Result destroy(@PathVariable Long id) {
         departmentService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
-
 }
