@@ -19,7 +19,7 @@ import java.util.List;
 public class User {
 
     public enum Gender {
-        Man,
+        MAN,
         WOMAN
     }
 
@@ -41,7 +41,7 @@ public class User {
     private Date entryDate;
 
     @Transient
-    private List<Long> ids = new ArrayList<>();
+    private List<Long> departmentIds = new ArrayList<>();
 
     @Enumerated
     private Gender gender;
@@ -160,19 +160,19 @@ public class User {
         this.phone = phone;
     }
 
-    public List<Long> getIds() {
+    public List<Long> getDepartmentIds() {
         Department temp = this.department;
 
         while (temp != null) {
-            ids.add(temp.getId());
+            departmentIds.add(temp.getId());
             temp = temp.getParent();
         }
-        Collections.reverse(ids);
-        return ids;
+        Collections.reverse(departmentIds);
+        return departmentIds;
     }
 
-    public void setIds(List<Long> ids) {
-        this.ids = ids;
+    public void setDepartmentIds(List<Long> departmentIds) {
+        this.departmentIds = departmentIds;
     }
 
     @Override

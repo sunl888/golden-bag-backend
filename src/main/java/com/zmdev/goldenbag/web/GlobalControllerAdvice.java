@@ -50,6 +50,7 @@ public class GlobalControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result runtimeExceptionHandler(HttpServletRequest req, Exception e) {
+        e.printStackTrace();
         return ResultGenerator.genFailResult(e.getMessage());
     }
 }

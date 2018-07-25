@@ -49,8 +49,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Result update(@PathVariable Long id, @RequestBody User user) {
-        user.setId(id);
-        userService.save(user);
+        userService.update(id, user);
         return ResultGenerator.genSuccessResult(user);
     }
 
