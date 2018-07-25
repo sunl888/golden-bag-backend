@@ -19,6 +19,33 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
     }
 
     @Override
+    public void saveTemplate(AssessmentTemplate template) {
+        // 复制一个模板
+        AssessmentTemplate lastTemplate = repository.getLast();
+        lastTemplate.setId(null);
+        lastTemplate.setName(template.getName());
+        lastTemplate.setCreatedAt(null);
+        lastTemplate.setUpdatedAt(null);
+        lastTemplate.setQuarter(template.getQuarter());
+        for (AssessmentInput input : lastTemplate.getAssessmentInputs()) {
+            input.setId(null);
+        }
+        for (AssessmentProject project : lastTemplate.getAssessmentProjects()) {
+            project.setId(null);
+            for (AssessmentProjectItem projectItem : project.getItems()) {
+                projectItem.setId(null);
+            }
+        }
+        repository.save(lastTemplate);
+    }
+
+    @Override
+    public void updateTemplate(Long id, AssessmentTemplate template) {
+        template.setId(id);
+        repository.save(template);
+    }
+
+    @Override
     public List<AssessmentTemplate> findByType(AssessmentTemplate.Type type) {
         return repository.findByType(type);
     }

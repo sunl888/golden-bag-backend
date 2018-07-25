@@ -16,7 +16,7 @@ public class Assessment {
     private Date createdAt;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @LastModifiedDate
     private Date updatedAt;

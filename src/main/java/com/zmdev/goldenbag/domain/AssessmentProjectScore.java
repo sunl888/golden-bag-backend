@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class AssessmentProjectScore {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

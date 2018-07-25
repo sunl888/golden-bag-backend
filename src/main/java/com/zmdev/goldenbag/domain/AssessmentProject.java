@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 public class AssessmentProject {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -24,6 +24,8 @@ public class AssessmentProject {
 
     @OneToMany(mappedBy = "assessmentProject")
     private Set<AssessmentProjectItem> items;
+
+    private int sort;
 
     public Long getId() {
         return id;

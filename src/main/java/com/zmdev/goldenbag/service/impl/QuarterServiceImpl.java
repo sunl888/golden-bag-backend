@@ -7,4 +7,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class QuarterServiceImpl extends BaseServiceImpl<Quarter, Long, QuarterRepository> implements QuarterService {
+
 }

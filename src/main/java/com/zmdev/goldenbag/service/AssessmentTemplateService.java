@@ -7,6 +7,11 @@ import com.zmdev.goldenbag.domain.AssessmentTemplate;
 import java.util.List;
 
 public interface AssessmentTemplateService extends BaseService<AssessmentTemplate, Long> {
+
+    void saveTemplate(AssessmentTemplate template);
+
+    void updateTemplate(Long id, AssessmentTemplate template);
+
     List<AssessmentTemplate> findByType(AssessmentTemplate.Type type);
 
     void saveProject(Long templateId, AssessmentProject project);
