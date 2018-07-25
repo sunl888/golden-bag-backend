@@ -17,7 +17,7 @@ import java.util.Set;
 public class Department {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -38,10 +38,10 @@ public class Department {
     @OneToMany(mappedBy = "parent")
     private Set<Department> children;
 
-    Department() {
+    public Department() {
     }
 
-    Department(String name, Department parent) {
+    public Department(String name, Department parent) {
         this.name = name;
         this.parent = parent;
     }

@@ -8,4 +8,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
     Department findByName(String name);
 
     List<Department> findByParentId(Long parent_id);
+
+    List<Department> findByParent(Department department);
 }

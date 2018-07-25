@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class BaseController {
+
     private UserService userService;
 
     @Autowired
@@ -55,4 +56,5 @@ public class BaseController {
         }
         return (User) userObj;
     }
+
 }
