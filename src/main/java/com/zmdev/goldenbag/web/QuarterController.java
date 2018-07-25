@@ -22,10 +22,10 @@ public class QuarterController extends BaseController {
     @GetMapping
     public Result index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return ResultGenerator.genSuccessResult(quarterService.findAllByPage(
-            PageRequest.of(page, size,
-                    new Sort(Sort.Direction.DESC, "startDate")
-            )
-       ));
+                PageRequest.of(page, size,
+                        new Sort(Sort.Direction.DESC, "startDate")
+                )
+        ));
     }
 
     @GetMapping("/{id}")

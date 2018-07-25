@@ -2,7 +2,6 @@ package com.zmdev.goldenbag.service.impl;
 
 import com.zmdev.goldenbag.domain.User;
 import com.zmdev.goldenbag.domain.UserRepository;
-import com.zmdev.goldenbag.exception.ValidationException;
 import com.zmdev.goldenbag.service.UserService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
