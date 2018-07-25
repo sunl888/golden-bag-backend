@@ -42,6 +42,10 @@ public class AssessmentTemplate {
         return quarter;
     }
 
+    public void setQuarter(Quarter quarter) {
+        this.quarter = quarter;
+    }
+
     public Long getId() {
         return id;
     }
@@ -80,10 +84,6 @@ public class AssessmentTemplate {
 
     public void setAssessmentInputs(Set<AssessmentInput> assessmentInputs) {
         this.assessmentInputs = assessmentInputs;
-    }
-
-    public void setQuarter(Quarter quarter) {
-        this.quarter = quarter;
     }
 
     public Date getCreatedAt() {

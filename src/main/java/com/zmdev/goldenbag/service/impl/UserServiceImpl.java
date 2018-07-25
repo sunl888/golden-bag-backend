@@ -30,8 +30,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
 
     public void update(Long id, User user) {
         user.setId(id);
-        Long departmentId = user.getDepartmentIds().get(user.getDepartmentIds().size() - 1);
-        user.setDepartment(departmentService.findById(departmentId).orElse(null));
+        if (user.getDepartmentIds().size() > 0) {
+            Long departmentId = user.getDepartmentIds().get(user.getDepartmentIds().size() - 1);
+            user.setDepartment(departmentService.findById(departmentId).orElse(null));
+        }
         repository.save(user);
     }
 

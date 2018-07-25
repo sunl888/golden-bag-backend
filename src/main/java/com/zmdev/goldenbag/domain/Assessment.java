@@ -39,14 +39,16 @@ public class Assessment {
     private String indirectManagerAuditComments;
     // 直接經理評價
     private String directManagerEvaluation;
+    // 职级系数
+    private Double rankCoefficient;
 
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    // 职级系数
-    private Double rankCoefficient;
-
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public Long getId() {
         return id;
@@ -56,12 +58,12 @@ public class Assessment {
         this.id = id;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Date getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public User getUser() {
@@ -88,12 +90,12 @@ public class Assessment {
         this.assessmentInputContents = assessmentInputContents;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public String getDirectManagerEvaluation() {
         return directManagerEvaluation;
+    }
+
+    public void setDirectManagerEvaluation(String directManagerEvaluation) {
+        this.directManagerEvaluation = directManagerEvaluation;
     }
 
     public AssessmentTemplate getAssessmentTemplate() {
@@ -112,12 +114,12 @@ public class Assessment {
         this.indirectManagerAuditComments = indirectManagerAuditComments;
     }
 
-    public void setDirectManagerEvaluation(String directManagerEvaluation) {
-        this.directManagerEvaluation = directManagerEvaluation;
-    }
-
     public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Double getRankCoefficient() {
@@ -126,10 +128,6 @@ public class Assessment {
 
     public void setRankCoefficient(Double rankCoefficient) {
         this.rankCoefficient = rankCoefficient;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     public enum Status {
