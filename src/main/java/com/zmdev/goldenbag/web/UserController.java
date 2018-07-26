@@ -43,11 +43,13 @@ public class UserController extends BaseController {
     @PostMapping
     public Result store(@RequestBody User user) {
         user.setId(null);
+        user.setDepartment(null);
         return ResultGenerator.genSuccessResult(userService.save(user));
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Result update(@PathVariable Long id, @RequestBody User user) {
+        user.setDepartment(null);
         return ResultGenerator.genSuccessResult(userService.update(id, user));
     }
 

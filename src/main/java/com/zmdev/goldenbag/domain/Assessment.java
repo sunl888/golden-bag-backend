@@ -4,10 +4,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Null;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 考核記錄

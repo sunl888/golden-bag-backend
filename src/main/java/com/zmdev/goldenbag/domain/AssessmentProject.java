@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 考核表中的考核標準
