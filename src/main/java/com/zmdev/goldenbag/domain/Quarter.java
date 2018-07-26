@@ -26,6 +26,8 @@ public class Quarter {
 
     private Double price;
 
+    private Boolean currentQuarter;
+
     @CreatedDate
     private Date createdAt;
 
@@ -97,5 +99,13 @@ public class Quarter {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Boolean getCurrentQuarter() {
+        return currentQuarter;
+    }
+
+    public void setCurrentQuarter(Boolean currentQuarter) {
+        this.currentQuarter = currentQuarter;
     }
 }

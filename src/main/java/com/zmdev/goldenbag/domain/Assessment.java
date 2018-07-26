@@ -2,6 +2,7 @@ package com.zmdev.goldenbag.domain;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,21 +12,22 @@ import java.util.List;
  * 考核記錄
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Assessment {
-    @CreatedDate
-    private Date createdAt;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @LastModifiedDate
-    private Date updatedAt;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "quarter_id")
+    private Quarter quarter;
 
     @OneToMany(mappedBy = "assessment")
     private List<AssessmentProjectScore> assessmentProjectScores;
@@ -35,12 +37,20 @@ public class Assessment {
 
     @ManyToOne
     private AssessmentTemplate assessmentTemplate;
+
     // 間接經理審核意見
     private String indirectManagerAuditComments;
+
     // 直接經理評價
     private String directManagerEvaluation;
     // 职级系数
     private Double rankCoefficient;
+
+    @LastModifiedDate
+    private Date updatedAt;
+
+    @CreatedDate
+    private Date createdAt;
 
     public Date getCreatedAt() {
         return createdAt;
@@ -135,5 +145,13 @@ public class Assessment {
         DIRECT_MANAGER_EVALUATED, //直接經理已經評價
         INDIRECT_MANAGER_RECHECK, // 間接經理已經複核
         FINISHED // 已完成
+    }
+
+    public Quarter getQuarter() {
+        return quarter;
+    }
+
+    public void setQuarter(Quarter quarter) {
+        this.quarter = quarter;
     }
 }

@@ -36,6 +36,7 @@ public class QuarterController extends BaseController {
     @PostMapping
     public Result store(@RequestBody Quarter quarter) {
         quarter.setId(null);
+        quarter.setCurrentQuarter(false);// 默认不是当前季度
         quarterService.save(quarter);
         return ResultGenerator.genSuccessResult(quarter);
     }

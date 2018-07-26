@@ -29,6 +29,7 @@ public class User {
     private String name;
     private String phone;
     private Date entryDate;
+
     @Transient
     private List<Long> departmentIds = new ArrayList<>();
     @Enumerated
@@ -37,6 +38,7 @@ public class User {
     private Double rankCoefficient;
     // 角色（岗位）
     private String role;
+
     @OneToOne
     @JoinColumn(name = "direct_manager_id")
     private User directManager;
