@@ -13,37 +13,44 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/assessments")
 public class AssessmentController extends BaseController {
 
-    @Autowired
     private AssessmentService assessmentService;
 
+    private Auth auth;
+
+    @Autowired
+    public AssessmentController(AssessmentService assessmentService, Auth auth) {
+        this.assessmentService = assessmentService;
+        this.auth = auth;
+    }
     // 用户提交考核记录(申请)
     @PostMapping
     public Result store(@RequestBody Assessment assessment) {
-        assessmentService.storeAssessment(assessment, getUser());
+        assessmentService.storeAssessment(assessment, auth.getUser());
         return ResultGenerator.genSuccessResult();
     }
 
     // 直接经理评分
     @RequestMapping(value = "/direct_manager_score/{assessmentId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Result directManagerScore(@RequestBody Assessment assessment, @PathVariable Long assessmentId) {
-        User auth = getUser();
+        User user = auth.getUser();
 
-        if (auth == null) {
+        if (user == null) {
             throw new AuthorizationException("请登陆");
         }
-        assessmentService.directManagerScore(assessment, assessmentId, auth);
+        assessmentService.directManagerScore(assessment, assessmentId, user);
         return ResultGenerator.genSuccessResult();
     }
 
     // 间接经理提出建议
     @RequestMapping(value = "/indirect_manager_comments/{assessmentId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Result indirectManagerAuditComments(@RequestBody Assessment assessment, @PathVariable Long assessmentId) {
-        User auth = getUser();
+        User user = auth.getUser();
 
-        if (auth == null) {
+        if (user == null) {
             throw new AuthorizationException("请登陆");
         }
-        assessmentService.indirectManagerAuditComments(assessment, assessmentId, auth);
+        assessmentService.indirectManagerAuditComments(assessment, assessmentId, user);
+
         return ResultGenerator.genSuccessResult();
     }
 

@@ -1,5 +1,7 @@
 package com.zmdev.goldenbag.service.impl;
 
+import com.zmdev.goldenbag.domain.Permission;
+import com.zmdev.goldenbag.domain.Role;
 import com.zmdev.goldenbag.domain.User;
 import com.zmdev.goldenbag.domain.UserRepository;
 import com.zmdev.goldenbag.exception.ServiceException;
@@ -48,6 +50,25 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
             user.setDepartment(departmentService.findById(departmentId).orElse(null));
         }
         return repository.save(user);
+    }
+
+    @Override
+    public boolean hasPermission(User user, Permission permission) {
+        List<Permission> p = new ArrayList<>();
+        p.add(permission);
+        return hasPermission(user, p);
+    }
+
+    @Override
+    public boolean hasPermission(User user, List<Permission> permissions) {
+        if (user == null) {
+            return false;
+        }
+        List<Permission> userAllPermission = new ArrayList<>();
+        for (Role role : user.getRoles()) {
+            userAllPermission.addAll(role.getPermissions());
+        }
+        return userAllPermission.containsAll(permissions);
     }
 
 }

@@ -43,7 +43,6 @@ public class UserController extends BaseController {
     @PostMapping
     public Result store(@RequestBody User user) {
         user.setId(null);
-        user.setDepartment(null);
         return ResultGenerator.genSuccessResult(userService.save(user));
     }
 

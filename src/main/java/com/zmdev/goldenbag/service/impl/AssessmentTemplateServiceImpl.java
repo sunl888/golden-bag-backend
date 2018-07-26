@@ -65,20 +65,44 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
 
     public AssessmentProject updateProject(Long projectId, AssessmentProject project) {
         project.setId(projectId);
+        AssessmentProject oldAssessmentProject = assessmentProjectRepository.findById(projectId).orElse(null);
+
+        // 将原本的父级设置上去
+        if (oldAssessmentProject != null) {
+            project.setAssessmentTemplate(oldAssessmentProject.getAssessmentTemplate());
+        }
+
         return assessmentProjectRepository.save(project);
     }
 
     public AssessmentProjectItem saveProjectItem(Long projectId, AssessmentProjectItem projectItem) {
         AssessmentProject project = assessmentProjectRepository.findById(projectId).orElse(null);
+
         if (project == null) {
             throw new ModelNotFoundException("考核项目标准不存在");
         }
+
         projectItem.setAssessmentProject(project);
         return assessmentProjectItemRepository.save(projectItem);
     }
 
     public AssessmentProjectItem updateProjectItem(Long projectItemId, AssessmentProjectItem projectItem) {
         projectItem.setId(projectItemId);
+        AssessmentProjectItem oldProjectItem = assessmentProjectItemRepository.findById(projectItemId).orElse(null);
+
+        // 将原本的父级设置上去
+        if (oldProjectItem != null) {
+
+            if (0 == projectItem.getScore()) {
+                projectItem.setScore(oldProjectItem.getScore());
+            }
+            if (projectItem.getTitle() == null || projectItem.getTitle().equals("")) {
+                projectItem.setTitle(oldProjectItem.getTitle());
+            }
+
+            projectItem.setAssessmentProject(oldProjectItem.getAssessmentProject());
+        }
+
         return assessmentProjectItemRepository.save(projectItem);
     }
 
@@ -90,6 +114,13 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
 
     public AssessmentInput updateTemplateInput(Long inputId, AssessmentInput assessmentInput) {
         assessmentInput.setId(inputId);
+        AssessmentInput oldTemplateInput = assessmentInputRepository.findById(inputId).orElse(null);
+
+        // 将原本的父级设置上去
+        if (oldTemplateInput != null) {
+            assessmentInput.setAssessmentTemplate(oldTemplateInput.getAssessmentTemplate());
+        }
+
         return assessmentInputRepository.save(assessmentInput);
     }
 
