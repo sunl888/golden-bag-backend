@@ -17,37 +17,46 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @CreatedDate
-    private Date createdAt;
-    @LastModifiedDate
-    private Date updatedAt;
+
     @Column(nullable = false)
     private String name;
+
     private String phone;
+
     private Date entryDate;
 
     @Transient
     private List<Long> departmentIds = new ArrayList<>();
+
     @Enumerated
     private Gender gender;
+
     // 职级系数
     private Double rankCoefficient;
+
     // 角色（岗位）
     private String role;
 
     @OneToOne
     @JoinColumn(name = "direct_manager_id")
     private User directManager;
+
     @OneToOne
     @JoinColumn(name = "indirect_manager_id")
     private User indirectManager;
+
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "department_id")
     private Department department;
+
+    @CreatedDate
+    private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
 
     public Long getId() {
         return id;

@@ -5,6 +5,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,13 +19,11 @@ public class Assessment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "user_id")
     private User user;
 
+    // 季度ID
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "quarter_id")
     private Quarter quarter;
@@ -43,8 +42,18 @@ public class Assessment {
 
     // 直接經理評價
     private String directManagerEvaluation;
+
     // 职级系数
     private Double rankCoefficient;
+
+    // 时间系数
+    private Double timeCoefficient;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    // 季度奖金
+    private BigDecimal quarterlyBonus;
 
     @LastModifiedDate
     private Date updatedAt;
@@ -146,6 +155,22 @@ public class Assessment {
 
     public void setQuarter(Quarter quarter) {
         this.quarter = quarter;
+    }
+
+    public BigDecimal getQuarterlyBonus() {
+        return quarterlyBonus;
+    }
+
+    public void setQuarterlyBonus(BigDecimal quarterlyBonus) {
+        this.quarterlyBonus = quarterlyBonus;
+    }
+
+    public Double getTimeCoefficient() {
+        return timeCoefficient;
+    }
+
+    public void setTimeCoefficient(Double timeCoefficient) {
+        this.timeCoefficient = timeCoefficient;
     }
 
     public enum Status {

@@ -27,9 +27,9 @@ public interface AssessmentService extends BaseService<Assessment, Long> {
      * 间接经理提出建议
      *
      * @param assessment
-     * @param operator
+     * @param operater
      */
-    void indirectManagerAuditComments(Assessment assessment, Long assessmentId, User operator);
+    void indirectManagerAuditComments(Assessment assessment, Long assessmentId, User operater);
 
     /**
      * 当前季度指定用户有没有提交考核

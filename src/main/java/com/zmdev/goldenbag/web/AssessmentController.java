@@ -36,8 +36,8 @@ public class AssessmentController extends BaseController {
     }
 
     // 间接经理提出建议
-    @RequestMapping(value = "/indirect_manager_score/{assessmentId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Result indirectManagerScore(@RequestBody Assessment assessment, @PathVariable Long assessmentId) {
+    @RequestMapping(value = "/indirect_manager_comments/{assessmentId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public Result indirectManagerAuditComments(@RequestBody Assessment assessment, @PathVariable Long assessmentId) {
         User auth = getUser();
 
         if (auth == null) {

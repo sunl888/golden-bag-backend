@@ -35,6 +35,14 @@ public class AssessmentProject {
         this.id = id;
     }
 
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -58,6 +66,7 @@ public class AssessmentProject {
     public void setAssessmentTemplate(AssessmentTemplate assessmentTemplate) {
         this.assessmentTemplate = assessmentTemplate;
     }
+
 }
 
 
