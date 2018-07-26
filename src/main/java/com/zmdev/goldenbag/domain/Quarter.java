@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,7 +34,7 @@ public class Quarter {
     private Date updatedAt;
 
     @OneToMany(mappedBy = "quarter")
-    private Set<AssessmentTemplate> assessmentTemplates;
+    private List<AssessmentTemplate> assessmentTemplates;
 
     public Long getId() {
         return id;
@@ -67,11 +68,11 @@ public class Quarter {
         this.startAssessmentDate = startAssessmentDate;
     }
 
-    public Set<AssessmentTemplate> getAssessmentTemplates() {
+    public List<AssessmentTemplate> getAssessmentTemplates() {
         return assessmentTemplates;
     }
 
-    public void setAssessmentTemplates(Set<AssessmentTemplate> assessmentTemplates) {
+    public void setAssessmentTemplates(List<AssessmentTemplate> assessmentTemplates) {
         this.assessmentTemplates = assessmentTemplates;
     }
 

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,7 +37,7 @@ public class Department {
     private Department parent;
 
     @OneToMany(mappedBy = "parent")
-    private Set<Department> children;
+    private List<Department> children;
 
     public Department() {
     }
@@ -70,14 +71,14 @@ public class Department {
         this.parent = parent;
     }
 
-    public Set<Department> getChildren() {
+    public List<Department> getChildren() {
         if (children.size() == 0) {
             return null;
         }
         return children;
     }
 
-    public void setChildren(Set<Department> children) {
+    public void setChildren(List<Department> children) {
         this.children = children;
     }
 

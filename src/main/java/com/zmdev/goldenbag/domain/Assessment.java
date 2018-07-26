@@ -4,7 +4,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,10 +30,10 @@ public class Assessment {
     private User user;
 
     @OneToMany(mappedBy = "assessment")
-    private Set<AssessmentProjectScore> assessmentProjectScores;
+    private List<AssessmentProjectScore> assessmentProjectScores;
 
     @OneToMany(mappedBy = "assessment")
-    private Set<AssessmentInputContent> assessmentInputContents;
+    private List<AssessmentInputContent> assessmentInputContents;
 
     @ManyToOne
     private AssessmentTemplate assessmentTemplate;
@@ -74,19 +76,19 @@ public class Assessment {
         this.user = user;
     }
 
-    public Set<AssessmentProjectScore> getAssessmentProjectScores() {
+    public List<AssessmentProjectScore> getAssessmentProjectScores() {
         return assessmentProjectScores;
     }
 
-    public void setAssessmentProjectScores(Set<AssessmentProjectScore> assessmentProjectScores) {
+    public void setAssessmentProjectScores(List<AssessmentProjectScore> assessmentProjectScores) {
         this.assessmentProjectScores = assessmentProjectScores;
     }
 
-    public Set<AssessmentInputContent> getAssessmentInputContents() {
+    public List<AssessmentInputContent> getAssessmentInputContents() {
         return assessmentInputContents;
     }
 
-    public void setAssessmentInputContents(Set<AssessmentInputContent> assessmentInputContents) {
+    public void setAssessmentInputContents(List<AssessmentInputContent> assessmentInputContents) {
         this.assessmentInputContents = assessmentInputContents;
     }
 

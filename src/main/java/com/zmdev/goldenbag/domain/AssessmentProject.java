@@ -3,6 +3,7 @@ package com.zmdev.goldenbag.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,7 +24,7 @@ public class AssessmentProject {
     private AssessmentTemplate assessmentTemplate;
 
     @OneToMany(mappedBy = "assessmentProject")
-    private Set<AssessmentProjectItem> items;
+    private List<AssessmentProjectItem> items;
 
     private int sort;
 
@@ -43,11 +44,11 @@ public class AssessmentProject {
         this.title = title;
     }
 
-    public Set<AssessmentProjectItem> getItems() {
+    public List<AssessmentProjectItem> getItems() {
         return items;
     }
 
-    public void setItems(Set<AssessmentProjectItem> items) {
+    public void setItems(List<AssessmentProjectItem> items) {
         this.items = items;
     }
 
