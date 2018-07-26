@@ -11,8 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/assessments")
 public class AssessmentController extends BaseController {
 
-    @Autowired
     private AssessmentService assessmentService;
+
+    private Auth auth;
+
+    @Autowired
+    public AssessmentController(AssessmentService assessmentService, Auth auth) {
+        this.assessmentService = assessmentService;
+        this.auth = auth;
+    }
 
     /**
      * 用户提交考核记录(申请)
@@ -22,14 +29,14 @@ public class AssessmentController extends BaseController {
      */
     @PostMapping
     public Result store(@RequestBody Assessment assessment) {
-        assessmentService.storeAssessment(assessment, getUser());
+        assessmentService.storeAssessment(assessment, auth.getUser());
         return ResultGenerator.genSuccessResult();
     }
 
     // 直接经理评分
     @RequestMapping(value = "/direct_manager_score/{assessmentId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Result directManagerScore(@RequestBody Assessment assessment, @PathVariable Long assessmentId) {
-        assessmentService.directManagerScore(assessment, assessmentId, getUser());
+        assessmentService.directManagerScore(assessment, assessmentId, auth.getUser());
         return ResultGenerator.genSuccessResult();
     }
 }

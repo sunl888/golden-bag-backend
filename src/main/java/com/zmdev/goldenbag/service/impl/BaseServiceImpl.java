@@ -10,8 +10,12 @@ import java.util.Optional;
 
 public abstract class BaseServiceImpl<T, ID, REPOSITORY extends JpaRepository<T, ID>> {
 
-    @Autowired
     protected REPOSITORY repository;
+
+    @Autowired
+    public void setRepository(REPOSITORY repository) {
+        this.repository = repository;
+    }
 
     public T save(T model) {
         return repository.save(model);

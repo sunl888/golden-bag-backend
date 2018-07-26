@@ -37,7 +37,8 @@ public class User {
     // 职级系数
     private Double rankCoefficient;
     // 角色（岗位）
-    private String role;
+    @ManyToMany
+    private List<Role> roles;
 
     @OneToOne
     @JoinColumn(name = "direct_manager_id")
@@ -89,14 +90,6 @@ public class User {
         this.rankCoefficient = rankCoefficient;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public User getDirectManager() {
         return directManager;
     }
@@ -145,6 +138,15 @@ public class User {
         this.phone = phone;
     }
 
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     public List<Long> getDepartmentIds() {
         if (departmentIds.size() > 0) {
             return departmentIds;
@@ -169,10 +171,12 @@ public class User {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
                 ", entryDate=" + entryDate +
+                ", departmentIds=" + departmentIds +
                 ", gender=" + gender +
                 ", rankCoefficient=" + rankCoefficient +
-                ", role='" + role + '\'' +
+                ", roles=" + roles +
                 ", directManager=" + directManager +
                 ", indirectManager=" + indirectManager +
                 ", department=" + department +
