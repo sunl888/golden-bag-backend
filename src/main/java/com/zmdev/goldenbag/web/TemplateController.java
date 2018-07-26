@@ -32,6 +32,10 @@ public class TemplateController extends BaseController {
         );
     }
 
+    @GetMapping("/{templateId}")
+    public Result show(@PathVariable Long templateId) {
+        return ResultGenerator.genSuccessResult(assessmentTemplateService.findById(templateId));
+    }
 
     @PostMapping
     public Result store(@RequestBody AssessmentTemplate template) {
