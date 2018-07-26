@@ -1,9 +1,6 @@
 package com.zmdev.goldenbag.web;
 
-import com.zmdev.goldenbag.exception.AuthorizationException;
-import com.zmdev.goldenbag.exception.ConstraintException;
-import com.zmdev.goldenbag.exception.ServiceException;
-import com.zmdev.goldenbag.exception.ValidationException;
+import com.zmdev.goldenbag.exception.*;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultCode;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
@@ -22,6 +19,20 @@ public class GlobalControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Result constraintExceptionHandler(HttpServletRequest req, Exception e) {
+        return ResultGenerator.genFailResult(e.getMessage(), ResultCode.FAIL);
+    }
+
+    @ExceptionHandler(value = AlreadyScoreException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.ALREADY_REPORTED)
+    public Result AlreadyScoreExceptionHandler(HttpServletRequest req, Exception e) {
+        return ResultGenerator.genFailResult(e.getMessage(), ResultCode.FAIL);
+    }
+
+    @ExceptionHandler(value = AlreadySubmitedException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.ALREADY_REPORTED)
+    public Result AlreadySubmitedExceptionHandler(HttpServletRequest req, Exception e) {
         return ResultGenerator.genFailResult(e.getMessage(), ResultCode.FAIL);
     }
 

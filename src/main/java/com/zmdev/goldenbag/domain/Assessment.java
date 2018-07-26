@@ -25,6 +25,10 @@ public class Assessment {
     @PrimaryKeyJoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "quarter_id")
+    private Quarter quarter;
+
     @OneToMany(mappedBy = "assessment")
     private Set<AssessmentProjectScore> assessmentProjectScores;
 
@@ -45,14 +49,16 @@ public class Assessment {
 
     @CreatedDate
     private Date createdAt;
+    // 职级系数
+    private Double rankCoefficient;
 
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    // 职级系数
-    private Double rankCoefficient;
-
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public Long getId() {
         return id;
@@ -62,12 +68,12 @@ public class Assessment {
         this.id = id;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Date getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public User getUser() {
@@ -94,12 +100,12 @@ public class Assessment {
         this.assessmentInputContents = assessmentInputContents;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public String getDirectManagerEvaluation() {
         return directManagerEvaluation;
+    }
+
+    public void setDirectManagerEvaluation(String directManagerEvaluation) {
+        this.directManagerEvaluation = directManagerEvaluation;
     }
 
     public AssessmentTemplate getAssessmentTemplate() {
@@ -118,12 +124,12 @@ public class Assessment {
         this.indirectManagerAuditComments = indirectManagerAuditComments;
     }
 
-    public void setDirectManagerEvaluation(String directManagerEvaluation) {
-        this.directManagerEvaluation = directManagerEvaluation;
-    }
-
     public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Double getRankCoefficient() {
@@ -134,14 +140,18 @@ public class Assessment {
         this.rankCoefficient = rankCoefficient;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public enum Status {
         SUBMITTED, // 已提交
         DIRECT_MANAGER_EVALUATED, //直接經理已經評價
         INDIRECT_MANAGER_RECHECK, // 間接經理已經複核
         FINISHED // 已完成
+    }
+
+    public Quarter getQuarter() {
+        return quarter;
+    }
+
+    public void setQuarter(Quarter quarter) {
+        this.quarter = quarter;
     }
 }
