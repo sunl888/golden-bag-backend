@@ -32,31 +32,42 @@ public class TemplateController extends BaseController {
         );
     }
 
+    @GetMapping("/{templateId}")
+    public Result show(@PathVariable Long templateId) {
+        return ResultGenerator.genSuccessResult(assessmentTemplateService.findById(templateId));
+    }
+
+    @PostMapping
+    public Result store(@RequestBody AssessmentTemplate template) {
+        template.setId(null);
+        return ResultGenerator.genSuccessResult(assessmentTemplateService.save(template));
+    }
+
+    @RequestMapping(value = "/{templateId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public Result update(@PathVariable Long templateId, @RequestBody AssessmentTemplate template) {
+        return ResultGenerator.genSuccessResult(assessmentTemplateService.updateTemplate(templateId, template));
+    }
 
     @PostMapping("/{templateId}/project")
     public Result storeProject(@PathVariable Long templateId, @RequestBody AssessmentProject assessmentProject) {
         assessmentProject.setId(null);
-        assessmentTemplateService.saveProject(templateId, assessmentProject);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(assessmentTemplateService.saveProject(templateId, assessmentProject));
     }
 
     @RequestMapping(value = "/project/{projectId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Result updateProject(@PathVariable Long projectId, @RequestBody AssessmentProject assessmentProject) {
-        assessmentTemplateService.updateProject(projectId, assessmentProject);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(assessmentTemplateService.updateProject(projectId, assessmentProject));
     }
 
     @PostMapping("/{projectId}/project_item")
     public Result storeProjectItem(@PathVariable Long projectId, @RequestBody AssessmentProjectItem projectItem) {
         projectItem.setId(null);
-        assessmentTemplateService.saveProjectItem(projectId, projectItem);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(assessmentTemplateService.saveProjectItem(projectId, projectItem));
     }
 
     @RequestMapping(value = "/project_item/{projectItemId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Result updateProjectItem(@PathVariable Long projectItemId, @RequestBody AssessmentProjectItem projectItem) {
-        assessmentTemplateService.updateProjectItem(projectItemId, projectItem);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(assessmentTemplateService.updateProjectItem(projectItemId, projectItem));
     }
 
 }

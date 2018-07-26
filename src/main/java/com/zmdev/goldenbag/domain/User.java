@@ -6,7 +6,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 員工表
@@ -16,7 +19,7 @@ import java.util.Date;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @CreatedDate
     private Date createdAt;
@@ -26,13 +29,16 @@ public class User {
     private String name;
     private String phone;
     private Date entryDate;
+
+    @Transient
+    private List<Long> departmentIds = new ArrayList<>();
     @Enumerated
     private Gender gender;
     // 职级系数
     private Double rankCoefficient;
     // 角色（岗位）
     private String role;
-    //
+
     @OneToOne
     @JoinColumn(name = "direct_manager_id")
     private User directManager;
@@ -139,6 +145,23 @@ public class User {
         this.phone = phone;
     }
 
+    public List<Long> getDepartmentIds() {
+        if (departmentIds.size() > 0) {
+            return departmentIds;
+        }
+        Department temp = getDepartment();
+        while (temp != null) {
+            departmentIds.add(temp.getId());
+            temp = temp.getParent();
+        }
+        Collections.reverse(departmentIds);
+        return departmentIds;
+    }
+
+    public void setDepartmentIds(List<Long> departmentIds) {
+        this.departmentIds = departmentIds;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -157,7 +180,7 @@ public class User {
     }
 
     public enum Gender {
-        Man,
+        MAN,
         WOMAN
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * 考核記錄
@@ -15,7 +15,7 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 public class Assessment {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -30,10 +30,10 @@ public class Assessment {
     private Quarter quarter;
 
     @OneToMany(mappedBy = "assessment")
-    private Set<AssessmentProjectScore> assessmentProjectScores;
+    private List<AssessmentProjectScore> assessmentProjectScores;
 
     @OneToMany(mappedBy = "assessment")
-    private Set<AssessmentInputContent> assessmentInputContents;
+    private List<AssessmentInputContent> assessmentInputContents;
 
     @ManyToOne
     private AssessmentTemplate assessmentTemplate;
@@ -43,14 +43,14 @@ public class Assessment {
 
     // 直接經理評價
     private String directManagerEvaluation;
+    // 职级系数
+    private Double rankCoefficient;
 
     @LastModifiedDate
     private Date updatedAt;
 
     @CreatedDate
     private Date createdAt;
-    // 职级系数
-    private Double rankCoefficient;
 
     public Date getCreatedAt() {
         return createdAt;
@@ -84,19 +84,19 @@ public class Assessment {
         this.user = user;
     }
 
-    public Set<AssessmentProjectScore> getAssessmentProjectScores() {
+    public List<AssessmentProjectScore> getAssessmentProjectScores() {
         return assessmentProjectScores;
     }
 
-    public void setAssessmentProjectScores(Set<AssessmentProjectScore> assessmentProjectScores) {
+    public void setAssessmentProjectScores(List<AssessmentProjectScore> assessmentProjectScores) {
         this.assessmentProjectScores = assessmentProjectScores;
     }
 
-    public Set<AssessmentInputContent> getAssessmentInputContents() {
+    public List<AssessmentInputContent> getAssessmentInputContents() {
         return assessmentInputContents;
     }
 
-    public void setAssessmentInputContents(Set<AssessmentInputContent> assessmentInputContents) {
+    public void setAssessmentInputContents(List<AssessmentInputContent> assessmentInputContents) {
         this.assessmentInputContents = assessmentInputContents;
     }
 

@@ -6,8 +6,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * 部門表
@@ -36,7 +38,10 @@ public class Department {
     private Department parent;
 
     @OneToMany(mappedBy = "parent")
-    private Set<Department> children;
+    private List<Department> children;
+
+    @Transient
+    private ArrayList<Long> parentIds = new ArrayList<>();
 
     public Department() {
     }
@@ -70,11 +75,14 @@ public class Department {
         this.parent = parent;
     }
 
-    public Set<Department> getChildren() {
+    public List<Department> getChildren() {
+        if (children == null || children.size() == 0) {
+            return null;
+        }
         return children;
     }
 
-    public void setChildren(Set<Department> children) {
+    public void setChildren(List<Department> children) {
         this.children = children;
     }
 
@@ -92,5 +100,22 @@ public class Department {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public ArrayList<Long> getParentIds() {
+        Department temp = getParent();
+        if (parentIds.size() > 0) {
+            return parentIds;
+        }
+        while (temp != null) {
+            parentIds.add(temp.id);
+            temp = temp.getParent();
+        }
+        Collections.reverse(parentIds);
+        return parentIds;
+    }
+
+    public void setParentIds(ArrayList<Long> parentIds) {
+        this.parentIds = parentIds;
     }
 }
