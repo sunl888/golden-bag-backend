@@ -44,8 +44,12 @@ public class DepartmentController extends BaseController {
      */
     @PostMapping
     public Result store(@RequestBody Department department) {
-        departmentService.save(department);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(departmentService.save(department));
+    }
+
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public Result update(@PathVariable Long id, @RequestBody Department department) {
+        return ResultGenerator.genSuccessResult(departmentService.update(id, department));
     }
 
     /**

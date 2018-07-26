@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class Department {
     }
 
     public List<Department> getChildren() {
-        if (children.size() == 0) {
+        if (children == null || children.size() == 0) {
             return null;
         }
         return children;
@@ -103,11 +104,14 @@ public class Department {
 
     public ArrayList<Long> getParentIds() {
         Department temp = getParent();
-        parentIds.clear();
+        if (parentIds.size() > 0) {
+            return parentIds;
+        }
         while (temp != null) {
             parentIds.add(temp.id);
             temp = temp.getParent();
         }
+        Collections.reverse(parentIds);
         return parentIds;
     }
 

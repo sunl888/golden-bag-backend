@@ -144,7 +144,9 @@ public class User {
     }
 
     public List<Long> getDepartmentIds() {
-        departmentIds.clear();
+        if (departmentIds.size() > 0) {
+            return departmentIds;
+        }
         Department temp = getDepartment();
         while (temp != null) {
             departmentIds.add(temp.getId());
