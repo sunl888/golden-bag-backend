@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * 季度表
@@ -15,7 +15,7 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 public class Quarter {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -26,6 +26,8 @@ public class Quarter {
 
     private Double price;
 
+    private Boolean currentQuarter;
+
     @CreatedDate
     private Date createdAt;
 
@@ -33,7 +35,7 @@ public class Quarter {
     private Date updatedAt;
 
     @OneToMany(mappedBy = "quarter")
-    private Set<AssessmentTemplate> assessmentTemplates;
+    private List<AssessmentTemplate> assessmentTemplates;
 
     public Long getId() {
         return id;
@@ -67,11 +69,11 @@ public class Quarter {
         this.startAssessmentDate = startAssessmentDate;
     }
 
-    public Set<AssessmentTemplate> getAssessmentTemplates() {
+    public List<AssessmentTemplate> getAssessmentTemplates() {
         return assessmentTemplates;
     }
 
-    public void setAssessmentTemplates(Set<AssessmentTemplate> assessmentTemplates) {
+    public void setAssessmentTemplates(List<AssessmentTemplate> assessmentTemplates) {
         this.assessmentTemplates = assessmentTemplates;
     }
 
@@ -97,5 +99,13 @@ public class Quarter {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Boolean getCurrentQuarter() {
+        return currentQuarter;
+    }
+
+    public void setCurrentQuarter(Boolean currentQuarter) {
+        this.currentQuarter = currentQuarter;
     }
 }

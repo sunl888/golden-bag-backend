@@ -7,9 +7,12 @@ import java.util.List;
 
 
 public interface UserService extends BaseService<User, Long> {
-    List<User> search(String keyword);
 
     boolean hasPermission(User user, Permission permission);
 
     boolean hasPermission(User user, List<Permission> permissions);
+
+    List<User> search(String keyword, Long ignoreId);
+
+    User update(Long id, User user);
 }

@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class AssessmentInputContent {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -18,8 +18,8 @@ public class AssessmentInputContent {
     private Assessment assessment;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "assessment_project_id")
-    private AssessmentProject assessmentProject;
+    @PrimaryKeyJoinColumn(name = "assessment_input_id")
+    private AssessmentInput assessmentInput;
 
     private String content;
 
@@ -31,12 +31,12 @@ public class AssessmentInputContent {
         this.assessment = assessment;
     }
 
-    public AssessmentProject getAssessmentProject() {
-        return assessmentProject;
+    public AssessmentInput getAssessmentInput() {
+        return assessmentInput;
     }
 
-    public void setAssessmentProject(AssessmentProject assessmentProject) {
-        this.assessmentProject = assessmentProject;
+    public void setAssessmentInput(AssessmentInput assessmentInput) {
+        this.assessmentInput = assessmentInput;
     }
 
     public String getContent() {

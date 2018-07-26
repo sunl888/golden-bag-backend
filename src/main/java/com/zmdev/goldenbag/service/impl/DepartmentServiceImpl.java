@@ -22,5 +22,30 @@ public class DepartmentServiceImpl extends BaseServiceImpl<Department, Long, Dep
     public List<Department> findAllByParent(Department department) {
         return repository.findByParent(department);
     }
+
+    private Department HandleParentIds(Department department) {
+
+        department.setChildren(null);
+        if (department.getParentIds().size() > 0) {
+            Long parentId = department.getParentIds().get(department.getParentIds().size() - 1);
+            department.setParent(repository.findById(parentId).orElse(null));
+        }
+        return department;
+    }
+
+    public Department save(Department department) {
+        department.setId(null);
+        department = this.HandleParentIds(department);
+        return repository.save(department);
+    }
+
+    public Department update(Long id, Department department) {
+        department.setId(id);
+
+        department = this.HandleParentIds(department);
+        return repository.save(department);
+    }
+
+
 }
 

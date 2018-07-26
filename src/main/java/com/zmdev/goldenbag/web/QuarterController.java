@@ -22,10 +22,10 @@ public class QuarterController extends BaseController {
     @GetMapping
     public Result index(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return ResultGenerator.genSuccessResult(quarterService.findAllByPage(
-            PageRequest.of(page, size,
-                    new Sort(Sort.Direction.DESC, "startDate")
-            )
-       ));
+                PageRequest.of(page, size,
+                        new Sort(Sort.Direction.DESC, "startDate")
+                )
+        ));
     }
 
     @GetMapping("/{id}")
@@ -35,8 +35,10 @@ public class QuarterController extends BaseController {
 
     @PostMapping
     public Result store(@RequestBody Quarter quarter) {
+        quarter.setId(null);
+        quarter.setCurrentQuarter(false);// 默认不是当前季度
         quarterService.save(quarter);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(quarter);
     }
 
 }

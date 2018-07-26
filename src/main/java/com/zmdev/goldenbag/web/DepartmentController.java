@@ -13,8 +13,12 @@ import java.util.List;
 @RequestMapping(value = "/departments", produces = "application/json;charset=UTF-8")
 public class DepartmentController extends BaseController {
 
-    @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    public void setDepartmentService(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     /**
      * 顯示部門以及項目組列表
@@ -31,6 +35,11 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    @GetMapping("/{id}")
+    public Result show(@PathVariable Long id) {
+        return ResultGenerator.genSuccessResult(departmentService.findById(id));
+    }
+
     /**
      * 添加部門
      *
@@ -39,8 +48,12 @@ public class DepartmentController extends BaseController {
      */
     @PostMapping
     public Result store(@RequestBody Department department) {
-        departmentService.save(department);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(departmentService.save(department));
+    }
+
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public Result update(@PathVariable Long id, @RequestBody Department department) {
+        return ResultGenerator.genSuccessResult(departmentService.update(id, department));
     }
 
     /**

@@ -1,7 +1,9 @@
 package com.zmdev.goldenbag.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 /**
  * 考核表中的考核標準
@@ -10,17 +12,20 @@ import java.util.Set;
 @Entity
 public class AssessmentProject {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
 
     @ManyToOne
+    @JsonBackReference
     @PrimaryKeyJoinColumn(name = "assessment_template_id")
     private AssessmentTemplate assessmentTemplate;
 
     @OneToMany(mappedBy = "assessmentProject")
-    private Set<AssessmentProjectItem> items;
+    private List<AssessmentProjectItem> items;
+
+    private int sort;
 
     public Long getId() {
         return id;
@@ -38,11 +43,11 @@ public class AssessmentProject {
         this.title = title;
     }
 
-    public Set<AssessmentProjectItem> getItems() {
+    public List<AssessmentProjectItem> getItems() {
         return items;
     }
 
-    public void setItems(Set<AssessmentProjectItem> items) {
+    public void setItems(List<AssessmentProjectItem> items) {
         this.items = items;
     }
 

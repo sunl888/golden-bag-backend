@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * 考核模板
@@ -19,7 +19,7 @@ public class AssessmentTemplate {
     private Date createdAt;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @LastModifiedDate
     private Date updatedAt;
@@ -29,17 +29,21 @@ public class AssessmentTemplate {
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated
     private Type type;
 
     @OneToMany(mappedBy = "assessmentTemplate")
-    private Set<AssessmentProject> assessmentProjects;
+    private List<AssessmentProject> assessmentProjects;
 
     @OneToMany(mappedBy = "assessmentTemplate")
-    private Set<AssessmentInput> assessmentInputs;
+    private List<AssessmentInput> assessmentInputs;
 
     public Quarter getQuarter() {
         return quarter;
+    }
+
+    public void setQuarter(Quarter quarter) {
+        this.quarter = quarter;
     }
 
     public Long getId() {
@@ -66,24 +70,20 @@ public class AssessmentTemplate {
         this.type = type;
     }
 
-    public Set<AssessmentProject> getAssessmentProjects() {
+    public List<AssessmentProject> getAssessmentProjects() {
         return assessmentProjects;
     }
 
-    public void setAssessmentProjects(Set<AssessmentProject> assessmentProjects) {
+    public void setAssessmentProjects(List<AssessmentProject> assessmentProjects) {
         this.assessmentProjects = assessmentProjects;
     }
 
-    public Set<AssessmentInput> getAssessmentInputs() {
+    public List<AssessmentInput> getAssessmentInputs() {
         return assessmentInputs;
     }
 
-    public void setAssessmentInputs(Set<AssessmentInput> assessmentInputs) {
+    public void setAssessmentInputs(List<AssessmentInput> assessmentInputs) {
         this.assessmentInputs = assessmentInputs;
-    }
-
-    public void setQuarter(Quarter quarter) {
-        this.quarter = quarter;
     }
 
     public Date getCreatedAt() {
@@ -106,4 +106,5 @@ public class AssessmentTemplate {
         STAFF_TEMPLATE, // 員工模板
         MANAGER_TEMPLATE // 經理模板
     }
+
 }

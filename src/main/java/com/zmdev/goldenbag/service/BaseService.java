@@ -10,7 +10,7 @@ import java.util.Optional;
  * Service 层 基础接口，其他Service 接口 请继承该接口
  */
 public interface BaseService<T, ID> {
-    void save(T model); // 持久化
+    T save(T model); // 持久化
 
     void save(List<T> models); // 批量持久化
 

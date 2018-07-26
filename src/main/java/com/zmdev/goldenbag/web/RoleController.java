@@ -38,18 +38,14 @@ public class RoleController {
 
     @PostMapping
     public Result store(@RequestBody Role role) {
-        roleService.save(role);
-        for (Permission permission : role.getPermissions()) {
-            permissionService.save(role.getPermissions());
-        }
-        return ResultGenerator.genSuccessResult();
+        Role storedRole = roleService.save(role);
+        return ResultGenerator.genSuccessResult(storedRole);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Result update(@PathVariable Long id, @RequestBody Role role) {
         role.setId(id);
-        roleService.save(role);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(roleService.save(role));
     }
 
     @DeleteMapping("/{id}")

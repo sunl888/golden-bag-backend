@@ -1,5 +1,7 @@
 package com.zmdev.goldenbag.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 /**
@@ -8,7 +10,7 @@ import javax.persistence.*;
 @Entity
 public class AssessmentProjectItem {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private int score;
@@ -16,6 +18,7 @@ public class AssessmentProjectItem {
     private String title;
 
     @ManyToOne
+    @JsonBackReference
     @PrimaryKeyJoinColumn(name = "assessment_project_id")
     private AssessmentProject assessmentProject;
 
