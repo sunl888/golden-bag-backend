@@ -82,7 +82,7 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
         return assessmentProjectItemRepository.save(projectItem);
     }
 
-    public AssessmentInput saveTemplateInput(Long templateId, AssessmentInput assessmentInput){
+    public AssessmentInput saveTemplateInput(Long templateId, AssessmentInput assessmentInput) {
         assessmentInput.setId(null);
         assessmentInput.setAssessmentTemplate(repository.findById(templateId).orElse(null));
         return assessmentInputRepository.save(assessmentInput);

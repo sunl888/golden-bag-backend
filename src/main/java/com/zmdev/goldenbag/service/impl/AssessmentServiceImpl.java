@@ -8,6 +8,7 @@ import com.zmdev.goldenbag.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -103,24 +104,22 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
 
     /**
      * 直接经理评分
+     * 1. 该考核记录是否存在
+     * 2. 是否已经评分过了
+     * 3. 有没有权限评分
+     * 4. 对某些字段需要手动过滤
+     * 5. 写入评分记录
      *
      * @param assessment
      * @param assessmentId
      */
     public void directManagerScore(Assessment assessment, Long assessmentId, User operater) {
-        // 1. 该考核记录是否存在
-        // 2. 是否已经评分过了
-        // 3. 有没有权限评分
-        // 4. 对某些字段需要手动过滤
-        // 5. 写入评分记录
-
-        Assessment savedSsessment = assessmentService.findById(assessmentId).get();
-        boolean isExisted = savedSsessment.getId() > 0;
-
-        if (!isExisted) {
+        Assessment savedSsessment = null;
+        try {
+            savedSsessment = assessmentService.findById(assessmentId).get();
+        } catch (NoSuchElementException e) {
             throw new ModelNotFoundException("不存在该考核记录");
         }
-
         // 判断用户当前季度有没有提交
         Quarter currentQuarter = quarterService.findCurrentQuarter();
         if (currentQuarter.getId() <= 0) {
@@ -130,27 +129,35 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         if (!isQuarter) {
             throw new Exception("只能对本季度的记录评价");
         }*/
-
         if ((savedSsessment.getDirectManagerEvaluation() != null)) {
             throw new ModelNotFoundException("你已经评价过啦");
         }
-
         User user = savedSsessment.getUser().getDirectManager();
-
         if (!(operater.equals(user))) {
             throw new PermissionDeniedException("没有评分该记录的权限");
         }
         // 设置直接经理评价
         savedSsessment.setDirectManagerEvaluation(assessment.getDirectManagerEvaluation());
-//        assessmentService.save(savedSsessment);
+        assessmentService.save(savedSsessment);
         for (AssessmentProjectScore assessmentProjectScore : assessment.getAssessmentProjectScores()) {
-
             AssessmentProject assessmentProject = assessmentProjectScore.getAssessmentProject();
-            AssessmentProjectScore aps = assessmentProjectScoreService.findByAssessmentProjectAndAssessment(assessmentProject, assessment);
-
+            AssessmentProjectScore aps = assessmentProjectScoreService.findByAssessmentProjectAndAssessment(assessmentProject, savedSsessment);
             aps.setRemarks(assessmentProjectScore.getRemarks());
             aps.setManagerScore(assessmentProjectScore.getManagerScore());
-            //
+            assessmentProjectScoreService.save(aps);
         }
+    }
+
+    /**
+     * 间接经理审核
+     * <p>
+     * 判断审核记录是否存在
+     * 判断直接经理有没有评分
+     * 有没有评分权限
+     * 写入评分
+     * 计算默认总分
+     */
+    public void indirectManagerAuditComments(Assessment assessment, Long assessmentId, User operator) {
+
     }
 }

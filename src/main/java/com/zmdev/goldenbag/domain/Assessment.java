@@ -140,18 +140,18 @@ public class Assessment {
         this.rankCoefficient = rankCoefficient;
     }
 
-    public enum Status {
-        SUBMITTED, // 已提交
-        DIRECT_MANAGER_EVALUATED, //直接經理已經評價
-        INDIRECT_MANAGER_RECHECK, // 間接經理已經複核
-        FINISHED // 已完成
-    }
-
     public Quarter getQuarter() {
         return quarter;
     }
 
     public void setQuarter(Quarter quarter) {
         this.quarter = quarter;
+    }
+
+    public enum Status {
+        SUBMITTED, // 已提交
+        DIRECT_MANAGER_EVALUATED, //直接經理已經評價
+        INDIRECT_MANAGER_RECHECK, // 間接經理已經複核
+        FINISHED // 已完成
     }
 }
