@@ -31,6 +31,11 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    @GetMapping("/{id}")
+    public Result show(@PathVariable Long id) {
+        return ResultGenerator.genSuccessResult(departmentService.findById(id));
+    }
+
     /**
      * 添加部門
      *
