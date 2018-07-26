@@ -22,6 +22,7 @@ public class GlobalControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Result constraintExceptionHandler(HttpServletRequest req, Exception e) {
+        e.printStackTrace();
         return ResultGenerator.genFailResult(e.getMessage(), ResultCode.FAIL);
     }
 
@@ -29,6 +30,7 @@ public class GlobalControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public Result validationExceptionHandler(HttpServletRequest req, Exception e) {
+        e.printStackTrace();
         return ResultGenerator.genFailResult(e.getMessage(), ResultCode.VALIDATIONEXCEPTION);
     }
 
@@ -36,6 +38,7 @@ public class GlobalControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Result authorizationExceptionHandler(HttpServletRequest req, Exception e) {
+        e.printStackTrace();
         return ResultGenerator.genFailResult(e.getMessage(), ResultCode.UNAUTHORIZED);
     }
 
@@ -43,6 +46,7 @@ public class GlobalControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Result serviceExceptionHandler(HttpServletRequest req, Exception e) {
+        e.printStackTrace();
         return ResultGenerator.genFailResult(e.getMessage());
     }
 

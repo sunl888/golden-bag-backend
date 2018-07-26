@@ -2,6 +2,7 @@ package com.zmdev.goldenbag.service.impl;
 
 import com.zmdev.goldenbag.domain.User;
 import com.zmdev.goldenbag.domain.UserRepository;
+import com.zmdev.goldenbag.exception.ServiceException;
 import com.zmdev.goldenbag.service.DepartmentService;
 import com.zmdev.goldenbag.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,22 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
         return repository.search(keyword, PageRequest.of(0, 10));
     }
 
-    public void update(Long id, User user) {
+
+    public User update(Long id, User user) {
+
+        if (user.getIndirectManager() != null && id.equals(user.getIndirectManager().getId())) {
+            throw new ServiceException("间接经理不能是自己！");
+        }
+        if (user.getDirectManager() != null && id.equals(user.getDirectManager().getId())) {
+            throw new ServiceException("直接经理不能是自己！");
+        }
+
         user.setId(id);
         if (user.getDepartmentIds().size() > 0) {
             Long departmentId = user.getDepartmentIds().get(user.getDepartmentIds().size() - 1);
             user.setDepartment(departmentService.findById(departmentId).orElse(null));
         }
-        repository.save(user);
+        return repository.save(user);
     }
 
 }

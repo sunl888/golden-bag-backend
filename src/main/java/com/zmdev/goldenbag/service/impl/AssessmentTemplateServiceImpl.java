@@ -19,7 +19,7 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
     }
 
     @Override
-    public void saveTemplate(AssessmentTemplate template) {
+    public AssessmentTemplate saveTemplate(AssessmentTemplate template) {
         // 复制一个模板
         AssessmentTemplate lastTemplate = repository.getLast();
         lastTemplate.setId(null);
@@ -36,13 +36,14 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
                 projectItem.setId(null);
             }
         }
-        repository.save(lastTemplate);
+
+        return repository.save(lastTemplate);
     }
 
     @Override
-    public void updateTemplate(Long id, AssessmentTemplate template) {
+    public AssessmentTemplate updateTemplate(Long id, AssessmentTemplate template) {
         template.setId(id);
-        repository.save(template);
+        return repository.save(template);
     }
 
     @Override
@@ -50,31 +51,31 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
         return repository.findByType(type);
     }
 
-    public void saveProject(Long templateId, AssessmentProject project) {
+    public AssessmentProject saveProject(Long templateId, AssessmentProject project) {
         AssessmentTemplate template = repository.findById(templateId).orElse(null);
         if (template == null) {
             throw new ModelNotFoundException("模版不存在");
         }
         project.setAssessmentTemplate(template);
-        assessmentProjectRepository.save(project);
+        return assessmentProjectRepository.save(project);
     }
 
-    public void updateProject(Long projectId, AssessmentProject project) {
+    public AssessmentProject updateProject(Long projectId, AssessmentProject project) {
         project.setId(projectId);
-        assessmentProjectRepository.save(project);
+        return assessmentProjectRepository.save(project);
     }
 
-    public void saveProjectItem(Long projectId, AssessmentProjectItem projectItem) {
+    public AssessmentProjectItem saveProjectItem(Long projectId, AssessmentProjectItem projectItem) {
         AssessmentProject project = assessmentProjectRepository.findById(projectId).orElse(null);
         if (project == null) {
             throw new ModelNotFoundException("考核项目标准不存在");
         }
         projectItem.setAssessmentProject(project);
-        assessmentProjectItemRepository.save(projectItem);
+        return assessmentProjectItemRepository.save(projectItem);
     }
 
-    public void updateProjectItem(Long projectItemId, AssessmentProjectItem projectItem) {
+    public AssessmentProjectItem updateProjectItem(Long projectItemId, AssessmentProjectItem projectItem) {
         projectItem.setId(projectItemId);
-        assessmentProjectItemRepository.save(projectItem);
+        return assessmentProjectItemRepository.save(projectItem);
     }
 }

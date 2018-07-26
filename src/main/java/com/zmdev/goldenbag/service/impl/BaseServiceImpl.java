@@ -13,8 +13,8 @@ public abstract class BaseServiceImpl<T, ID, REPOSITORY extends JpaRepository<T,
     @Autowired
     protected REPOSITORY repository;
 
-    public void save(T model) {
-        repository.save(model);
+    public T save(T model) {
+        return repository.save(model);
     }
 
     public void save(List<T> models) {

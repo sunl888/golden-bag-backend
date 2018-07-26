@@ -8,17 +8,17 @@ import java.util.List;
 
 public interface AssessmentTemplateService extends BaseService<AssessmentTemplate, Long> {
 
-    void saveTemplate(AssessmentTemplate template);
+    AssessmentTemplate saveTemplate(AssessmentTemplate template);
 
-    void updateTemplate(Long id, AssessmentTemplate template);
+    AssessmentTemplate updateTemplate(Long id, AssessmentTemplate template);
 
     List<AssessmentTemplate> findByType(AssessmentTemplate.Type type);
 
-    void saveProject(Long templateId, AssessmentProject project);
+    AssessmentProject saveProject(Long templateId, AssessmentProject project);
 
-    void updateProject(Long projectId, AssessmentProject project);
+    AssessmentProject updateProject(Long projectId, AssessmentProject project);
 
-    void saveProjectItem(Long projectId, AssessmentProjectItem projectItem);
+    AssessmentProjectItem saveProjectItem(Long projectId, AssessmentProjectItem projectItem);
 
-    void updateProjectItem(Long projectItemId, AssessmentProjectItem projectItem);
+    AssessmentProjectItem updateProjectItem(Long projectItemId, AssessmentProjectItem projectItem);
 }
