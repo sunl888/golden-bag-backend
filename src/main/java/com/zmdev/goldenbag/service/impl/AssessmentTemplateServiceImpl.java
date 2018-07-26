@@ -92,6 +92,14 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
 
         // 将原本的父级设置上去
         if (oldProjectItem != null) {
+
+            if (0 == projectItem.getScore()) {
+                projectItem.setScore(oldProjectItem.getScore());
+            }
+            if (projectItem.getTitle() == null || projectItem.getTitle().equals("")) {
+                projectItem.setTitle(oldProjectItem.getTitle());
+            }
+
             projectItem.setAssessmentProject(oldProjectItem.getAssessmentProject());
         }
 
