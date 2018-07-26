@@ -13,9 +13,12 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
 
     private AssessmentProjectRepository assessmentProjectRepository;
     private AssessmentProjectItemRepository assessmentProjectItemRepository;
+    private AssessmentInputRepository assessmentInputRepository;
 
-    public AssessmentTemplateServiceImpl(@Autowired AssessmentProjectRepository assessmentProjectRepository) {
+    public AssessmentTemplateServiceImpl(@Autowired AssessmentProjectRepository assessmentProjectRepository, @Autowired AssessmentProjectItemRepository assessmentProjectItemRepository, @Autowired AssessmentInputRepository assessmentInputRepository) {
         this.assessmentProjectRepository = assessmentProjectRepository;
+        this.assessmentProjectItemRepository = assessmentProjectItemRepository;
+        this.assessmentInputRepository = assessmentInputRepository;
     }
 
     @Override
@@ -78,4 +81,16 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
         projectItem.setId(projectItemId);
         return assessmentProjectItemRepository.save(projectItem);
     }
+
+    public AssessmentInput saveTemplateInput(Long templateId, AssessmentInput assessmentInput){
+        assessmentInput.setId(null);
+        assessmentInput.setAssessmentTemplate(repository.findById(templateId).orElse(null));
+        return assessmentInputRepository.save(assessmentInput);
+    }
+
+    public AssessmentInput updateTemplateInput(Long inputId, AssessmentInput assessmentInput) {
+        assessmentInput.setId(inputId);
+        return assessmentInputRepository.save(assessmentInput);
+    }
+
 }

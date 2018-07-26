@@ -1,5 +1,6 @@
 package com.zmdev.goldenbag.service;
 
+import com.zmdev.goldenbag.domain.AssessmentInput;
 import com.zmdev.goldenbag.domain.AssessmentProject;
 import com.zmdev.goldenbag.domain.AssessmentProjectItem;
 import com.zmdev.goldenbag.domain.AssessmentTemplate;
@@ -21,4 +22,8 @@ public interface AssessmentTemplateService extends BaseService<AssessmentTemplat
     AssessmentProjectItem saveProjectItem(Long projectId, AssessmentProjectItem projectItem);
 
     AssessmentProjectItem updateProjectItem(Long projectItemId, AssessmentProjectItem projectItem);
+
+    AssessmentInput saveTemplateInput(Long templateId, AssessmentInput assessmentInput);
+
+    AssessmentInput updateTemplateInput(Long inputId, AssessmentInput assessmentInput);
 }

@@ -104,7 +104,7 @@ public class Department {
 
     public ArrayList<Long> getParentIds() {
         Department temp = getParent();
-        if (parentIds.size() > 0) {
+        if (parentIds != null && parentIds.size() > 0) {
             return parentIds;
         }
         while (temp != null) {

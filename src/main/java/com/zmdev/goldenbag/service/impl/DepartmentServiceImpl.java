@@ -28,7 +28,6 @@ public class DepartmentServiceImpl extends BaseServiceImpl<Department, Long, Dep
         department.setChildren(null);
         if (department.getParentIds().size() > 0) {
             Long parentId = department.getParentIds().get(department.getParentIds().size() - 1);
-            System.out.println(parentId);
             department.setParent(repository.findById(parentId).orElse(null));
         }
         return department;

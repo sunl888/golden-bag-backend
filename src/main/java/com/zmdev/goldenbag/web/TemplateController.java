@@ -1,5 +1,6 @@
 package com.zmdev.goldenbag.web;
 
+import com.zmdev.goldenbag.domain.AssessmentInput;
 import com.zmdev.goldenbag.domain.AssessmentProject;
 import com.zmdev.goldenbag.domain.AssessmentProjectItem;
 import com.zmdev.goldenbag.domain.AssessmentTemplate;
@@ -68,6 +69,17 @@ public class TemplateController extends BaseController {
     @RequestMapping(value = "/project_item/{projectItemId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Result updateProjectItem(@PathVariable Long projectItemId, @RequestBody AssessmentProjectItem projectItem) {
         return ResultGenerator.genSuccessResult(assessmentTemplateService.updateProjectItem(projectItemId, projectItem));
+    }
+
+    @PostMapping("/{templateId}/template_input")
+    public Result storeTemplateInput(@PathVariable Long templateId, @RequestBody AssessmentInput assessmentInput) {
+        assessmentInput.setId(null);
+        return ResultGenerator.genSuccessResult(assessmentTemplateService.saveTemplateInput(templateId, assessmentInput));
+    }
+
+    @RequestMapping(value = "/template_input/{templateInputId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public Result updateTemplateInput(@PathVariable Long templateInputId, @RequestBody AssessmentInput assessmentInput) {
+        return ResultGenerator.genSuccessResult(assessmentTemplateService.updateTemplateInput(templateInputId, assessmentInput));
     }
 
 }
