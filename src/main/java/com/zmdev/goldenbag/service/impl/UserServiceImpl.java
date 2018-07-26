@@ -21,12 +21,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
         this.departmentService = departmentService;
     }
 
-    public List<User> search(String keyword) {
+    public List<User> search(String keyword, Long ignoreId) {
         if ("".equals(keyword)) {
             return new ArrayList<>();
         }
-
-        return repository.search(keyword, PageRequest.of(0, 10));
+        return repository.search(keyword, ignoreId, PageRequest.of(0, 10));
     }
 
 
