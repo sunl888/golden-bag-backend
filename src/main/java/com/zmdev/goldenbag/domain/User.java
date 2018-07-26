@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 員工表
@@ -44,7 +45,8 @@ public class User {
     private Double rankCoefficient;
 
     // 角色（岗位）
-    private String role;
+    @ManyToMany
+    private List<Role> roles;
 
     @OneToOne
     @JoinColumn(name = "direct_manager_id")
@@ -98,14 +100,6 @@ public class User {
         this.rankCoefficient = rankCoefficient;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public User getDirectManager() {
         return directManager;
     }
@@ -154,6 +148,14 @@ public class User {
         this.phone = phone;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -161,10 +163,11 @@ public class User {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
                 ", entryDate=" + entryDate +
                 ", gender=" + gender +
                 ", rankCoefficient=" + rankCoefficient +
-                ", role='" + role + '\'' +
+                ", roles=" + roles +
                 ", directManager=" + directManager +
                 ", indirectManager=" + indirectManager +
                 ", department=" + department +

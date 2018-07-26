@@ -1,17 +1,39 @@
 package com.zmdev.goldenbag.service.impl;
 
+import com.zmdev.goldenbag.domain.Permission;
+import com.zmdev.goldenbag.domain.Role;
 import com.zmdev.goldenbag.domain.User;
 import com.zmdev.goldenbag.domain.UserRepository;
 import com.zmdev.goldenbag.service.UserService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository> implements UserService {
     public List<User> search(String keyword) {
         return repository.search(keyword, PageRequest.of(0, 10));
+    }
+
+    @Override
+    public boolean hasPermission(User user, Permission permission) {
+        List<Permission> p = new ArrayList<>();
+        p.add(permission);
+        return hasPermission(user, p);
+    }
+
+    @Override
+    public boolean hasPermission(User user, List<Permission> permissions) {
+        if (user == null) {
+            return false;
+        }
+        List<Permission> userAllPermission = new ArrayList<>();
+        for (Role role : user.getRoles()) {
+            userAllPermission.addAll(role.getPermissions());
+        }
+        return userAllPermission.containsAll(permissions);
     }
 }
 
