@@ -31,7 +31,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/search")
-    public Result search(@RequestParam(defaultValue = "") String keyword, @RequestParam Long ignoreId) {
+    public Result search(@RequestParam(defaultValue = "") String keyword, @RequestParam(required = false) Long ignoreId) {
         return ResultGenerator.genSuccessResult(userService.search(keyword.trim(), ignoreId));
     }
 

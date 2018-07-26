@@ -25,7 +25,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
         if ("".equals(keyword)) {
             return new ArrayList<>();
         }
-        return repository.search(keyword, ignoreId, PageRequest.of(0, 10));
+        if (ignoreId == null) {
+            return repository.search(keyword, PageRequest.of(0, 10));
+        } else {
+            return repository.search(keyword, ignoreId, PageRequest.of(0, 10));
+        }
     }
 
 
