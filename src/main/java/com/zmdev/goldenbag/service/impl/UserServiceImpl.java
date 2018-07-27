@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -64,11 +65,21 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
         if (user == null) {
             return false;
         }
+        List<Permission> userAllPermission = getUserAllPermission(user);
+        return userAllPermission.containsAll(permissions);
+    }
+
+    @Override
+    public List<Permission> getUserAllPermission(User user) {
         List<Permission> userAllPermission = new ArrayList<>();
+        if (user == null) {
+            return userAllPermission;
+        }
         for (Role role : user.getRoles()) {
             userAllPermission.addAll(role.getPermissions());
         }
-        return userAllPermission.containsAll(permissions);
+        Collections.sort(userAllPermission);
+        return userAllPermission;
     }
 
 }
