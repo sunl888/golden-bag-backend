@@ -2,6 +2,7 @@ package com.zmdev.goldenbag.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,8 @@ public interface BaseService<T, ID> {
     List<T> findByIds(String ids); // 通过多个ID查找//eg：ids -> “1,2,3,4”
 
     List<T> findAll(); // 获取所有
+
+    List<T> findAll(Sort sort); // 获取所有，带排序功能
 
     Page<T> findAllByPage(Pageable pageable); // 分页获取所有
 }

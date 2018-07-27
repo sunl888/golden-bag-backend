@@ -3,6 +3,7 @@ package com.zmdev.goldenbag.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -44,6 +45,10 @@ public abstract class BaseServiceImpl<T, ID, REPOSITORY extends JpaRepository<T,
 
     public List<T> findAll() {
         return repository.findAll();
+    }
+
+    public List<T> findAll(Sort sort) {
+        return repository.findAll(sort);
     }
 
     public Page<T> findAllByPage(Pageable pageable) {

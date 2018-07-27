@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Permission {
+public class Permission implements Comparable<Permission> {
     @Id
     @GeneratedValue
     private Long id;
@@ -161,6 +161,7 @@ public class Permission {
         return id != null ? id.hashCode() : 0;
     }
 
+
     @Override
     public String toString() {
         return "Permission{" +
@@ -171,5 +172,23 @@ public class Permission {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Permission permission) {
+        if (permission == null) {
+            return 1;
+        }
+        if (permission.getCreatedAt() == null && getCreatedAt() == null) {
+            return 0;
+        }
+        if (permission.getCreatedAt() == null) {
+            return 1;
+        }
+        if (getCreatedAt() == null) {
+            return -1;
+        }
+
+        return permission.getCreatedAt().compareTo(getCreatedAt());
     }
 }
