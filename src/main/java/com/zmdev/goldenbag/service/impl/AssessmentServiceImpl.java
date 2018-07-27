@@ -48,7 +48,6 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         }
         // 判断用户当前季度有没有提交
         boolean isSubmited = assessmentService.isSubmitedWithCurrentQuarter(creator, currentQuarter);
-
         if (isSubmited) {
             throw new AlreadySubmitedException("当前季度已经提交过考核申请了");
         }
@@ -64,17 +63,12 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         assessment.setRankCoefficient(creator.getRankCoefficient());
         // 设置时间系数
         assessment.setTimeCoefficient(this.calcTimeCoefficient(creator));
-
         assessment.setQuarter(currentQuarter);
-
-        assessment.setQuarterlyBonus(null);
-
+        assessment.setQuarterlyBonus(0.0);
         Long templateId = assessment.getAssessmentTemplate().getId();
-
         assessment.setTotalManagerScore(0);
         assessment.setTotalSelfScore(0);
         assessmentService.save(assessment);
-
         int selfTotalScore = 0;
         // save project
         for (AssessmentProjectScore assessmentProjectScore : assessment.getAssessmentProjectScores()) {
@@ -91,11 +85,8 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
             assessmentProjectScore.setManagerScore(0);
             assessmentProjectScore.setRemarks(null);
             assessmentProjectScore.setAssessment(assessment);
-            System.out.println(assessmentProjectScore);
             assessmentProjectScoreService.save(assessmentProjectScore);
         }
-        assessment.setTotalSelfScore(selfTotalScore);
-        assessmentService.save(assessment);
         // save input
         for (AssessmentInputContent assessmentInputContent : assessment.getAssessmentInputContents()) {
             Long inputId = assessmentInputContent.getAssessmentInput().getId();
@@ -108,6 +99,8 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
             assessmentInputContent.setAssessment(assessment);
             assessmentInputContentService.save(assessmentInputContent);
         }
+        assessment.setTotalSelfScore(selfTotalScore);
+        assessmentService.save(assessment);
     }
 
     /**
@@ -219,24 +212,33 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         }
         savedAssessment.setIndirectManagerAuditComments(assessment.getIndirectManagerAuditComments());
         savedAssessment.setStatus(Assessment.Status.INDIRECT_MANAGER_RECHECK);
+        savedAssessment.setQuarterlyBonus(this.calcQuarterlyBonus(savedAssessment));
         assessmentService.save(savedAssessment);
     }
 
     // 计算最终奖金
-    // 季度奖金 = 职级系数*时间系数*最终评分*分数单价
-    public double calcQuarterlyBonus(Assessment assessment) {
+    // 季度奖金 = 职级系数*时间系数*最终评分(目前是直接使用经理总评分来计算的)*分数单价
+    private double calcQuarterlyBonus(Assessment assessment) {
         // 获取当前季度
         Quarter currentQuarter = quarterService.findCurrentQuarter();
         if (currentQuarter.getId() == null) {
             throw new ModelNotFoundException("没有设置当前季度");
         }
         double price = currentQuarter.getPrice();
-        // TODO 这里没写完
-        return assessment.getRankCoefficient() * assessment.getTimeCoefficient()/**(assessment.get)*/ * price;
+        double coefficient = assessment.getRankCoefficient() * assessment.getTimeCoefficient();
+        double managerScore = (assessment.getTotalManagerScore() - 60);
+        if (managerScore < 0) managerScore = 0;
+        return coefficient * managerScore * price;
     }
 
+    /**
+     * 计算时间系数
+     * 时间系数=（当前季度末时间-入职时间）/季度总天数   系数小于0.3 则调整为0，系数大于1.0则调整为1.0
+     *
+     * @param creator
+     * @return double
+     */
     private double calcTimeCoefficient(User creator) {
-        // 时间系数=（当前季度末时间-入职时间）/季度总天数   系数小于0.3 则调整为0，系数大于1.0则调整为1.0
         // 获取当前季度
         Quarter currentQuarter = quarterService.findCurrentQuarter();
         if (currentQuarter.getId() == null) {
@@ -247,14 +249,14 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         int countDays = getDays();
         /* 先转成毫秒并求差 */
         long differDays = Math.abs(workAt.getTime() - currentQuarterEndTime.getTime()) / (1000 * 60 * 60 * 24);
-        /*System.out.println(currentQuarterEndTime);
-        System.out.println(workAt);
-        System.out.println(differDays);
-        System.out.println(countDays);*/
         double timeCoefficient = (differDays / countDays);
-
         if (timeCoefficient > 1) timeCoefficient = 1;
         if (timeCoefficient < 0.3) timeCoefficient = 0;
+
+        System.out.println("工作时间:" + workAt);
+        System.out.println("当前季度末时间:" + currentQuarterEndTime);
+        System.out.println("当前季度总天数:" + countDays);
+
         return timeCoefficient;
     }
 
@@ -293,7 +295,7 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
     /**
      * 获取当前季度的总天数
      *
-     * @return
+     * @return int
      */
     private int getDays() {
         int count = 0;
