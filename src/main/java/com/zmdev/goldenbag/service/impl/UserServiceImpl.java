@@ -1,5 +1,6 @@
 package com.zmdev.goldenbag.service.impl;
 
+import com.zmdev.fatesdk.pb.CertificateType;
 import com.zmdev.goldenbag.domain.Permission;
 import com.zmdev.goldenbag.domain.Role;
 import com.zmdev.goldenbag.domain.User;
@@ -20,8 +21,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
 
     private DepartmentService departmentService;
 
+    private com.zmdev.fatesdk.UserService fateUserService;
+
     public UserServiceImpl(@Autowired DepartmentService departmentService) {
         this.departmentService = departmentService;
+    }
+
+    @Autowired
+    public void setFateUserService(com.zmdev.fatesdk.UserService fateUserService) {
+        this.fateUserService = fateUserService;
     }
 
     public List<User> search(String keyword, Long ignoreId) {
@@ -70,6 +78,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
     }
 
     @Override
+    public boolean hasRole(User user, Role role) {
+        return !((user == null) || (user.getRoles() == null)) && user.getRoles().contains(role);
+    }
+
+    @Override
+    public boolean hasRole(User user, List<Role> roles) {
+        return !((user == null) || (user.getRoles() == null)) && user.getRoles().containsAll(roles);
+    }
+
+    @Override
     public List<Permission> getUserAllPermission(User user) {
         List<Permission> userAllPermission = new ArrayList<>();
         if (user == null) {
@@ -80,6 +98,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
         }
         Collections.sort(userAllPermission);
         return userAllPermission;
+    }
+
+    public User save(User user) {
+
+        long userId = fateUserService.register(user.getPhone(), CertificateType.PhoneNum, user.getPassword());
+        user.setId(userId);
+        user.setPassword("");
+        return super.save(user);
     }
 
 }
