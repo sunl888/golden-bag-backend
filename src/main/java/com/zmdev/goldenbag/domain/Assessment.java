@@ -49,6 +49,12 @@ public class Assessment {
     // 时间系数
     private Double timeCoefficient;
 
+    // 自评得分总和
+    private int totalSelfScore;
+
+    // 经理评分总和
+    private int totalManagerScore;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -178,5 +184,21 @@ public class Assessment {
         DIRECT_MANAGER_EVALUATED, //直接經理已經評價
         INDIRECT_MANAGER_RECHECK, // 間接經理已經複核
         FINISHED // 已完成
+    }
+
+    public int getTotalSelfScore() {
+        return totalSelfScore;
+    }
+
+    public void setTotalSelfScore(int totalSelfScore) {
+        this.totalSelfScore = totalSelfScore;
+    }
+
+    public int getTotalManagerScore() {
+        return totalManagerScore;
+    }
+
+    public void setTotalManagerScore(int totalManagerScore) {
+        this.totalManagerScore = totalManagerScore;
     }
 }

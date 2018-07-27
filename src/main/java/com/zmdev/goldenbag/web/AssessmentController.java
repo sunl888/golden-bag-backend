@@ -22,6 +22,7 @@ public class AssessmentController extends BaseController {
         this.assessmentService = assessmentService;
         this.auth = auth;
     }
+
     // 用户提交考核记录(申请)
     @PostMapping
     public Result store(@RequestBody Assessment assessment) {

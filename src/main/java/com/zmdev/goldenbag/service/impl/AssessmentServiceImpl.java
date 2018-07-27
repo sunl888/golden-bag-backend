@@ -69,10 +69,13 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
 
         assessment.setQuarterlyBonus(null);
 
-        assessmentService.save(assessment);
-
         Long templateId = assessment.getAssessmentTemplate().getId();
 
+        assessment.setTotalManagerScore(0);
+        assessment.setTotalSelfScore(0);
+        assessmentService.save(assessment);
+
+        int selfTotalScore = 0;
         // save project
         for (AssessmentProjectScore assessmentProjectScore : assessment.getAssessmentProjectScores()) {
             Long projectId = assessmentProjectScore.getAssessmentProject().getId();
@@ -83,11 +86,16 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
                 // TODO log
                 continue;
             }
+            // 设置自己总评分
+            selfTotalScore += assessmentProjectScore.getSelfScore();
             assessmentProjectScore.setManagerScore(0);
             assessmentProjectScore.setRemarks(null);
             assessmentProjectScore.setAssessment(assessment);
+            System.out.println(assessmentProjectScore);
             assessmentProjectScoreService.save(assessmentProjectScore);
         }
+        assessment.setTotalSelfScore(selfTotalScore);
+        assessmentService.save(assessment);
         // save input
         for (AssessmentInputContent assessmentInputContent : assessment.getAssessmentInputContents()) {
             Long inputId = assessmentInputContent.getAssessmentInput().getId();
@@ -157,17 +165,21 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         if (!(operater.equals(user))) {
             throw new PermissionDeniedException("没有评分该记录的权限");
         }
+        int directManagerScore = 0;
         // 设置直接经理评价
         savedAssessment.setDirectManagerEvaluation(assessment.getDirectManagerEvaluation());
         savedAssessment.setStatus(Assessment.Status.DIRECT_MANAGER_EVALUATED);// Status 设置为直接经理已经评价
-        assessmentService.save(savedAssessment);
         for (AssessmentProjectScore assessmentProjectScore : assessment.getAssessmentProjectScores()) {
             AssessmentProject assessmentProject = assessmentProjectScore.getAssessmentProject();
             AssessmentProjectScore aps = assessmentProjectScoreService.findByAssessmentProjectAndAssessment(assessmentProject, savedAssessment);
             aps.setRemarks(assessmentProjectScore.getRemarks());
             aps.setManagerScore(assessmentProjectScore.getManagerScore());
+            directManagerScore += assessmentProjectScore.getManagerScore();
             assessmentProjectScoreService.save(aps);
         }
+        // 设置经理评分总和
+        savedAssessment.setTotalManagerScore(directManagerScore);
+        assessmentService.save(savedAssessment);
     }
 
     /**
