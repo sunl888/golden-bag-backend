@@ -249,7 +249,7 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         int countDays = getDays();
         /* 先转成毫秒并求差 */
         long differDays = Math.abs(workAt.getTime() - currentQuarterEndTime.getTime()) / (1000 * 60 * 60 * 24);
-        double timeCoefficient = (differDays / countDays);
+        double timeCoefficient = (double) (differDays / countDays);
         if (timeCoefficient > 1) timeCoefficient = 1;
         if (timeCoefficient < 0.3) timeCoefficient = 0;
 

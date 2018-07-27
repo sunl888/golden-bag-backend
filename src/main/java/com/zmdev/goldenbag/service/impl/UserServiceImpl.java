@@ -34,6 +34,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
         }
     }
 
+    @Override
+    public List<User> findByDirectManager(User user) {
+        return repository.findByDirectManager(user);
+    }
+
 
     public User update(Long id, User user) {
 

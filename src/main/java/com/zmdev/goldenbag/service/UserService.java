@@ -14,5 +14,7 @@ public interface UserService extends BaseService<User, Long> {
 
     List<User> search(String keyword, Long ignoreId);
 
+    List<User> findByDirectManager(User user);
+
     User update(Long id, User user);
 }

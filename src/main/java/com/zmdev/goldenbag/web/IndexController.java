@@ -19,6 +19,4 @@ import java.util.Map;
 
 public class IndexController extends BaseController {
 
-
-
 }
