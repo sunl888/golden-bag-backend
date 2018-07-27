@@ -1,8 +1,6 @@
 package com.zmdev.goldenbag.web;
 
-import com.zmdev.goldenbag.domain.Permission;
 import com.zmdev.goldenbag.domain.Role;
-import com.zmdev.goldenbag.service.PermissionService;
 import com.zmdev.goldenbag.service.RoleService;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;

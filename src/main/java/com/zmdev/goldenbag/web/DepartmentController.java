@@ -51,6 +51,7 @@ public class DepartmentController extends BaseController {
         return ResultGenerator.genSuccessResult(departmentService.save(department));
     }
 
+    //TODO 这里有死循环的BUG
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Result update(@PathVariable Long id, @RequestBody Department department) {
         return ResultGenerator.genSuccessResult(departmentService.update(id, department));

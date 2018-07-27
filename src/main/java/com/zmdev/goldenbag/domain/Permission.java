@@ -14,28 +14,6 @@ import java.util.Map;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Permission implements Comparable<Permission> {
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String displayName;
-
-    private String description;
-
-    // handlerMethod.getShortLogMessage();
-    @Column(nullable = false, unique = true)
-    private String shortLogMessage;
-
-    @CreatedDate
-    private Date createdAt;
-
-    @LastModifiedDate
-    private Date updatedAt;
-
     @Transient
     private static Map<String, String> modules = new HashMap<>();
 
@@ -46,6 +24,30 @@ public class Permission implements Comparable<Permission> {
         modules.put("department", "部门管理");
         modules.put("assessment", "考核模块");
         modules.put("self_evaluation", "员工自评");
+    }
+
+    @Id
+    @GeneratedValue
+    private Long id;
+    @Column(nullable = false)
+    private String name;
+    @Column(nullable = false)
+    private String displayName;
+    private String description;
+    // handlerMethod.getShortLogMessage();
+    @Column(nullable = false, unique = true)
+    private String shortLogMessage;
+    @CreatedDate
+    private Date createdAt;
+    @LastModifiedDate
+    private Date updatedAt;
+
+    public static Map<String, String> getModules() {
+        return modules;
+    }
+
+    public static void setModules(Map<String, String> modules) {
+        Permission.modules = modules;
     }
 
     public Long getId() {
@@ -95,14 +97,6 @@ public class Permission implements Comparable<Permission> {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public static Map<String, String> getModules() {
-        return modules;
-    }
-
-    public static void setModules(Map<String, String> modules) {
-        Permission.modules = modules;
     }
 
     public String getShortLogMessage() {

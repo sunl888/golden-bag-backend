@@ -186,26 +186,6 @@ public class User {
         this.departmentIds = departmentIds;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", entryDate=" + entryDate +
-                ", departmentIds=" + departmentIds +
-                ", gender=" + gender +
-                ", rankCoefficient=" + rankCoefficient +
-                ", roles=" + roles +
-                ", directManager=" + directManager +
-                ", indirectManager=" + indirectManager +
-                ", department=" + department +
-                ", password='" + password + '\'' +
-                '}';
-    }
-
     public enum Gender {
         MAN,
         WOMAN

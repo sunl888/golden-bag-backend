@@ -4,13 +4,12 @@ import com.zmdev.goldenbag.domain.*;
 import com.zmdev.goldenbag.exception.*;
 import com.zmdev.goldenbag.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, AssessmentRepository> implements AssessmentService {
@@ -211,8 +210,12 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
                 break;
         }
         savedAssessment.setIndirectManagerAuditComments(assessment.getIndirectManagerAuditComments());
-        savedAssessment.setStatus(Assessment.Status.INDIRECT_MANAGER_RECHECK);
+        // 这里直接可以设置状态为已完成
+        // savedAssessment.setStatus(Assessment.Status.INDIRECT_MANAGER_RECHECK);
+
         savedAssessment.setQuarterlyBonus(this.calcQuarterlyBonus(savedAssessment));
+        savedAssessment.setStatus(Assessment.Status.FINISHED);
+
         assessmentService.save(savedAssessment);
     }
 
@@ -315,5 +318,25 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
             count = 92;
         }
         return count;
+    }
+
+    public List<Assessment> findByUserIn(Collection<User> users) {
+        return repository.findByUserIn(users);
+    }
+
+    public List<Assessment> findByUser(User user) {
+        return repository.findByUser(user);
+    }
+
+    public List<Assessment> queryAllWithCurrentQuarterWaitAudit(Collection<User> users, Pageable pageable) {
+        return repository.queryAllWithCurrentQuarterWaitAudit(users, pageable);
+    }
+
+    /*public List<Assessment> findByUserInAndStatus(Collection<User> users, Assessment.Status status, Pageable pageable) {
+        return repository.findByUserInAndStatusIs(users, status, pageable);
+    }*/
+
+    public Page<Map<String, Object>> findByUserInAndStatus(Collection<User> users, Assessment.Status status, Pageable pageable) {
+        return repository.selectByUserInAndStatusIs(users, status, pageable);
     }
 }

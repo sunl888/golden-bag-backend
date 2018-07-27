@@ -15,5 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User as u where u.name like %:keyword% or u.phone like %:keyword%")
     List<User> search(@Param("keyword") String keyword, Pageable pageable);
 
+    // 通过直接经理查找users
     List<User> findByDirectManager(User user);
+
+    // 通过间接经理查找users
+    List<User> findByIndirectManager(User user);
 }
