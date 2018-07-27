@@ -18,12 +18,14 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // user表不需要自增长，从单点登录那边拿到id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, unique = true)
     private String phone;
 
     private Date entryDate;
@@ -52,6 +54,10 @@ public class User {
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "department_id")
     private Department department;
+
+
+    @Transient
+    private String password;
 
     @CreatedDate
     private Date createdAt;
@@ -147,6 +153,13 @@ public class User {
         this.phone = phone;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public List<Role> getRoles() {
         return roles;
@@ -189,6 +202,7 @@ public class User {
                 ", directManager=" + directManager +
                 ", indirectManager=" + indirectManager +
                 ", department=" + department +
+                ", password='" + password + '\'' +
                 '}';
     }
 
