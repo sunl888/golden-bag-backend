@@ -14,29 +14,30 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class AssessmentTemplate {
-
-    @CreatedDate
-    private Date createdAt;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @LastModifiedDate
-    private Date updatedAt;
-    @ManyToOne
-    @PrimaryKeyJoinColumn(name = "quarter_id")
-    private Quarter quarter;
 
     private String name;
 
     @Enumerated
     private Type type;
 
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "quarter_id")
+    private Quarter quarter;
+
     @OneToMany(mappedBy = "assessmentTemplate")
     private List<AssessmentProject> assessmentProjects;
 
     @OneToMany(mappedBy = "assessmentTemplate")
     private List<AssessmentInput> assessmentInputs;
+
+    @CreatedDate
+    private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
 
     public Quarter getQuarter() {
         return quarter;

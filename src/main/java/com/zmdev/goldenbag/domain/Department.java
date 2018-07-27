@@ -17,7 +17,6 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Department {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,14 +24,7 @@ public class Department {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @CreatedDate
-    private Date createdAt;
-
-    @LastModifiedDate
-    private Date updatedAt;
-
     @ManyToOne
-//    @JsonIgnore // 這裡必須要忽略 parent,否則會導致無限遞歸
     @JsonBackReference // 解決雙向引用導致的無限遞歸問題
     @PrimaryKeyJoinColumn(name = "parent_id")
     private Department parent;
@@ -42,6 +34,12 @@ public class Department {
 
     @Transient
     private ArrayList<Long> parentIds = new ArrayList<>();
+
+    @CreatedDate
+    private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
 
     public Department() {
     }

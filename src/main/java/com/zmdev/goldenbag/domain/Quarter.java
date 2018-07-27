@@ -24,18 +24,19 @@ public class Quarter {
 
     private Date startAssessmentDate;
 
+    // 单价
     private Double price;
 
     private Boolean currentQuarter;
+
+    @OneToMany(mappedBy = "quarter")
+    private List<AssessmentTemplate> assessmentTemplates;
 
     @CreatedDate
     private Date createdAt;
 
     @LastModifiedDate
     private Date updatedAt;
-
-    @OneToMany(mappedBy = "quarter")
-    private List<AssessmentTemplate> assessmentTemplates;
 
     public Long getId() {
         return id;
