@@ -18,13 +18,11 @@ public class Assessment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "user_id")
     private User user;
 
+    // 季度ID
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "quarter_id")
     private Quarter quarter;
@@ -43,8 +41,24 @@ public class Assessment {
 
     // 直接經理評價
     private String directManagerEvaluation;
+
     // 职级系数
     private Double rankCoefficient;
+
+    // 时间系数
+    private Double timeCoefficient;
+
+    // 自评得分总和
+    private int totalSelfScore;
+
+    // 经理评分总和
+    private int totalManagerScore;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    // 季度奖金
+    private double quarterlyBonus;
 
     @LastModifiedDate
     private Date updatedAt;
@@ -146,6 +160,38 @@ public class Assessment {
 
     public void setQuarter(Quarter quarter) {
         this.quarter = quarter;
+    }
+
+    public double getQuarterlyBonus() {
+        return quarterlyBonus;
+    }
+
+    public void setQuarterlyBonus(double quarterlyBonus) {
+        this.quarterlyBonus = quarterlyBonus;
+    }
+
+    public Double getTimeCoefficient() {
+        return timeCoefficient;
+    }
+
+    public void setTimeCoefficient(Double timeCoefficient) {
+        this.timeCoefficient = timeCoefficient;
+    }
+
+    public int getTotalSelfScore() {
+        return totalSelfScore;
+    }
+
+    public void setTotalSelfScore(int totalSelfScore) {
+        this.totalSelfScore = totalSelfScore;
+    }
+
+    public int getTotalManagerScore() {
+        return totalManagerScore;
+    }
+
+    public void setTotalManagerScore(int totalManagerScore) {
+        this.totalManagerScore = totalManagerScore;
     }
 
     public enum Status {

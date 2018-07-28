@@ -1,6 +1,8 @@
 package com.zmdev.goldenbag.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 /**
@@ -14,6 +16,7 @@ public class AssessmentInputContent {
     private Long id;
 
     @ManyToOne
+    @JsonBackReference // 解決雙向引用導致的無限遞歸問題
     @PrimaryKeyJoinColumn(name = "assessment_id")
     private Assessment assessment;
 

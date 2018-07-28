@@ -7,3 +7,4 @@ fate.rpc_host=fate.xxx.com
 fate.rpc_port=8501
 fate.app_id=YOUR_APP_ID
 fate.app_secret=YOUR_APP_SECRET
+fate.timeout=5000

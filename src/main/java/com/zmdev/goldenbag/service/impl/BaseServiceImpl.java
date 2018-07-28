@@ -3,6 +3,7 @@ package com.zmdev.goldenbag.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,8 +11,12 @@ import java.util.Optional;
 
 public abstract class BaseServiceImpl<T, ID, REPOSITORY extends JpaRepository<T, ID>> {
 
-    @Autowired
     protected REPOSITORY repository;
+
+    @Autowired
+    public void setRepository(REPOSITORY repository) {
+        this.repository = repository;
+    }
 
     public T save(T model) {
         return repository.save(model);
@@ -40,6 +45,10 @@ public abstract class BaseServiceImpl<T, ID, REPOSITORY extends JpaRepository<T,
 
     public List<T> findAll() {
         return repository.findAll();
+    }
+
+    public List<T> findAll(Sort sort) {
+        return repository.findAll(sort);
     }
 
     public Page<T> findAllByPage(Pageable pageable) {

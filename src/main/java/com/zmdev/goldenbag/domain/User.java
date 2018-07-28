@@ -17,37 +17,53 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // user表不需要自增长，从单点登录那边拿到id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @CreatedDate
-    private Date createdAt;
-    @LastModifiedDate
-    private Date updatedAt;
+
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String phone;
+
     private Date entryDate;
 
     @Transient
     private List<Long> departmentIds = new ArrayList<>();
+
     @Enumerated
     private Gender gender;
+
     // 职级系数
     private Double rankCoefficient;
+
     // 角色（岗位）
-    private String role;
+    @ManyToMany
+    private List<Role> roles;
 
     @OneToOne
     @JoinColumn(name = "direct_manager_id")
     private User directManager;
+
     @OneToOne
     @JoinColumn(name = "indirect_manager_id")
     private User indirectManager;
+
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "department_id")
     private Department department;
+
+
+    @Transient
+    private String password;
+
+    @CreatedDate
+    private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
 
     public Long getId() {
         return id;
@@ -87,14 +103,6 @@ public class User {
 
     public void setRankCoefficient(Double rankCoefficient) {
         this.rankCoefficient = rankCoefficient;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public User getDirectManager() {
@@ -145,6 +153,22 @@ public class User {
         this.phone = phone;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     public List<Long> getDepartmentIds() {
         if (departmentIds.size() > 0) {
             return departmentIds;
@@ -160,23 +184,6 @@ public class User {
 
     public void setDepartmentIds(List<Long> departmentIds) {
         this.departmentIds = departmentIds;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", name='" + name + '\'' +
-                ", entryDate=" + entryDate +
-                ", gender=" + gender +
-                ", rankCoefficient=" + rankCoefficient +
-                ", role='" + role + '\'' +
-                ", directManager=" + directManager +
-                ", indirectManager=" + indirectManager +
-                ", department=" + department +
-                '}';
     }
 
     public enum Gender {
