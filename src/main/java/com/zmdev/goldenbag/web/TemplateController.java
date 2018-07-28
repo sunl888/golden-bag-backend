@@ -4,26 +4,34 @@ import com.zmdev.goldenbag.domain.AssessmentInput;
 import com.zmdev.goldenbag.domain.AssessmentProject;
 import com.zmdev.goldenbag.domain.AssessmentProjectItem;
 import com.zmdev.goldenbag.domain.AssessmentTemplate;
+import com.zmdev.goldenbag.exception.ModelNotFoundException;
 import com.zmdev.goldenbag.service.AssessmentTemplateService;
+import com.zmdev.goldenbag.utils.TemplateXls;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/templates")
 public class TemplateController extends BaseController {
 
     private AssessmentTemplateService assessmentTemplateService;
+    private TemplateXls templateXls;
 
-    public TemplateController(@Autowired AssessmentTemplateService assessmentTemplateService) {
+    public TemplateController(@Autowired AssessmentTemplateService assessmentTemplateService, @Autowired TemplateXls templateXls) {
         this.assessmentTemplateService = assessmentTemplateService;
+        this.templateXls = templateXls;
     }
 
     @GetMapping
     public Result index(@RequestParam(defaultValue = "") String type) {
         if ("".equals(type)) {
-            return ResultGenerator.genSuccessResult(assessmentTemplateService.findAll());
+            return ResultGenerator.genSuccessResult(assessmentTemplateService.findByType(null));
         }
         return ResultGenerator.genSuccessResult(
                 assessmentTemplateService.findByType(
@@ -82,4 +90,16 @@ public class TemplateController extends BaseController {
         return ResultGenerator.genSuccessResult(assessmentTemplateService.updateTemplateInput(templateInputId, assessmentInput));
     }
 
+    @GetMapping("{templateId}/export")
+    public Result export(@PathVariable Long templateId) throws IOException {
+        AssessmentTemplate template = assessmentTemplateService.findById(templateId).orElse(null);
+        if (template == null) {
+            throw new ModelNotFoundException("模版不存在");
+        }
+        Workbook workbook = templateXls.createTemplate(template);
+        FileOutputStream fileOut = new FileOutputStream("workbook.xls");
+        workbook.write(fileOut);
+        fileOut.close();
+        return ResultGenerator.genSuccessResult();
+    }
 }
