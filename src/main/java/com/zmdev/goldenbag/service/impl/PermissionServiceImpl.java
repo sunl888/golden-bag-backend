@@ -67,7 +67,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long, Per
         return menus;
     }
 
-    public Permission findByShortLogMessage(String shortLogMessage) {
-        return repository.findByShortLogMessage(shortLogMessage);
+    public Permission findByName(String name) {
+        return repository.findByName(name);
     }
 }

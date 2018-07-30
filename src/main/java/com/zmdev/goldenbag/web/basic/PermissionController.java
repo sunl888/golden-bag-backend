@@ -1,8 +1,10 @@
-package com.zmdev.goldenbag.web;
+package com.zmdev.goldenbag.web.basic;
 
 import com.zmdev.goldenbag.domain.Permission;
 import com.zmdev.goldenbag.service.PermissionService;
 import com.zmdev.goldenbag.service.UserService;
+import com.zmdev.goldenbag.web.Auth;
+import com.zmdev.goldenbag.web.BaseController;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;

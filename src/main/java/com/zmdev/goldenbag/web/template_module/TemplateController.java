@@ -1,4 +1,4 @@
-package com.zmdev.goldenbag.web;
+package com.zmdev.goldenbag.web.template_module;
 
 import com.zmdev.goldenbag.domain.AssessmentInput;
 import com.zmdev.goldenbag.domain.AssessmentProject;
@@ -7,6 +7,8 @@ import com.zmdev.goldenbag.domain.AssessmentTemplate;
 import com.zmdev.goldenbag.exception.ModelNotFoundException;
 import com.zmdev.goldenbag.service.AssessmentTemplateService;
 import com.zmdev.goldenbag.utils.TemplateXls;
+import com.zmdev.goldenbag.web.BaseController;
+import com.zmdev.goldenbag.web.insterceptor.PermissionInterceptor;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -17,13 +19,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/templates")
+@RequestMapping(value = "/templates", produces = "application/json;charset=UTF-8")
 public class TemplateController extends BaseController {
+
+    public TemplateController() {
+        PermissionInterceptor.addSpecialAbilitie(getClass(), "storeProject", "edit");
+        PermissionInterceptor.addSpecialAbilitie(getClass(), "updateProject", "edit");
+        PermissionInterceptor.addSpecialAbilitie(getClass(), "storeProjectItem", "edit");
+        PermissionInterceptor.addSpecialAbilitie(getClass(), "updateProjectItem", "edit");
+        PermissionInterceptor.addSpecialAbilitie(getClass(), "storeTemplateInput", "edit");
+        PermissionInterceptor.addSpecialAbilitie(getClass(), "updateTemplateInput", "edit");
+    }
 
     private AssessmentTemplateService assessmentTemplateService;
     private TemplateXls templateXls;
 
     public TemplateController(@Autowired AssessmentTemplateService assessmentTemplateService, @Autowired TemplateXls templateXls) {
+        this();
         this.assessmentTemplateService = assessmentTemplateService;
         this.templateXls = templateXls;
     }

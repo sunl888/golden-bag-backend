@@ -41,7 +41,7 @@ public class User {
     private Double rankCoefficient;
 
     // 角色（岗位）
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
     @OneToOne

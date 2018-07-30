@@ -1,8 +1,9 @@
-package com.zmdev.goldenbag.web;
+package com.zmdev.goldenbag.web.basic;
 
 
 import com.zmdev.goldenbag.domain.Quarter;
 import com.zmdev.goldenbag.service.QuarterService;
+import com.zmdev.goldenbag.web.BaseController;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
