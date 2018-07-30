@@ -34,7 +34,7 @@ public class Assessment {
     private List<AssessmentInputContent> assessmentInputContents;
 
     @ManyToOne
-    private AssessmentTemplate assessmentTemplate;
+        private AssessmentTemplate assessmentTemplate;
 
     // 間接經理審核意見
     private String indirectManagerAuditComments;
