@@ -33,8 +33,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 判断登录拦截器
-//        registry.addInterceptor(authInterceptor).addPathPatterns("/**")
-//                .excludePathPatterns("/login", "/error", "/fate/callback", "/fate/logout");
+        registry.addInterceptor(authInterceptor).addPathPatterns("/**")
+                .excludePathPatterns("/login", "/error", "/fate/callback", "/fate/logout");
         // 权限验证拦截器
         // registry.addInterceptor(new PermissionInterceptor(userService, auth, permissionService)).addPathPatterns("/**");
     }

@@ -19,6 +19,10 @@ public interface UserService extends BaseService<User, Long> {
 
     List<User> search(String keyword, Long ignoreId);
 
+    List<User> findByDirectManager(User user);
+
+    List<User> findByIndirectManager(User user);
+
     User update(Long id, User user);
 
     List<Permission> getUserAllPermission(User user);

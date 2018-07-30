@@ -5,7 +5,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -59,7 +58,7 @@ public class Assessment {
     private Status status;
 
     // 季度奖金
-    private BigDecimal quarterlyBonus;
+    private double quarterlyBonus;
 
     @LastModifiedDate
     private Date updatedAt;
@@ -163,11 +162,11 @@ public class Assessment {
         this.quarter = quarter;
     }
 
-    public BigDecimal getQuarterlyBonus() {
+    public double getQuarterlyBonus() {
         return quarterlyBonus;
     }
 
-    public void setQuarterlyBonus(BigDecimal quarterlyBonus) {
+    public void setQuarterlyBonus(double quarterlyBonus) {
         this.quarterlyBonus = quarterlyBonus;
     }
 
@@ -177,13 +176,6 @@ public class Assessment {
 
     public void setTimeCoefficient(Double timeCoefficient) {
         this.timeCoefficient = timeCoefficient;
-    }
-
-    public enum Status {
-        SUBMITTED, // 已提交
-        DIRECT_MANAGER_EVALUATED, //直接經理已經評價
-        INDIRECT_MANAGER_RECHECK, // 間接經理已經複核
-        FINISHED // 已完成
     }
 
     public int getTotalSelfScore() {
@@ -200,5 +192,12 @@ public class Assessment {
 
     public void setTotalManagerScore(int totalManagerScore) {
         this.totalManagerScore = totalManagerScore;
+    }
+
+    public enum Status {
+        SUBMITTED, // 已提交
+        DIRECT_MANAGER_EVALUATED, //直接經理已經評價
+        INDIRECT_MANAGER_RECHECK, // 間接經理已經複核
+        FINISHED // 已完成
     }
 }

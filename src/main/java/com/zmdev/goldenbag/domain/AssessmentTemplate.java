@@ -1,5 +1,6 @@
 package com.zmdev.goldenbag.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,6 +25,7 @@ public class AssessmentTemplate {
     private Type type;
 
     @ManyToOne
+    @JsonManagedReference
     @PrimaryKeyJoinColumn(name = "quarter_id")
     private Quarter quarter;
 
