@@ -1,9 +1,11 @@
 package com.zmdev.goldenbag.web;
 
 import com.zmdev.goldenbag.domain.Permission;
+import com.zmdev.goldenbag.domain.Quarter;
 import com.zmdev.goldenbag.domain.Role;
 import com.zmdev.goldenbag.domain.User;
 import com.zmdev.goldenbag.service.PermissionService;
+import com.zmdev.goldenbag.service.QuarterService;
 import com.zmdev.goldenbag.service.RoleService;
 import com.zmdev.goldenbag.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,16 @@ public class IndexController extends BaseController {
 
     private UserService userService;
 
+    private QuarterService quarterService;
+
     @Autowired
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
+    }
+
+    @Autowired
+    public void setQuarterService(QuarterService quarterService) {
+        this.quarterService = quarterService;
     }
 
     @Autowired
@@ -205,5 +214,12 @@ public class IndexController extends BaseController {
         public void setDisplayName(String displayName) {
             this.displayName = displayName;
         }
+    }
+
+    private void setUpQuarter() {
+        Quarter quarter = new Quarter();
+        quarter.setName("2018第1季度");
+        quarter.setCurrentQuarter(true);
+        //quarter.set;
     }
 }
