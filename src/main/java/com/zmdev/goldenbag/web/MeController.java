@@ -78,4 +78,16 @@ public class MeController extends BaseController {
         return ResultGenerator.genSuccessResult(assessments);
     }
 
+    /**
+     * 获取当前登陆的用户
+     *
+     * @return
+     */
+    @GetMapping
+    public Result me() {
+        User user = auth.getUser();
+        user.setPassword(null);
+        return ResultGenerator.genSuccessResult(user);
+    }
+
 }
