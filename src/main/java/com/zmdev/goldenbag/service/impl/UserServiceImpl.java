@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository> implements UserService {
@@ -99,21 +97,26 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
 
     @Override
     public List<Permission> getUserAllPermission(User user) {
-        List<Permission> userAllPermission = new ArrayList<>();
-        if (user == null) {
-            return userAllPermission;
+        Set<Permission> userAllPermission = new HashSet<>();
+        List<Permission> userAllPermissionList = new ArrayList<>();
+
+        if (user == null || user.getRoles() == null) {
+            return userAllPermissionList;
         }
+
         for (Role role : user.getRoles()) {
             userAllPermission.addAll(role.getPermissions());
         }
-        Collections.sort(userAllPermission);
-        return userAllPermission;
+        userAllPermissionList.addAll(userAllPermission);
+        Collections.sort(userAllPermissionList);
+        return userAllPermissionList;
     }
 
     public User save(User user) {
-
-        long userId = fateUserService.register(user.getPhone(), CertificateType.PhoneNum, user.getPassword());
-        user.setId(userId);
+        if (user.getId() == null) {
+            Long userId = fateUserService.register(user.getPhone(), CertificateType.PhoneNum, user.getPassword());
+            user.setId(userId);
+        }
         user.setPassword("");
         return super.save(user);
     }

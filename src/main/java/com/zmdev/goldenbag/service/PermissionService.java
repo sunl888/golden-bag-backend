@@ -11,5 +11,5 @@ public interface PermissionService extends BaseService<Permission, Long> {
 
     List<Menu> convertToMenus(List<Permission> permissions);
 
-    Permission findByShortLogMessage(String shortLogMessage);
+    Permission findByName(String name);
 }

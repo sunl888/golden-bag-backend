@@ -4,5 +4,5 @@ package com.zmdev.goldenbag.domain;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
-    Permission findByShortLogMessage(String shortLogMessage);
+    Permission findByName(String name);
 }

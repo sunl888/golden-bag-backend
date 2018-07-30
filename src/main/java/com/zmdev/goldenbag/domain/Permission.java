@@ -19,24 +19,30 @@ public class Permission implements Comparable<Permission> {
 
     static {
         modules.put("basic", "基础模块");
+        modules.put("template_module", "模板模块");
         modules.put("template", "模板管理");
         modules.put("user", "用户管理");
         modules.put("department", "部门管理");
         modules.put("assessment", "考核模块");
-        modules.put("self_evaluation", "员工自评");
+        modules.put("quarter", "季度管理");
+        modules.put("permission", "权限管理");
+        modules.put("role", "角色管理");
+        modules.put("selfEvaluation", "员工自评");
+        modules.put("indirectManagerAuditComments", "间接经理建议");
+        modules.put("directManagerScore", "直接经理评分");
     }
 
     @Id
     @GeneratedValue
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = false)
     private String displayName;
     private String description;
     // handlerMethod.getShortLogMessage();
-    @Column(nullable = false, unique = true)
-    private String shortLogMessage;
+    // @Column(nullable = false, unique = true)
+    // private String shortLogMessage;
     @CreatedDate
     private Date createdAt;
     @LastModifiedDate
@@ -99,13 +105,13 @@ public class Permission implements Comparable<Permission> {
         this.updatedAt = updatedAt;
     }
 
-    public String getShortLogMessage() {
-        return shortLogMessage;
-    }
-
-    public void setShortLogMessage(String shortLogMessage) {
-        this.shortLogMessage = shortLogMessage;
-    }
+//    public String getShortLogMessage() {
+//        return shortLogMessage;
+//    }
+//
+//    public void setShortLogMessage(String shortLogMessage) {
+//        this.shortLogMessage = shortLogMessage;
+//    }
 
     /**
      * 获取顶级模块
