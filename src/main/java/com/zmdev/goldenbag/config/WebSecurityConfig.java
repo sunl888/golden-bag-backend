@@ -37,7 +37,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor).addPathPatterns("/**")
                 .excludePathPatterns("/login", "/error", "/fate/callback", "/fate/logout");
         // 权限验证拦截器
-        registry.addInterceptor(new PermissionInterceptor(userService, auth, permissionService)).addPathPatterns("/**")
-                .excludePathPatterns("/test/*", "/error", "/login", "/error", "/fate/callback", "/fate/logout");
+//        registry.addInterceptor(new PermissionInterceptor(userService, auth, permissionService)).addPathPatterns("/**")
+//                .excludePathPatterns("/test/*", "/error", "/login", "/error", "/fate/callback", "/fate/logout");
     }
 }
