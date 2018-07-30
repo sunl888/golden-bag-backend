@@ -13,6 +13,7 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Role {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -26,7 +27,6 @@ public class Role {
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
     private List<Permission> permissions;
 
     @CreatedDate
@@ -70,6 +70,7 @@ public class Role {
         this.description = description;
     }
 
+    @JsonIgnore
     public List<Permission> getPermissions() {
         return permissions;
     }
