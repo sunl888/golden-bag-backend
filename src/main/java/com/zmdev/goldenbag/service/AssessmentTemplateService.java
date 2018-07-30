@@ -6,6 +6,7 @@ import com.zmdev.goldenbag.domain.AssessmentProjectItem;
 import com.zmdev.goldenbag.domain.AssessmentTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AssessmentTemplateService extends BaseService<AssessmentTemplate, Long> {
 
@@ -13,7 +14,7 @@ public interface AssessmentTemplateService extends BaseService<AssessmentTemplat
 
     AssessmentTemplate updateTemplate(Long id, AssessmentTemplate template);
 
-    List<AssessmentTemplate> findByType(AssessmentTemplate.Type type);
+    public Map<Integer, List<AssessmentTemplate>> findByType(AssessmentTemplate.Type type);
 
     AssessmentProject saveProject(Long templateId, AssessmentProject project);
 

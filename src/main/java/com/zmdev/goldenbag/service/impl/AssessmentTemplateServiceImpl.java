@@ -6,7 +6,7 @@ import com.zmdev.goldenbag.service.AssessmentTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTemplate, Long, AssessmentTemplateRepository> implements AssessmentTemplateService {
@@ -50,8 +50,29 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
     }
 
     @Override
-    public List<AssessmentTemplate> findByType(AssessmentTemplate.Type type) {
-        return repository.findByType(type);
+    public Map<Integer, List<AssessmentTemplate>> findByType(AssessmentTemplate.Type type) {
+        List<AssessmentTemplate> templates;
+        if (type == null) {
+            templates = repository.findAll();
+        } else {
+            templates = repository.findByType(type);
+        }
+        Map<Integer, List<AssessmentTemplate>> res = new HashMap<>();
+        Calendar cal = Calendar.getInstance();
+        for (AssessmentTemplate template : templates) {
+            Date startDate = template.getQuarter().getStartDate();
+            cal.setTime(startDate);
+            int year = cal.get(Calendar.YEAR);
+            List<AssessmentTemplate> yearTemplates = res.get(year);
+            if (yearTemplates == null) {
+                ArrayList<AssessmentTemplate> arr = new ArrayList<>();
+                arr.add(template);
+                res.put(year, arr);
+            } else {
+                yearTemplates.add(template);
+            }
+        }
+        return res;
     }
 
     public AssessmentProject saveProject(Long templateId, AssessmentProject project) {

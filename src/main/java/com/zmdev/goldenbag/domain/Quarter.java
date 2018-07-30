@@ -1,5 +1,6 @@
 package com.zmdev.goldenbag.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -30,6 +31,7 @@ public class Quarter {
     private Boolean currentQuarter;
 
     @OneToMany(mappedBy = "quarter")
+    @JsonBackReference
     private List<AssessmentTemplate> assessmentTemplates;
 
     @CreatedDate
@@ -109,4 +111,5 @@ public class Quarter {
     public void setCurrentQuarter(Boolean currentQuarter) {
         this.currentQuarter = currentQuarter;
     }
+
 }
