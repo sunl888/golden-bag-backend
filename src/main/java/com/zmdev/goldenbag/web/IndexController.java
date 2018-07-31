@@ -81,7 +81,7 @@ public class IndexController extends BaseController {
         storePermission("basic", "permission", new BasePermission[]{new BasePermission("view", "查看")});
 
         p = new Permission();
-        p.setName("basic.permission.allMenu");
+        p.setName("basic.permission.allMenus");
         p.setDisplayName("获取菜单");
         p.setDescription("获取菜单");
         p.setCreatedAt(new Date());
