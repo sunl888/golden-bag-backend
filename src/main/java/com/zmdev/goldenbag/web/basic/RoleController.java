@@ -42,7 +42,11 @@ public class RoleController {
     @GetMapping(value = "/{id}")
     public Result show(@PathVariable Long id) {
         Role role = roleService.findById(id).orElse(null);
-        return ResultGenerator.genSuccessResult(role);
+        List<Long> l = new ArrayList<>();
+        for (Permission p : role.getPermissions()) {
+            l.add(p.getId());
+        }
+        return ResultGenerator.genSuccessResult(role).addMeta("permissions", l);
     }
 
     @GetMapping(value = "/{id}/permissions")
