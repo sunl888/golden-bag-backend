@@ -21,9 +21,6 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
-    private String displayName;
-
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -52,14 +49,6 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
     }
 
     public String getDescription() {
@@ -101,7 +90,6 @@ public class Role {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", displayName='" + displayName + '\'' +
                 ", description='" + description + '\'' +
                 ", permissions=" + permissions +
                 ", createdAt=" + createdAt +
