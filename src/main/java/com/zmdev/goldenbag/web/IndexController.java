@@ -129,15 +129,13 @@ public class IndexController extends BaseController {
 
     private void setupRole() {
         Role adminRole = new Role();
-        adminRole.setName("admin");
-        adminRole.setDisplayName("管理员");
+        adminRole.setName("管理员");
         adminRole.setDescription("管理员拥有所有权限");
         adminRole.setPermissions(permissionService.findAll());
         roleService.save(adminRole);
 
         Role directManagerRole = new Role();
-        directManagerRole.setName("direct_manager");
-        directManagerRole.setDisplayName("直接经理");
+        directManagerRole.setName("直接经理");
         directManagerRole.setDescription("直接经理可以给员工评分");
         List<Permission> permissions = new ArrayList<>();
         permissions.add(permissionService.findByName("assessment.directManagerScore.add"));
@@ -145,8 +143,7 @@ public class IndexController extends BaseController {
         roleService.save(directManagerRole);
 
         Role indirectManagerRole = new Role();
-        indirectManagerRole.setName("indirect_manager");
-        indirectManagerRole.setDisplayName("间接经理");
+        indirectManagerRole.setName("间接经理");
         indirectManagerRole.setDescription("间接经理可以给员工建议");
         permissions = new ArrayList<>();
         permissions.add(permissionService.findByName("assessment.indirectManagerAuditComments.add"));
@@ -154,8 +151,7 @@ public class IndexController extends BaseController {
         roleService.save(indirectManagerRole);
 
         Role employeeRole = new Role();
-        employeeRole.setName("employee");
-        employeeRole.setDisplayName("员工");
+        employeeRole.setName("员工");
         employeeRole.setDescription("员工");
         permissions = new ArrayList<>();
         permissions.add(permissionService.findByName("assessment.selfEvaluation.add"));
@@ -169,7 +165,7 @@ public class IndexController extends BaseController {
         user.setPhone("13956460801");
         user.setName("taoyu");
         List<Role> roles = new ArrayList<>();
-        roles.add(roleService.findByName("admin"));
+        roles.add(roleService.findByName("管理员"));
         user.setRoles(roles);
         userService.save(user);
     }
