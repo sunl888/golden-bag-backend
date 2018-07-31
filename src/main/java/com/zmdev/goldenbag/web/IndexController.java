@@ -114,7 +114,7 @@ public class IndexController extends BaseController {
         storePermission("basic", "permission", new BasePermission[]{new BasePermission("view", "查看")});
 
         p = new Permission();
-        p.setName("basic.permission.allMenu");
+        p.setName("basic.permission.allMenus");
         p.setDisplayName("获取菜单");
         p.setDescription("获取菜单");
         p.setCreatedAt(new Date());
@@ -162,15 +162,13 @@ public class IndexController extends BaseController {
 
     private void setupRole() {
         Role adminRole = new Role();
-        adminRole.setName("admin");
-        adminRole.setDisplayName("管理员");
+        adminRole.setName("管理员");
         adminRole.setDescription("管理员拥有所有权限");
         adminRole.setPermissions(permissionService.findAll());
         roleService.save(adminRole);
 
         Role directManagerRole = new Role();
-        directManagerRole.setName("direct_manager");
-        directManagerRole.setDisplayName("直接经理");
+        directManagerRole.setName("直接经理");
         directManagerRole.setDescription("直接经理可以给员工评分");
         List<Permission> permissions = new ArrayList<>();
         permissions.add(permissionService.findByName("assessment.directManagerScore.add"));
@@ -178,8 +176,7 @@ public class IndexController extends BaseController {
         roleService.save(directManagerRole);
 
         Role indirectManagerRole = new Role();
-        indirectManagerRole.setName("indirect_manager");
-        indirectManagerRole.setDisplayName("间接经理");
+        indirectManagerRole.setName("间接经理");
         indirectManagerRole.setDescription("间接经理可以给员工建议");
         permissions = new ArrayList<>();
         permissions.add(permissionService.findByName("assessment.indirectManagerAuditComments.add"));
@@ -187,8 +184,7 @@ public class IndexController extends BaseController {
         roleService.save(indirectManagerRole);
 
         Role employeeRole = new Role();
-        employeeRole.setName("employee");
-        employeeRole.setDisplayName("员工");
+        employeeRole.setName("员工");
         employeeRole.setDescription("员工");
         permissions = new ArrayList<>();
         permissions.add(permissionService.findByName("assessment.selfEvaluation.add"));
@@ -203,9 +199,7 @@ public class IndexController extends BaseController {
         user.setName("taoyu");
         user.setType(AssessmentTemplate.Type.MANAGER_TEMPLATE);
         List<Role> roles = new ArrayList<>();
-        roles.add(roleService.findByName("admin"));// 管理员
-        roles.add(roleService.findByName("direct_manager"));// 直接经理
-        roles.add(roleService.findByName("indirect_manager"));// 间接经理
+        roles.add(roleService.findByName("管理员"));
         user.setRoles(roles);
         userService.save(user);
 
@@ -217,8 +211,8 @@ public class IndexController extends BaseController {
         sunlong.setType(AssessmentTemplate.Type.MANAGER_TEMPLATE);
         sunlong.setEntryDate(TimeUtil.getCurrentQuarterStartTime());
         List<Role> sunlong_as_roles = new ArrayList<>();
-        sunlong_as_roles.add(roleService.findByName("employee"));// 员工
-        sunlong_as_roles.add(roleService.findByName("direct_manager"));// 直接经理
+        sunlong_as_roles.add(roleService.findByName("员工"));// 员工
+        sunlong_as_roles.add(roleService.findByName("直接经理"));// 直接经理
         sunlong.setRoles(sunlong_as_roles);
         userService.save(sunlong);
 
@@ -231,7 +225,7 @@ public class IndexController extends BaseController {
         lili.setIndirectManager(user);
         lili.setEntryDate(TimeUtil.getCurrentQuarterStartTime());
         List<Role> lili_as_roles = new ArrayList<>();
-        lili_as_roles.add(roleService.findByName("employee"));// 员工
+        lili_as_roles.add(roleService.findByName("员工"));// 员工
         lili.setRoles(lili_as_roles);
         userService.save(lili);
     }

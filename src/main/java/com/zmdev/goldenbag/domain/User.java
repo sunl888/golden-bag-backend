@@ -203,4 +203,24 @@ public class User {
         MAN,
         WOMAN
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", entryDate=" + entryDate +
+                ", departmentIds=" + departmentIds +
+                ", gender=" + gender +
+                ", rankCoefficient=" + rankCoefficient +
+                ", roles=" + roles +
+                ", directManager=" + directManager +
+                ", indirectManager=" + indirectManager +
+                ", department=" + department +
+                ", password='" + password + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
