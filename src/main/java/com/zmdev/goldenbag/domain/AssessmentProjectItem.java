@@ -53,4 +53,13 @@ public class AssessmentProjectItem {
     public void setAssessmentProject(AssessmentProject assessmentProject) {
         this.assessmentProject = assessmentProject;
     }
+
+    public AssessmentProjectItem(int score, String title, AssessmentProject assessmentProject) {
+        this.score = score;
+        this.title = title;
+        this.assessmentProject = assessmentProject;
+    }
+
+    public AssessmentProjectItem() {
+    }
 }
