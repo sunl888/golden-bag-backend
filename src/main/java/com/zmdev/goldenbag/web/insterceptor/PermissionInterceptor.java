@@ -17,17 +17,40 @@ import java.util.regex.Pattern;
 
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
+    public static Map<String, String> baseAbilities = new HashMap<>();
+    public static Map<String, String> specialAbilities = new HashMap<>();
+    private static Pattern moduleNamePattern;
+
+    static {
+        moduleNamePattern = Pattern.compile("\\.(\\w+)\\.(\\w+)Controller");
+        baseAbilities.put("index", "view");
+        baseAbilities.put("edit", "edit");
+        baseAbilities.put("show", "view");
+        baseAbilities.put("update", "edit");
+        baseAbilities.put("create", "add");
+        baseAbilities.put("store", "add");
+        baseAbilities.put("destroy", "delete");
+    }
+
     private UserService userService;
     private Auth auth;
     private PermissionService permissionService;
     private Pattern permissionNamePattern;
-    private static Pattern moduleNamePattern;
 
     public PermissionInterceptor(UserService userService, Auth auth, PermissionService permissionService) {
         this.userService = userService;
         this.auth = auth;
         this.permissionService = permissionService;
         permissionNamePattern = Pattern.compile("\\.(\\w+)\\.(\\w+)Controller#(\\w+)");
+    }
+
+    public static void addSpecialAbilitie(Class classInfo, String methodName, String abilitie) {
+        Matcher m = moduleNamePattern.matcher(classInfo.getName());
+        if (m.find()) {
+            String topModuleName = m.group(1);
+            String moduleName = m.group(2);
+            specialAbilities.put(topModuleName + "." + moduleName + "." + methodName, abilitie);
+        }
     }
 
     /**
@@ -46,30 +69,6 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         throw new PermissionException();
-    }
-
-    public static Map<String, String> baseAbilities = new HashMap<>();
-
-    static {
-        moduleNamePattern = Pattern.compile("\\.(\\w+)\\.(\\w+)Controller");
-        baseAbilities.put("index", "view");
-        baseAbilities.put("edit", "edit");
-        baseAbilities.put("show", "view");
-        baseAbilities.put("update", "edit");
-        baseAbilities.put("create", "add");
-        baseAbilities.put("store", "add");
-        baseAbilities.put("destroy", "delete");
-    }
-
-    public static Map<String, String> specialAbilities = new HashMap<>();
-
-    public static void addSpecialAbilitie(Class classInfo, String methodName, String abilitie) {
-        Matcher m = moduleNamePattern.matcher(classInfo.getName());
-        if (m.find()) {
-            String topModuleName = m.group(1);
-            String moduleName = m.group(2);
-            specialAbilities.put(topModuleName + "." + moduleName + "." + methodName, abilitie);
-        }
     }
 
     public String getAbilitie(String topModuleName, String moduleName, String methodName) {

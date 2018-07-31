@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -30,6 +28,12 @@ public class IndexController extends BaseController {
     private AssessmentInputService assessmentInputService;
     private AssessmentProjectService assessmentProjectService;
     private AssessmentProjectItemRepository assessmentProjectItemRepository;
+    private BasePermission[] basePermissions = {
+            new BasePermission("view", "查看"),
+            new BasePermission("add", "添加"),
+            new BasePermission("edit", "编辑"),
+            new BasePermission("delete", "删除"),
+    };
 
     @Autowired
     public void setPermissionService(PermissionService permissionService) {
@@ -75,7 +79,6 @@ public class IndexController extends BaseController {
     public void setAssessmentProjectItemRepository(AssessmentProjectItemRepository assessmentProjectItemRepository) {
         this.assessmentProjectItemRepository = assessmentProjectItemRepository;
     }
-
 
     private void storePermission(String topModuleString, String moduleName, BasePermission[] basePermissions) {
         for (BasePermission basePermission : basePermissions) {
@@ -193,15 +196,44 @@ public class IndexController extends BaseController {
         roleService.save(employeeRole);
     }
 
-    public void setupUser() {
+    private void setupUser() {
         User user = new User();
         user.setId(9L);
         user.setPhone("13956460801");
         user.setName("taoyu");
+        user.setType(AssessmentTemplate.Type.MANAGER_TEMPLATE);
         List<Role> roles = new ArrayList<>();
-        roles.add(roleService.findByName("admin"));
+        roles.add(roleService.findByName("admin"));// 管理员
+        roles.add(roleService.findByName("direct_manager"));// 直接经理
+        roles.add(roleService.findByName("indirect_manager"));// 间接经理
         user.setRoles(roles);
         userService.save(user);
+
+        User sunlong = new User();
+        sunlong.setId(7L);
+        sunlong.setPhone("15705547511");
+        sunlong.setName("孙龙");
+        sunlong.setDirectManager(user);
+        sunlong.setType(AssessmentTemplate.Type.MANAGER_TEMPLATE);
+        sunlong.setEntryDate(TimeUtil.getCurrentQuarterStartTime());
+        List<Role> sunlong_as_roles = new ArrayList<>();
+        sunlong_as_roles.add(roleService.findByName("employee"));// 员工
+        sunlong_as_roles.add(roleService.findByName("direct_manager"));// 直接经理
+        sunlong.setRoles(sunlong_as_roles);
+        userService.save(sunlong);
+
+        User lili = new User();
+        lili.setId(11L);
+        lili.setPhone("13956460800");
+        lili.setName("莉莉");
+        lili.setDirectManager(sunlong);
+        lili.setType(AssessmentTemplate.Type.STAFF_TEMPLATE);
+        lili.setIndirectManager(user);
+        lili.setEntryDate(TimeUtil.getCurrentQuarterStartTime());
+        List<Role> lili_as_roles = new ArrayList<>();
+        lili_as_roles.add(roleService.findByName("employee"));// 员工
+        lili.setRoles(lili_as_roles);
+        userService.save(lili);
     }
 
     @GetMapping("setup")
@@ -215,40 +247,6 @@ public class IndexController extends BaseController {
         setUpAssessmentInputs();// 初始化模板 Inputs
         setUpAssessmentProjects();// 初始化模板 Projects
         return "ok";
-    }
-
-
-    private BasePermission[] basePermissions = {
-            new BasePermission("view", "查看"),
-            new BasePermission("add", "添加"),
-            new BasePermission("edit", "编辑"),
-            new BasePermission("delete", "删除"),
-    };
-
-    private class BasePermission {
-        private String actionName;
-        private String displayName;
-
-        public BasePermission(String actionName, String displayName) {
-            this.actionName = actionName;
-            this.displayName = displayName;
-        }
-
-        public String getActionName() {
-            return actionName;
-        }
-
-        public void setActionName(String actionName) {
-            this.actionName = actionName;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
-
-        public void setDisplayName(String displayName) {
-            this.displayName = displayName;
-        }
     }
 
     private void setUpQuarter() {
@@ -378,5 +376,31 @@ public class IndexController extends BaseController {
         assessmentProjectItemRepository.save(assessmentProjectItem_42);
         AssessmentProjectItem assessmentProjectItem_43 = new AssessmentProjectItem(4, "C. 一般能遵守公司及驻场的规章制度，有一定的自我约束能力。", assessmentProject_4);
         assessmentProjectItemRepository.save(assessmentProjectItem_43);
+    }
+
+    private class BasePermission {
+        private String actionName;
+        private String displayName;
+
+        public BasePermission(String actionName, String displayName) {
+            this.actionName = actionName;
+            this.displayName = displayName;
+        }
+
+        public String getActionName() {
+            return actionName;
+        }
+
+        public void setActionName(String actionName) {
+            this.actionName = actionName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        public void setDisplayName(String displayName) {
+            this.displayName = displayName;
+        }
     }
 }

@@ -3,12 +3,12 @@ package com.zmdev.goldenbag.service.impl;
 import com.zmdev.goldenbag.domain.*;
 import com.zmdev.goldenbag.exception.*;
 import com.zmdev.goldenbag.service.*;
+import com.zmdev.goldenbag.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -26,6 +26,8 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
     private AssessmentInputService assessmentInputService;
     @Autowired
     private QuarterService quarterService;
+    @Autowired
+    private AssessmentTemplateService assessmentTemplateService;
 
     /**
      * 用户填写并提交考核申请
@@ -50,7 +52,12 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         if (isSubmited) {
             throw new AlreadySubmitedException("当前季度已经提交过考核申请了");
         }
-
+        // 获取当前用户使用的模板
+        AssessmentTemplate assessmentTemplate = assessmentTemplateService.findByTypeAndQuarter(creator.getType(), currentQuarter);
+        if (assessmentTemplate.getId() == null) {
+            throw new ModelNotFoundException("模板不存在");
+        }
+        assessment.setAssessmentTemplate(assessmentTemplate);
         assessment.setUser(creator);
         // 直接经理评价字段默认设置为空
         assessment.setIndirectManagerAuditComments(null);
@@ -59,6 +66,10 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         // 考核记录状态设置为已提交
         assessment.setStatus(Assessment.Status.SUBMITTED);
         // 职级系数直接从用户表拿到
+        Double rank = creator.getRankCoefficient();
+        if (rank == null) {
+            throw new ModelNotFoundException("职级系数为空");
+        }
         assessment.setRankCoefficient(creator.getRankCoefficient());
         // 设置时间系数
         assessment.setTimeCoefficient(this.calcTimeCoefficient(creator));
@@ -212,7 +223,6 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         savedAssessment.setIndirectManagerAuditComments(assessment.getIndirectManagerAuditComments());
         // 这里直接可以设置状态为已完成
         // savedAssessment.setStatus(Assessment.Status.INDIRECT_MANAGER_RECHECK);
-
         savedAssessment.setQuarterlyBonus(this.calcQuarterlyBonus(savedAssessment));
         savedAssessment.setStatus(Assessment.Status.FINISHED);
 
@@ -248,8 +258,8 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
             throw new ModelNotFoundException("没有设置当前季度");
         }
         Date workAt = creator.getEntryDate();
-        Date currentQuarterEndTime = getCurrentQuarterEndTime();
-        int countDays = getDays();
+        Date currentQuarterEndTime = TimeUtil.getCurrentQuarterEndTime();
+        int countDays = TimeUtil.getCurrentQuarterDays();
         /* 先转成毫秒并求差 */
         long differDays = Math.abs(workAt.getTime() - currentQuarterEndTime.getTime()) / (1000 * 60 * 60 * 24);
         double timeCoefficient = (double) (differDays / countDays);
@@ -261,63 +271,6 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         System.out.println("当前季度总天数:" + countDays);
 
         return timeCoefficient;
-    }
-
-    /**
-     * 当前季度的结束时间，如: 2012-03-31 23:59:59
-     *
-     * @return Date
-     */
-    private Date getCurrentQuarterEndTime() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat longSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat shortSdf = new SimpleDateFormat("yyyy-MM-dd");
-        int currentMonth = c.get(Calendar.MONTH) + 1;
-        Date now = null;
-        try {
-            if (currentMonth >= 1 && currentMonth <= 3) {
-                c.set(Calendar.MONTH, 2);
-                c.set(Calendar.DATE, 31);
-            } else if (currentMonth >= 4 && currentMonth <= 6) {
-                c.set(Calendar.MONTH, 5);
-                c.set(Calendar.DATE, 30);
-            } else if (currentMonth >= 7 && currentMonth <= 9) {
-                c.set(Calendar.MONTH, 8);
-                c.set(Calendar.DATE, 30);
-            } else if (currentMonth >= 10 && currentMonth <= 12) {
-                c.set(Calendar.MONTH, 11);
-                c.set(Calendar.DATE, 31);
-            }
-            now = longSdf.parse(shortSdf.format(c.getTime()) + " 23:59:59");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return now;
-    }
-
-    /**
-     * 获取当前季度的总天数
-     *
-     * @return int
-     */
-    private int getDays() {
-        int count = 0;
-        Calendar c = Calendar.getInstance();
-        int currentMonth = c.get(Calendar.MONTH) + 1;
-        int currentYear = c.get(Calendar.YEAR);
-        if (currentMonth >= 1 && currentMonth <= 3) {
-            count = 90;
-            if (currentYear % 4 == 0 && currentYear % 100 != 0 || currentYear % 400 == 0) {
-                count++;
-            }
-        } else if (currentMonth >= 4 && currentMonth <= 6) {
-            count = 91;
-        } else if (currentMonth >= 7 && currentMonth <= 9) {
-            count = 92;
-        } else if (currentMonth >= 10 && currentMonth <= 12) {
-            count = 92;
-        }
-        return count;
     }
 
     public List<Assessment> findByUserIn(Collection<User> users) {

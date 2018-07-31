@@ -1,5 +1,8 @@
 package com.zmdev.goldenbag.web.result;
 
+
+import java.util.Map;
+
 /**
  * 响应结果生成工具
  */
@@ -12,8 +15,14 @@ public class ResultGenerator {
                 .setMessage(DEFAULT_SUCCESS_MESSAGE);
     }
 
-    public static <T> Result genSuccessResult(T data) {
-        return new ResultData<T>(data)
+    public static <T> ResultData genSuccessResult(T data) {
+        return (ResultData) new ResultData<T>(data)
+                .setCode(ResultCode.SUCCESS)
+                .setMessage(DEFAULT_SUCCESS_MESSAGE);
+    }
+
+    public static <T> ResultData genSuccessResult(T data, Map<String, Object> meta) {
+        return (ResultData) new ResultData<T>(data, meta)
                 .setCode(ResultCode.SUCCESS)
                 .setMessage(DEFAULT_SUCCESS_MESSAGE);
     }

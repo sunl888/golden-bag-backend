@@ -18,6 +18,7 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class User {
+
     @Id
     // user表不需要自增长，从单点登录那边拿到id
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +57,8 @@ public class User {
     @PrimaryKeyJoinColumn(name = "department_id")
     private Department department;
 
+    // 这个字段是用来关联模板的
+    private AssessmentTemplate.Type type;
 
     @Transient
     private String password;
@@ -186,6 +189,14 @@ public class User {
 
     public void setDepartmentIds(List<Long> departmentIds) {
         this.departmentIds = departmentIds;
+    }
+
+    public AssessmentTemplate.Type getType() {
+        return type;
+    }
+
+    public void setType(AssessmentTemplate.Type type) {
+        this.type = type;
     }
 
     public enum Gender {

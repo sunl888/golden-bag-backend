@@ -1,8 +1,11 @@
 package com.zmdev.goldenbag.web;
 
 import com.zmdev.goldenbag.domain.Assessment;
+import com.zmdev.goldenbag.domain.Quarter;
 import com.zmdev.goldenbag.domain.User;
+import com.zmdev.goldenbag.exception.ModelNotFoundException;
 import com.zmdev.goldenbag.service.AssessmentService;
+import com.zmdev.goldenbag.service.QuarterService;
 import com.zmdev.goldenbag.service.UserService;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
@@ -24,6 +27,8 @@ import java.util.Map;
 public class MeController extends BaseController {
 
     private AssessmentService assessmentService;
+    @Autowired
+    private QuarterService quarterService;
 
     private UserService userService;
 
@@ -81,13 +86,21 @@ public class MeController extends BaseController {
     /**
      * 获取当前登陆的用户
      *
-     * @return
+     * @return Result
      */
     @GetMapping
     public Result me() {
         User user = auth.getUser();
-        user.setPassword(null);
-        return ResultGenerator.genSuccessResult(user);
-    }
 
+        // 获取当前季度
+        Quarter currentQuarter = quarterService.findCurrentQuarter();
+        if (currentQuarter.getId() == null) {
+            throw new ModelNotFoundException("没有设置当前季度");
+        }
+        // 用户当前季度提交状态
+        boolean isSubmited = assessmentService.isSubmitedWithCurrentQuarter(user, currentQuarter);
+
+        return ResultGenerator.genSuccessResult(user)
+                .addMeta("is_submited", isSubmited);
+    }
 }

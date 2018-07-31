@@ -6,7 +6,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 考核模板
@@ -14,29 +16,30 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class AssessmentTemplate {
+    public static Map<Type, String> typeMap = new HashMap<>();
+
+    static {
+
+        typeMap.put(Type.MANAGER_TEMPLATE, "经理模板");
+        typeMap.put(Type.STAFF_TEMPLATE, "员工模板");
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     @Enumerated
     private Type type;
-
     @ManyToOne
 //    @JsonManagedReference 这里在反序列化时会被自动注入（血坑）
     @PrimaryKeyJoinColumn(name = "quarter_id")
     private Quarter quarter;
-
     @OneToMany(mappedBy = "assessmentTemplate")
     private List<AssessmentProject> assessmentProjects;
-
     @OneToMany(mappedBy = "assessmentTemplate")
     private List<AssessmentInput> assessmentInputs;
-
     @CreatedDate
     private Date createdAt;
-
     @LastModifiedDate
     private Date updatedAt;
 
@@ -108,5 +111,4 @@ public class AssessmentTemplate {
         STAFF_TEMPLATE, // 員工模板
         MANAGER_TEMPLATE // 經理模板
     }
-
 }
