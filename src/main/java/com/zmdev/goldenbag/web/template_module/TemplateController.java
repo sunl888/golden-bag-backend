@@ -22,22 +22,19 @@ import java.io.IOException;
 @RequestMapping(value = "/templates", produces = "application/json;charset=UTF-8")
 public class TemplateController extends BaseController {
 
-    public TemplateController() {
+    private AssessmentTemplateService assessmentTemplateService;
+    private TemplateXls templateXls;
+
+    public TemplateController(@Autowired AssessmentTemplateService assessmentTemplateService, @Autowired TemplateXls templateXls) {
+        this.assessmentTemplateService = assessmentTemplateService;
+        this.templateXls = templateXls;
+
         PermissionInterceptor.addSpecialAbilitie(getClass(), "storeProject", "edit");
         PermissionInterceptor.addSpecialAbilitie(getClass(), "updateProject", "edit");
         PermissionInterceptor.addSpecialAbilitie(getClass(), "storeProjectItem", "edit");
         PermissionInterceptor.addSpecialAbilitie(getClass(), "updateProjectItem", "edit");
         PermissionInterceptor.addSpecialAbilitie(getClass(), "storeTemplateInput", "edit");
         PermissionInterceptor.addSpecialAbilitie(getClass(), "updateTemplateInput", "edit");
-    }
-
-    private AssessmentTemplateService assessmentTemplateService;
-    private TemplateXls templateXls;
-
-    public TemplateController(@Autowired AssessmentTemplateService assessmentTemplateService, @Autowired TemplateXls templateXls) {
-        this();
-        this.assessmentTemplateService = assessmentTemplateService;
-        this.templateXls = templateXls;
     }
 
     @GetMapping
