@@ -22,6 +22,15 @@ public class AssessmentProjectItem {
     @PrimaryKeyJoinColumn(name = "assessment_project_id")
     private AssessmentProject assessmentProject;
 
+    public AssessmentProjectItem(int score, String title, AssessmentProject assessmentProject) {
+        this.score = score;
+        this.title = title;
+        this.assessmentProject = assessmentProject;
+    }
+
+    public AssessmentProjectItem() {
+    }
+
     public Long getId() {
         return id;
     }

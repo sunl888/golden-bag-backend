@@ -10,4 +10,8 @@ public interface AssessmentTemplateRepository extends JpaRepository<AssessmentTe
 
     @Query("select a from AssessmentTemplate a order by createdAt desc")
     AssessmentTemplate getLast();
+
+    AssessmentTemplate findByTypeAndQuarter(AssessmentTemplate.Type type, Quarter quarter);
+
+    List<AssessmentTemplate> findByQuarter(Quarter quarter);
 }

@@ -41,5 +41,4 @@ public class QuarterController extends BaseController {
         quarterService.save(quarter);
         return ResultGenerator.genSuccessResult(quarter);
     }
-
 }

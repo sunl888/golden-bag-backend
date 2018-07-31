@@ -21,13 +21,13 @@ public class RoleController {
 
     private RoleService roleService;
 
+    public RoleController() {
+        PermissionInterceptor.addSpecialAbilitie(getClass(), "permission", "view");
+    }
+
     @Autowired
     public void setRoleService(RoleService roleService) {
         this.roleService = roleService;
-    }
-
-    public RoleController() {
-        PermissionInterceptor.addSpecialAbilitie(getClass(), "permission", "view");
     }
 
     @GetMapping

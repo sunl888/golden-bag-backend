@@ -17,7 +17,7 @@ public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
      * 这个恶心的Sql是用来查询指定用户s的考核记录的
      */
     String sql = "select a.id as id, a.status as status, a.createdAt as created_at, a.timeCoefficient as time_coefficient, a.totalSelfScore as total_self_score," +
-            "a.user.name as uname, a.user.id as uid, a.user.gender as gender";
+            "a.user.name as uname, a.user.id as uid, a.user.gender as gender, a.user.entryDate as entry_date, a.quarter as quarter";
 
     @Query("select count(a.id) from Assessment a where a.user=:user and a.quarter = :quarter")
     int isSubmitedWithCurrentQuarter(@Param("user") User user, @Param("quarter") Quarter quarter);
@@ -33,5 +33,4 @@ public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
 
     @Query(sql + " from Assessment as a where a.user in :users and a.status=:status")
     Page<Map<String, Object>> selectByUserInAndStatusIs(@Param("users") Collection<User> users, @Param("status") Assessment.Status status, Pageable pageable);
-
 }

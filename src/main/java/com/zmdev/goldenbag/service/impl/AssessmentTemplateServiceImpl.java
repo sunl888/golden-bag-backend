@@ -14,11 +14,17 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
     private AssessmentProjectRepository assessmentProjectRepository;
     private AssessmentProjectItemRepository assessmentProjectItemRepository;
     private AssessmentInputRepository assessmentInputRepository;
+    private AssessmentTemplateRepository assessmentTemplateRepository;
 
     public AssessmentTemplateServiceImpl(@Autowired AssessmentProjectRepository assessmentProjectRepository, @Autowired AssessmentProjectItemRepository assessmentProjectItemRepository, @Autowired AssessmentInputRepository assessmentInputRepository) {
         this.assessmentProjectRepository = assessmentProjectRepository;
         this.assessmentProjectItemRepository = assessmentProjectItemRepository;
         this.assessmentInputRepository = assessmentInputRepository;
+    }
+
+    @Autowired
+    public void setAssessmentTemplateRepository(AssessmentTemplateRepository assessmentTemplateRepository) {
+        this.assessmentTemplateRepository = assessmentTemplateRepository;
     }
 
     @Override
@@ -96,6 +102,22 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
         return assessmentProjectRepository.save(project);
     }
 
+    public void deleteProject(Long projectId) {
+        Optional<AssessmentProject> assessmentProject = assessmentProjectRepository.findById(projectId);
+        assessmentProjectItemRepository.deleteByAssessmentProject(assessmentProject.orElseThrow(
+                () -> new ModelNotFoundException("不存在该项目")
+        ));
+        assessmentProjectRepository.deleteById(projectId);
+    }
+
+    public void deleteProjectItem(Long projectItemId) {
+        assessmentProjectItemRepository.deleteById(projectItemId);
+    }
+
+    public void deleteTemplateInput(Long templateInputId) {
+        assessmentInputRepository.deleteById(templateInputId);
+    }
+
     public AssessmentProjectItem saveProjectItem(Long projectId, AssessmentProjectItem projectItem) {
         AssessmentProject project = assessmentProjectRepository.findById(projectId).orElse(null);
 
@@ -145,4 +167,11 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
         return assessmentInputRepository.save(assessmentInput);
     }
 
+    public AssessmentTemplate findByTypeAndQuarter(AssessmentTemplate.Type type, Quarter quarter) {
+        return assessmentTemplateRepository.findByTypeAndQuarter(type, quarter);
+    }
+
+    public List<AssessmentTemplate> findByQuarter(Quarter quarter) {
+        return assessmentTemplateRepository.findByQuarter(quarter);
+    }
 }
