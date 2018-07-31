@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -197,6 +199,7 @@ public class IndexController extends BaseController {
         user.setId(9L);
         user.setPhone("13956460801");
         user.setName("taoyu");
+        user.setRankCoefficient(1.4);
         user.setType(AssessmentTemplate.Type.MANAGER_TEMPLATE);
         List<Role> roles = new ArrayList<>();
         roles.add(roleService.findByName("管理员"));
@@ -208,6 +211,7 @@ public class IndexController extends BaseController {
         sunlong.setPhone("15705547511");
         sunlong.setName("孙龙");
         sunlong.setDirectManager(user);
+        sunlong.setRankCoefficient(1.0);
         sunlong.setType(AssessmentTemplate.Type.MANAGER_TEMPLATE);
         sunlong.setEntryDate(TimeUtil.getCurrentQuarterStartTime());
         List<Role> sunlong_as_roles = new ArrayList<>();
@@ -223,6 +227,7 @@ public class IndexController extends BaseController {
         lili.setDirectManager(sunlong);
         lili.setType(AssessmentTemplate.Type.STAFF_TEMPLATE);
         lili.setIndirectManager(user);
+        lili.setRankCoefficient(0.8);
         lili.setEntryDate(TimeUtil.getCurrentQuarterStartTime());
         List<Role> lili_as_roles = new ArrayList<>();
         lili_as_roles.add(roleService.findByName("员工"));// 员工
@@ -248,8 +253,14 @@ public class IndexController extends BaseController {
         quarter.setName("2018第1季度");
         quarter.setCurrentQuarter(true);
         quarter.setPrice(49.5);
-        quarter.setStartDate(TimeUtil.getCurrentQuarterStartTime());
-        quarter.setStartAssessmentDate(TimeUtil.getCurrentQuarterEndTime());
+        // 考核开始时间暂时固定
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            quarter.setStartDate(simpleDateFormat.parse("2018-06-01 00:00:01"));
+            quarter.setStartAssessmentDate(simpleDateFormat.parse("2018-07-31 00:00:01"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         quarterService.save(quarter);
     }
 
@@ -267,7 +278,6 @@ public class IndexController extends BaseController {
     }
 
     private void setUpTemplate() {
-        List<AssessmentTemplate> assessmentTemplates = null;
         Quarter currentQuarter = quarterService.findCurrentQuarter();
 
         AssessmentTemplate staff_template = new AssessmentTemplate();
