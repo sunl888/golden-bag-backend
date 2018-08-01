@@ -4,18 +4,14 @@ import com.zmdev.goldenbag.domain.*;
 import com.zmdev.goldenbag.exception.ModelNotFoundException;
 import com.zmdev.goldenbag.service.AssessmentTemplateService;
 import com.zmdev.goldenbag.service.QuarterService;
-import com.zmdev.goldenbag.utils.TemplateXls;
 import com.zmdev.goldenbag.web.Auth;
 import com.zmdev.goldenbag.web.BaseController;
 import com.zmdev.goldenbag.web.insterceptor.PermissionInterceptor;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +20,11 @@ import java.util.List;
 public class TemplateController extends BaseController {
 
     private AssessmentTemplateService assessmentTemplateService;
-    private TemplateXls templateXls;
     private Auth auth;
     private QuarterService quarterService;
 
-    public TemplateController(@Autowired AssessmentTemplateService assessmentTemplateService, @Autowired TemplateXls templateXls) {
+    public TemplateController(@Autowired AssessmentTemplateService assessmentTemplateService) {
         this.assessmentTemplateService = assessmentTemplateService;
-        this.templateXls = templateXls;
 
         PermissionInterceptor.addSpecialAbilitie(getClass(), "storeProject", "edit");
         PermissionInterceptor.addSpecialAbilitie(getClass(), "updateProject", "edit");
@@ -66,12 +60,6 @@ public class TemplateController extends BaseController {
     @GetMapping("/{templateId}")
     public Result show(@PathVariable Long templateId) {
         return ResultGenerator.genSuccessResult(assessmentTemplateService.findById(templateId));
-    }
-
-    @PostMapping
-    public Result store(@RequestBody AssessmentTemplate template) {
-        template.setId(null);
-        return ResultGenerator.genSuccessResult(assessmentTemplateService.save(template));
     }
 
     @RequestMapping(value = "/{templateId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
@@ -129,19 +117,6 @@ public class TemplateController extends BaseController {
     @RequestMapping(value = "/template_input/{templateInputId}", method = {RequestMethod.DELETE})
     public Result deleteTemplateInput(@PathVariable Long templateInputId) {
         assessmentTemplateService.deleteTemplateInput(templateInputId);
-        return ResultGenerator.genSuccessResult();
-    }
-
-    @GetMapping("{templateId}/export")
-    public Result export(@PathVariable Long templateId) throws IOException {
-        AssessmentTemplate template = assessmentTemplateService.findById(templateId).orElse(null);
-        if (template == null) {
-            throw new ModelNotFoundException("模版不存在");
-        }
-        Workbook workbook = templateXls.createTemplate(template);
-        FileOutputStream fileOut = new FileOutputStream("workbook.xls");
-        workbook.write(fileOut);
-        fileOut.close();
         return ResultGenerator.genSuccessResult();
     }
 

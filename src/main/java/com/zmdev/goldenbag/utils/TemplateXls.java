@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * @deprecated BUG 不建议使用
+ */
 @Component
 public class TemplateXls {
     @Autowired

@@ -3,9 +3,11 @@ package com.zmdev.goldenbag.service.impl;
 import com.zmdev.goldenbag.domain.*;
 import com.zmdev.goldenbag.exception.ModelNotFoundException;
 import com.zmdev.goldenbag.service.AssessmentTemplateService;
+import com.zmdev.goldenbag.service.QuarterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -15,6 +17,8 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
     private AssessmentProjectItemRepository assessmentProjectItemRepository;
     private AssessmentInputRepository assessmentInputRepository;
     private AssessmentTemplateRepository assessmentTemplateRepository;
+    @Autowired
+    private QuarterService quarterService;
 
     public AssessmentTemplateServiceImpl(@Autowired AssessmentProjectRepository assessmentProjectRepository, @Autowired AssessmentProjectItemRepository assessmentProjectItemRepository, @Autowired AssessmentInputRepository assessmentInputRepository) {
         this.assessmentProjectRepository = assessmentProjectRepository;
@@ -52,6 +56,13 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
     @Override
     public AssessmentTemplate updateTemplate(Long id, AssessmentTemplate template) {
         template.setId(id);
+        AssessmentTemplate assessmentTemplate = assessmentTemplateRepository.findById(id).orElseThrow(
+                () -> new ModelNotFoundException("该模板不存在")
+        );
+        quarterService.findById(template.getQuarter().getId()).orElseThrow(
+                () -> new ModelNotFoundException("季度不存在")
+        );
+        template.setCreatedAt(assessmentTemplate.getCreatedAt());
         return repository.save(template);
     }
 
@@ -82,14 +93,20 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
     }
 
     public AssessmentProject saveProject(Long templateId, AssessmentProject project) {
-        AssessmentTemplate template = repository.findById(templateId).orElse(null);
-        if (template == null) {
-            throw new ModelNotFoundException("模版不存在");
-        }
+        AssessmentTemplate template = repository.findById(templateId).orElseThrow(
+                () -> new ModelNotFoundException("模版不存在")
+        );
         project.setAssessmentTemplate(template);
-        return assessmentProjectRepository.save(project);
+        assessmentProjectRepository.save(project);
+
+        for (AssessmentProjectItem assessmentProjectItem : project.getItems()) {
+            assessmentProjectItem.setAssessmentProject(project);
+            assessmentProjectItemRepository.save(assessmentProjectItem);
+        }
+        return project;
     }
 
+    @Transactional
     public AssessmentProject updateProject(Long projectId, AssessmentProject project) {
         project.setId(projectId);
         AssessmentProject oldAssessmentProject = assessmentProjectRepository.findById(projectId).orElse(null);
@@ -97,9 +114,14 @@ public class AssessmentTemplateServiceImpl extends BaseServiceImpl<AssessmentTem
         // 将原本的父级设置上去
         if (oldAssessmentProject != null) {
             project.setAssessmentTemplate(oldAssessmentProject.getAssessmentTemplate());
+            assessmentProjectItemRepository.deleteByAssessmentProject(oldAssessmentProject);
         }
-
-        return assessmentProjectRepository.save(project);
+        assessmentProjectRepository.save(project);
+        for (AssessmentProjectItem assessmentProjectItem : project.getItems()) {
+            assessmentProjectItem.setAssessmentProject(project);
+            assessmentProjectItemRepository.save(assessmentProjectItem);
+        }
+        return project;
     }
 
     public void deleteProject(Long projectId) {

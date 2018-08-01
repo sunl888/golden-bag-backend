@@ -19,7 +19,6 @@ public class AssessmentTemplate {
     public static Map<Type, String> typeMap = new HashMap<>();
 
     static {
-
         typeMap.put(Type.MANAGER_TEMPLATE, "经理模板");
         typeMap.put(Type.STAFF_TEMPLATE, "员工模板");
     }
