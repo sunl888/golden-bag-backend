@@ -74,10 +74,10 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         // 设置时间系数
         assessment.setTimeCoefficient(this.calcTimeCoefficient(creator));
         assessment.setQuarter(currentQuarter);
-        assessment.setQuarterlyBonus(0.0);
+        assessment.setQuarterlyBonus(null);
         Long templateId = assessment.getAssessmentTemplate().getId();
-        assessment.setTotalManagerScore(0);
-        assessment.setTotalSelfScore(0);
+        assessment.setTotalManagerScore(null);
+        assessment.setTotalSelfScore(null);
         assessmentService.save(assessment);
         int selfTotalScore = 0;
         // save project
@@ -92,7 +92,7 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
             }
             // 设置自己总评分
             selfTotalScore += assessmentProjectScore.getSelfScore();
-            assessmentProjectScore.setManagerScore(0);
+            assessmentProjectScore.setManagerScore(null);
             assessmentProjectScore.setRemarks(null);
             assessmentProjectScore.setAssessment(assessment);
             assessmentProjectScoreService.save(assessmentProjectScore);
@@ -258,7 +258,7 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
     private double calcTimeCoefficient(User creator) {
         // 获取当前季度
         Quarter currentQuarter = quarterService.findCurrentQuarter();
-        if (currentQuarter.getId() == null) {
+        if (currentQuarter == null) {
             throw new ModelNotFoundException("没有设置当前季度");
         }
         Date workAt = creator.getEntryDate();
@@ -285,6 +285,10 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         return repository.findByQuarter(quarter);
     }
 
+    public Page<Assessment> findByQuarter(Quarter quarter, Pageable pageable) {
+        return repository.findByQuarter(quarter, pageable);
+    }
+
     public List<Assessment> findByUser(User user) {
         return repository.findByUser(user);
     }
@@ -298,6 +302,6 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
     }
 
     public List<Assessment> findByIds(Long[] ids) {
-        return repository.findByIds(ids);
+        return repository.findByIdWhereIn(ids);
     }
 }

@@ -43,22 +43,27 @@ public class Assessment {
     private String directManagerEvaluation;
 
     // 职级系数
+    @Column(nullable = true)
     private Double rankCoefficient;
 
     // 时间系数
+    @Column(nullable = true)
     private Double timeCoefficient;
 
     // 自评得分总和
-    private int totalSelfScore;
+    @Column(nullable = true)
+    private Integer totalSelfScore;
 
     // 经理评分总和
-    private int totalManagerScore;
+    @Column(nullable = true)
+    private Integer totalManagerScore;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
     // 季度奖金
-    private double quarterlyBonus;
+    @Column(nullable = true)
+    private Double quarterlyBonus;
 
     @LastModifiedDate
     private Date updatedAt;
@@ -162,11 +167,11 @@ public class Assessment {
         this.quarter = quarter;
     }
 
-    public double getQuarterlyBonus() {
+    public Double getQuarterlyBonus() {
         return quarterlyBonus;
     }
 
-    public void setQuarterlyBonus(double quarterlyBonus) {
+    public void setQuarterlyBonus(Double quarterlyBonus) {
         this.quarterlyBonus = quarterlyBonus;
     }
 
@@ -178,19 +183,19 @@ public class Assessment {
         this.timeCoefficient = timeCoefficient;
     }
 
-    public int getTotalSelfScore() {
+    public Integer getTotalSelfScore() {
         return totalSelfScore;
     }
 
-    public void setTotalSelfScore(int totalSelfScore) {
+    public void setTotalSelfScore(Integer totalSelfScore) {
         this.totalSelfScore = totalSelfScore;
     }
 
-    public int getTotalManagerScore() {
+    public Integer getTotalManagerScore() {
         return totalManagerScore;
     }
 
-    public void setTotalManagerScore(int totalManagerScore) {
+    public void setTotalManagerScore(Integer totalManagerScore) {
         this.totalManagerScore = totalManagerScore;
     }
 

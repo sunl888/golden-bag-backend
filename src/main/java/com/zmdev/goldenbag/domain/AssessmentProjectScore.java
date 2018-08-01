@@ -24,9 +24,11 @@ public class AssessmentProjectScore {
     @PrimaryKeyJoinColumn(name = "assessment_project_id")
     private AssessmentProject assessmentProject;
 
-    private int selfScore;
+    @Column(nullable = true)
+    private Integer selfScore;
 
-    private int managerScore;
+    @Column(nullable = true)
+    private Integer managerScore;
 
     private String remarks;
 
@@ -47,19 +49,19 @@ public class AssessmentProjectScore {
         this.assessmentProject = assessmentProject;
     }
 
-    public int getSelfScore() {
+    public Integer getSelfScore() {
         return selfScore;
     }
 
-    public void setSelfScore(int selfScore) {
+    public void setSelfScore(Integer selfScore) {
         this.selfScore = selfScore;
     }
 
-    public int getManagerScore() {
+    public Integer getManagerScore() {
         return managerScore;
     }
 
-    public void setManagerScore(int managerScore) {
+    public void setManagerScore(Integer managerScore) {
         this.managerScore = managerScore;
     }
 

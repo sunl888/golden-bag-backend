@@ -28,6 +28,8 @@ public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
 
     List<Assessment> findByQuarter(Quarter quarter);
 
+    Page<Assessment> findByQuarter(Quarter quarter, Pageable pageable);
+
     @Query("select a from Assessment as a where a.user in :users and a.status='SUBMITTED'")
     List<Assessment> queryAllWithCurrentQuarterWaitAudit(Collection<User> users, Pageable pageable);
 
@@ -35,6 +37,6 @@ public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
     Page<Map<String, Object>> selectByUserInAndStatusIs(@Param("users") Collection<User> users, @Param("status") Assessment.Status status, Pageable pageable);
 
     @Query("select a from Assessment a where a.id in :Ids")
-    List<Assessment> findByIds(Long[] Ids);
+    List<Assessment> findByIdWhereIn(@Param("Ids") Long[] Ids);
 
 }
