@@ -120,6 +120,4 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
         user.setPassword("");
         return super.save(user);
     }
-
 }
-
