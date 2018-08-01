@@ -118,6 +118,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
             user.setId(userId);
         }
         user.setPassword("");
+        if (user.getDepartmentIds().size() > 0) {
+            Long departmentId = user.getDepartmentIds().get(user.getDepartmentIds().size() - 1);
+            user.setDepartment(departmentService.findById(departmentId).orElse(null));
+        }
         return super.save(user);
     }
 }

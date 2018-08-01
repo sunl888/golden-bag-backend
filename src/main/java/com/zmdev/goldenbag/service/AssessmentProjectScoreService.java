@@ -6,4 +6,5 @@ import com.zmdev.goldenbag.domain.AssessmentProjectScore;
 
 public interface AssessmentProjectScoreService extends BaseService<AssessmentProjectScore, Long> {
     AssessmentProjectScore findByAssessmentProjectAndAssessment(AssessmentProject assessmentProject, Assessment assessment);
+
 }

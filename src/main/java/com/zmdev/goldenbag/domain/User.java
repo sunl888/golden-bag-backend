@@ -42,7 +42,7 @@ public class User {
     private Double rankCoefficient;
 
     // 角色（岗位）
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private List<Role> roles;
 
     @OneToOne
@@ -202,6 +202,16 @@ public class User {
     public enum Gender {
         MAN,
         WOMAN
+    }
+
+    public Department getTopDepartment(Department department) {
+        if (department == null) {
+            return null;
+        }
+        if (department.getParent() == null) {
+            return department;
+        }
+        return getTopDepartment(department.getParent());
     }
 
     @Override
