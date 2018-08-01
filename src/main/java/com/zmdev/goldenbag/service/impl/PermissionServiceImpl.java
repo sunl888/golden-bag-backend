@@ -45,6 +45,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long, Per
     public List<Menu> convertToMenus(List<Permission> permissions) {
         List<Menu> menus = new ArrayList<>();
         for (Permission permission : permissions) {
+            if (!permission.getMenuable())
+                continue;
             String topModuleName = permission.getTopModuleName();
             // 直接new Menu比较的原因是 Menu类我已经复写了 equals() 和 hashCode() 方法
             Menu topMenu = new Menu();

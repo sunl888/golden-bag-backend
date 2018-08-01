@@ -1,5 +1,6 @@
 package com.zmdev.goldenbag.web;
 
+import com.zmdev.fatesdk.exception.AuthenticationException;
 import com.zmdev.goldenbag.exception.*;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultCode;
@@ -14,6 +15,20 @@ import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
+
+    @ExceptionHandler(value = AuthenticationException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Result AuthenticationExceptionHandler(HttpServletRequest req, Exception e) {
+        return ResultGenerator.genFailResult("请先登录!", ResultCode.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value = PermissionException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Result PermissionExceptionHandler(HttpServletRequest req, Exception e) {
+        return ResultGenerator.genFailResult("没有权限!", ResultCode.FAIL);
+    }
 
     @ExceptionHandler(value = ConstraintException.class)
     @ResponseBody
