@@ -1,6 +1,7 @@
 package com.zmdev.goldenbag.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Transient;
@@ -40,6 +41,10 @@ public class Permission implements Comparable<Permission> {
     @Column(nullable = false)
     private String displayName;
     private String description;
+
+    @Column(nullable = false)
+    @JsonIgnore
+    private Boolean menuable;
     // handlerMethod.getShortLogMessage();
     // @Column(nullable = false, unique = true)
     // private String shortLogMessage;
@@ -87,6 +92,14 @@ public class Permission implements Comparable<Permission> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getMenuable() {
+        return menuable;
+    }
+
+    public void setMenuable(Boolean menuable) {
+        this.menuable = menuable;
     }
 
     public Date getCreatedAt() {

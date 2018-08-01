@@ -31,10 +31,10 @@ public class IndexController extends BaseController {
     private AssessmentProjectService assessmentProjectService;
     private AssessmentProjectItemRepository assessmentProjectItemRepository;
     private BasePermission[] basePermissions = {
-            new BasePermission("view", "查看"),
-            new BasePermission("add", "添加"),
-            new BasePermission("edit", "编辑"),
-            new BasePermission("delete", "删除"),
+            new BasePermission("view", "查看", true),
+            new BasePermission("add", "添加", true),
+            new BasePermission("edit", "编辑", true),
+            new BasePermission("delete", "删除", true),
     };
 
     @Autowired
@@ -90,6 +90,7 @@ public class IndexController extends BaseController {
             p.setDescription(basePermission.getDisplayName() + Permission.getModules().get(moduleName).substring(0, 2));
             p.setCreatedAt(new Date());
             p.setUpdatedAt(new Date());
+            p.setMenuable(basePermission.getMenuable());
             permissionService.save(p);
         }
     }
@@ -109,11 +110,12 @@ public class IndexController extends BaseController {
         p.setDescription("查看指定角色的权限");
         p.setCreatedAt(new Date());
         p.setUpdatedAt(new Date());
+        p.setMenuable(true);
         permissionService.save(p);
 
         storePermission("basic", "quarter",
-                new BasePermission[]{new BasePermission("view", "查看"), new BasePermission("add", "添加")});
-        storePermission("basic", "permission", new BasePermission[]{new BasePermission("view", "查看")});
+                new BasePermission[]{new BasePermission("view", "查看", true), new BasePermission("add", "添加", true)});
+        storePermission("basic", "permission", new BasePermission[]{new BasePermission("view", "查看", false)});
 
         p = new Permission();
         p.setName("basic.permission.allMenus");
@@ -121,12 +123,13 @@ public class IndexController extends BaseController {
         p.setDescription("获取菜单");
         p.setCreatedAt(new Date());
         p.setUpdatedAt(new Date());
+        p.setMenuable(false);
         permissionService.save(p);
 
         storePermission("template_module", "template_module", new BasePermission[]{
-                new BasePermission("view", "查看"),
-                new BasePermission("add", "添加"),
-                new BasePermission("edit", "编辑"),
+                new BasePermission("view", "查看", true),
+                new BasePermission("add", "添加", true),
+                new BasePermission("edit", "编辑", true),
         });
 
         p = new Permission();
@@ -135,6 +138,7 @@ public class IndexController extends BaseController {
         p.setDescription("导出模板");
         p.setCreatedAt(new Date());
         p.setUpdatedAt(new Date());
+        p.setMenuable(true);
         permissionService.save(p);
 
         p = new Permission();
@@ -143,6 +147,7 @@ public class IndexController extends BaseController {
         p.setDescription("直接经理评分");
         p.setCreatedAt(new Date());
         p.setUpdatedAt(new Date());
+        p.setMenuable(true);
         permissionService.save(p);
 
         p = new Permission();
@@ -151,6 +156,7 @@ public class IndexController extends BaseController {
         p.setDescription("间接经理建议");
         p.setCreatedAt(new Date());
         p.setUpdatedAt(new Date());
+        p.setMenuable(true);
         permissionService.save(p);
 
         p = new Permission();
@@ -159,6 +165,7 @@ public class IndexController extends BaseController {
         p.setDescription("员工自评");
         p.setCreatedAt(new Date());
         p.setUpdatedAt(new Date());
+        p.setMenuable(true);
         permissionService.save(p);
     }
 
@@ -385,10 +392,12 @@ public class IndexController extends BaseController {
     private class BasePermission {
         private String actionName;
         private String displayName;
+        private Boolean menuable;
 
-        public BasePermission(String actionName, String displayName) {
+        public BasePermission(String actionName, String displayName, Boolean menuable) {
             this.actionName = actionName;
             this.displayName = displayName;
+            this.menuable = menuable;
         }
 
         public String getActionName() {
@@ -405,6 +414,14 @@ public class IndexController extends BaseController {
 
         public void setDisplayName(String displayName) {
             this.displayName = displayName;
+        }
+
+        public Boolean getMenuable() {
+            return menuable;
+        }
+
+        public void setMenuable(Boolean menuable) {
+            this.menuable = menuable;
         }
     }
 }
