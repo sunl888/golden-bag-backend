@@ -18,7 +18,7 @@ public class ExportAssessment {
     @Autowired
     private AssessmentProjectScoreService assessmentProjectScoreService;
 
-    public Workbook createTemplate(Assessment assessment, AssessmentTemplate template) {
+    public Workbook createTemplate(Assessment assessment) {
 
         Workbook workBook = new HSSFWorkbook();
         Sheet sheet = workBook.createSheet();

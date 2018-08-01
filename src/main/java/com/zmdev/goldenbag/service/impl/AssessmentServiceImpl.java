@@ -88,7 +88,7 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
             // 判断每个项目是否属于传进来的模板
             if (!id.equals(templateId)) {
                 // TODO log
-                continue;
+                throw new ModelNotFoundException("该项目不属于本模板");
             }
             // 设置自己总评分
             selfTotalScore += assessmentProjectScore.getSelfScore();
@@ -104,7 +104,7 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
             Long id = input.get().getAssessmentTemplate().getId();
             // 判断每个项目是否属于传进来的模板
             if (!id.equals(templateId)) {
-                continue;
+                throw new ModelNotFoundException("该项目不属于本模板");
             }
             assessmentInputContent.setAssessment(assessment);
             assessmentInputContentService.save(assessmentInputContent);
@@ -172,9 +172,13 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         // 设置直接经理评价
         savedAssessment.setDirectManagerEvaluation(assessment.getDirectManagerEvaluation());
         savedAssessment.setStatus(Assessment.Status.DIRECT_MANAGER_EVALUATED);// Status 设置为直接经理已经评价
+
         for (AssessmentProjectScore assessmentProjectScore : assessment.getAssessmentProjectScores()) {
             AssessmentProject assessmentProject = assessmentProjectScore.getAssessmentProject();
             AssessmentProjectScore aps = assessmentProjectScoreService.findByAssessmentProjectAndAssessment(assessmentProject, savedAssessment);
+            if (aps == null) {
+                throw new ModelNotFoundException("考核项目不存在");
+            }
             aps.setRemarks(assessmentProjectScore.getRemarks());
             aps.setManagerScore(assessmentProjectScore.getManagerScore());
             directManagerScore += assessmentProjectScore.getManagerScore();
@@ -277,6 +281,10 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         return repository.findByUserIn(users);
     }
 
+    public List<Assessment> findByQuarter(Quarter quarter) {
+        return repository.findByQuarter(quarter);
+    }
+
     public List<Assessment> findByUser(User user) {
         return repository.findByUser(user);
     }
@@ -285,11 +293,11 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         return repository.queryAllWithCurrentQuarterWaitAudit(users, pageable);
     }
 
-    /*public List<Assessment> findByUserInAndStatus(Collection<User> users, Assessment.Status status, Pageable pageable) {
-        return repository.findByUserInAndStatusIs(users, status, pageable);
-    }*/
-
     public Page<Map<String, Object>> findByUserInAndStatus(Collection<User> users, Assessment.Status status, Pageable pageable) {
         return repository.selectByUserInAndStatusIs(users, status, pageable);
+    }
+
+    public List<Assessment> findByIds(Long[] ids) {
+        return repository.findByIds(ids);
     }
 }

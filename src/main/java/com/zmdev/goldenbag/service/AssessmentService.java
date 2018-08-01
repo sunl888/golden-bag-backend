@@ -48,7 +48,10 @@ public interface AssessmentService extends BaseService<Assessment, Long> {
 
     List<Assessment> findByUserIn(Collection<User> users);
 
+    List<Assessment> findByQuarter(Quarter quarter);
+
     Page<Map<String, Object>> findByUserInAndStatus(Collection<User> users, Assessment.Status status, Pageable pageable);
 
+    List<Assessment> findByIds(Long[] ids);
 }
 

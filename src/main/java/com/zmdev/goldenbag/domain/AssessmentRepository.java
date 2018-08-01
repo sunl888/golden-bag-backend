@@ -26,11 +26,15 @@ public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
 
     List<Assessment> findByUser(User user);
 
-//    List<Assessment> findByUserInAndStatusIs(Collection<User> users, Assessment.Status status, Pageable pageable);
+    List<Assessment> findByQuarter(Quarter quarter);
 
     @Query("select a from Assessment as a where a.user in :users and a.status='SUBMITTED'")
     List<Assessment> queryAllWithCurrentQuarterWaitAudit(Collection<User> users, Pageable pageable);
 
     @Query(sql + " from Assessment as a where a.user in :users and a.status=:status")
     Page<Map<String, Object>> selectByUserInAndStatusIs(@Param("users") Collection<User> users, @Param("status") Assessment.Status status, Pageable pageable);
+
+    @Query("select a from Assessment a where a.id in :Ids")
+    List<Assessment> findByIds(Long[] Ids);
+
 }
