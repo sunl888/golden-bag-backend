@@ -94,7 +94,7 @@ public class MeController extends BaseController {
 
         // 获取当前季度
         Quarter currentQuarter = quarterService.findCurrentQuarter();
-        if (currentQuarter.getId() == null) {
+        if (currentQuarter == null) {
             throw new ModelNotFoundException("没有设置当前季度");
         }
         // 用户当前季度提交状态
