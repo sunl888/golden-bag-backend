@@ -124,6 +124,4 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
         }
         return super.save(user);
     }
-
 }
-

@@ -43,8 +43,11 @@ public class RoleController {
     public Result show(@PathVariable Long id) {
         Role role = roleService.findById(id).orElse(null);
         List<Long> l = new ArrayList<>();
-        for (Permission p : role.getPermissions()) {
-            l.add(p.getId());
+
+        if (role != null && role.getPermissions() != null) {
+            for (Permission p : role.getPermissions()) {
+                l.add(p.getId());
+            }
         }
         return ResultGenerator.genSuccessResult(role).addMeta("permissions", l);
     }

@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 
 @Controller
 @RequestMapping("auth")
@@ -24,6 +26,7 @@ public class AuthenticateController extends BaseController {
         this.fate = fate;
     }
 
+    @Autowired
     public void setAuth(Auth auth) {
         this.auth = auth;
     }
@@ -34,10 +37,16 @@ public class AuthenticateController extends BaseController {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(defaultValue = "/") String callback, HttpServletResponse response) {
+    public String login(@RequestParam(defaultValue = "") String callback, HttpServletRequest request, HttpServletResponse response) {
+        fate.saveLoginRes(request);
+
         if (auth.isLogged()) {
+            if ("".equals(callback)) {
+                callback = "/";
+            }
             return "redirect:" + callback;
         }
+
         try {
             fate.redirectToLoginWithCallback(callback, response);
         } catch (IOException e) {
@@ -47,7 +56,13 @@ public class AuthenticateController extends BaseController {
     }
 
     @GetMapping("/logout")
-    public String logout() {
-        return "redirect:" + fateConfiguration.getFateURL() + "/logout?app_id=" + fateConfiguration.getAppId();
+    public String logout(HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+
+        String redirect = "redirect:" + fateConfiguration.getFateURL() + "/logout?app_id=" + fateConfiguration.getAppId();
+        if (referer != null) {
+            redirect += "&callback=" + referer;
+        }
+        return redirect;
     }
 }
