@@ -113,7 +113,6 @@ public class ExportAssessment {
         sheet.addMergedRegion(new CellRangeAddress(row5.getRowNum(), row5.getRowNum(), 1, 5));
 
         List<AssessmentProject> projects = assessment.getAssessmentTemplate().getAssessmentProjects();
-        int projectItemSize = 0;
         int currentRow = 5;
         for (int i = 0; i < projects.size(); i++) {
             AssessmentProject project = projects.get(i);
@@ -140,7 +139,6 @@ public class ExportAssessment {
                 itemRow.createCell(1).setCellValue(item.getTitle());
                 itemRow.createCell(6).setCellValue(item.getScore());
                 sheet.addMergedRegion(new CellRangeAddress(itemRow.getRowNum(), itemRow.getRowNum(), 1, 5));
-                projectItemSize++;
             }
             projectRow.createCell(7).setCellValue(assessmentProjectScore.getSelfScore());
             projectRow.createCell(8).setCellValue(assessmentProjectScore.getManagerScore());
@@ -152,48 +150,44 @@ public class ExportAssessment {
         totalRow.createCell(7).setCellValue(assessment.getTotalSelfScore());
         totalRow.createCell(8).setCellValue(assessment.getTotalManagerScore());
         sheet.addMergedRegion(new CellRangeAddress(totalRow.getRowNum(), totalRow.getRowNum(), 0, 5));
-
         // 工作总结
         Row inputStartRow = sheet.createRow(totalRow.getRowNum() + 1);
         inputStartRow.createCell(0).setCellValue("工作总结、改进和工作目标计划");
         sheet.addMergedRegion(new CellRangeAddress(inputStartRow.getRowNum(), inputStartRow.getRowNum(), 0, 9));
 
         List<AssessmentInputContent> inputContents = assessment.getAssessmentInputContents();
-        /*for (int i = 0; i < inputContents.size(); i++) {
-            assessmentInputContents.get(i).get
-            AssessmentInput input = inputs.get(i);
-            Row row = sheet.createRow(inputStartRow.getRowNum() + 1 + (i * 2));
-            row.createCell(0).setCellValue(input.getTitle());
-            sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), 0, 9));
-            sheet.addMergedRegion(new CellRangeAddress(row.getRowNum() + 1, row.getRowNum() + 1, 0, 9));
-        }*/
+        for (int i = 0; i < inputContents.size(); i++) {
+            AssessmentInputContent inputContent = inputContents.get(i);
+            // input title
+            Row inputRow = sheet.createRow(inputStartRow.getRowNum() + 1 + (i * 2));
+            inputRow.createCell(0).setCellValue(inputContent.getAssessmentInput().getTitle());
+            sheet.addMergedRegion(new CellRangeAddress(inputRow.getRowNum(), inputRow.getRowNum(), 0, 9));
+            // input content
+            Row inputValue = sheet.createRow(inputRow.getRowNum() + 1);
+            inputValue.createCell(0).setCellValue(inputContent.getContent());
+            sheet.addMergedRegion(new CellRangeAddress(inputValue.getRowNum(), inputValue.getRowNum(), 0, 9));
+        }
 
         // 直接经理评价和改进建议
         Row directManagerEvaluateRow = sheet.createRow(inputStartRow.getRowNum() + inputContents.size() * 2 + 1);
         directManagerEvaluateRow.createCell(0).setCellValue("直接经理评价和改进建议：");
         sheet.addMergedRegion(new CellRangeAddress(directManagerEvaluateRow.getRowNum(), directManagerEvaluateRow.getRowNum(), 0, 9));
-        sheet.addMergedRegion(new CellRangeAddress(directManagerEvaluateRow.getRowNum() + 1, directManagerEvaluateRow.getRowNum() + 1, 0, 9));
         // 直接经理评价和改进建议 Value
         Row directValue = sheet.createRow(directManagerEvaluateRow.getRowNum() + 1);
         directValue.createCell(0).setCellValue(assessment.getDirectManagerEvaluation());
-        sheet.addMergedRegion(new CellRangeAddress(directValue.getRowNum() + 1, directValue.getRowNum() + 1, 0, 9));
-        System.out.println(directValue.getRowNum());
-        /*// 间接经理审核意见
+        sheet.addMergedRegion(new CellRangeAddress(directValue.getRowNum(), directValue.getRowNum(), 0, 9));
+        // 间接经理审核意见
         Row indirectManagerAuditCommentRow = sheet.createRow(directValue.getRowNum() + 1);
         indirectManagerAuditCommentRow.createCell(0).setCellValue("间接经理审核意见");
         sheet.addMergedRegion(new CellRangeAddress(indirectManagerAuditCommentRow.getRowNum(), indirectManagerAuditCommentRow.getRowNum(), 0, 2));
-        sheet.addMergedRegion(new CellRangeAddress(indirectManagerAuditCommentRow.getRowNum(), indirectManagerAuditCommentRow.getRowNum(), 3, 9));
         // 间接经理审核意见 Value
-        Row indirectValue = sheet.createRow(indirectManagerAuditCommentRow.getRowNum() + 1);
-        indirectValue.createCell(0).setCellValue(assessment.getIndirectManagerAuditComments());
-        sheet.addMergedRegion(new CellRangeAddress(indirectValue.getRowNum() + 1, indirectValue.getRowNum() + 1, 0, 9));
-*/
-       /* //签名
-        Row signRow = sheet.createRow(indirectValue.getRowNum() + 2);
+        indirectManagerAuditCommentRow.createCell(3).setCellValue(assessment.getIndirectManagerAuditComments());
+        sheet.addMergedRegion(new CellRangeAddress(indirectManagerAuditCommentRow.getRowNum(), indirectManagerAuditCommentRow.getRowNum(), 3, 9));
+        //签名
+        Row signRow = sheet.createRow(indirectManagerAuditCommentRow.getRowNum() + 1);
         signRow.createCell(0).setCellValue("返回个人确认签名");
         sheet.addMergedRegion(new CellRangeAddress(signRow.getRowNum(), signRow.getRowNum(), 0, 2));
         sheet.addMergedRegion(new CellRangeAddress(signRow.getRowNum(), signRow.getRowNum(), 3, 9));
-*/
         return workBook;
     }
 }
