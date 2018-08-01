@@ -66,7 +66,7 @@ public class MeController extends BaseController {
      *
      * @param page
      * @param size
-     * @return
+     * @return Result
      */
     @GetMapping("comment_list")
     public Result commentList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {

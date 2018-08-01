@@ -23,8 +23,6 @@ public class TemplateXlsTest {
     @Autowired
     private AssessmentTemplateService assessmentTemplateService;
 
-
-
     @Test
     public void testCreateTemplate() throws IOException {
         AssessmentTemplate template = assessmentTemplateService.findById(1L).orElse(null);
