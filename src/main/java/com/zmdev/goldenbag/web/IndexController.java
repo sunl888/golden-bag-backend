@@ -114,26 +114,26 @@ public class IndexController extends BaseController {
         permissionService.save(p);
 
         storePermission("basic", "quarter",
-                new BasePermission[]{new BasePermission("view", "查看", true), new BasePermission("add", "添加", true)});
+                new BasePermission[]{new BasePermission("view", "查看", true), new BasePermission("add", "添加", true), new BasePermission("edit", "编辑", true)});
         storePermission("basic", "permission", new BasePermission[]{new BasePermission("view", "查看", false)});
 
-        p = new Permission();
-        p.setName("basic.permission.allMenus");
-        p.setDisplayName("获取菜单");
-        p.setDescription("获取菜单");
-        p.setCreatedAt(new Date());
-        p.setUpdatedAt(new Date());
-        p.setMenuable(false);
-        permissionService.save(p);
+//        p = new Permission();
+//        p.setName("basic.permission.allMenus");
+//        p.setDisplayName("获取菜单");
+//        p.setDescription("获取菜单");
+//        p.setCreatedAt(new Date());
+//        p.setUpdatedAt(new Date());
+//        p.setMenuable(false);
+//        permissionService.save(p);
 
-        storePermission("template_module", "template_module", new BasePermission[]{
+        storePermission("template_module", "template", new BasePermission[]{
                 new BasePermission("view", "查看", true),
                 new BasePermission("add", "添加", true),
                 new BasePermission("edit", "编辑", true),
         });
 
         p = new Permission();
-        p.setName("template_module.template_module.export");
+        p.setName("template_module.template.export");
         p.setDisplayName("导出");
         p.setDescription("导出模板");
         p.setCreatedAt(new Date());
