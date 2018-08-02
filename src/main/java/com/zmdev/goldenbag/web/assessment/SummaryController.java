@@ -93,7 +93,7 @@ public class SummaryController {
             Quarter quarter = quarterService.findById(quarter_id).orElseThrow(() ->
                     new ModelNotFoundException("该季度不存在")
             );
-            assessmentPage = assessmentService.findByQuarter(quarter,
+            assessmentPage = assessmentService.findByQuarterAndStatusIs(quarter, Assessment.Status.FINISHED,
                     PageRequest.of(page, size,
                             new Sort(Sort.Direction.DESC, "createdAt")
                     )
@@ -104,7 +104,7 @@ public class SummaryController {
                 throw new ModelNotFoundException("没有设置当前季度");
             }
             System.out.println(quarter.getId());
-            assessmentPage = assessmentService.findByQuarter(quarter,
+            assessmentPage = assessmentService.findByQuarterAndStatusIs(quarter, Assessment.Status.FINISHED,
                     PageRequest.of(page, size,
                             new Sort(Sort.Direction.DESC, "createdAt")
                     )
