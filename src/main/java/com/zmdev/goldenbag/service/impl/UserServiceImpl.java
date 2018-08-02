@@ -5,6 +5,7 @@ import com.zmdev.goldenbag.domain.Permission;
 import com.zmdev.goldenbag.domain.Role;
 import com.zmdev.goldenbag.domain.User;
 import com.zmdev.goldenbag.domain.UserRepository;
+import com.zmdev.goldenbag.exception.ModelNotFoundException;
 import com.zmdev.goldenbag.exception.ServiceException;
 import com.zmdev.goldenbag.service.DepartmentService;
 import com.zmdev.goldenbag.service.UserService;
@@ -115,6 +116,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long, UserRepository>
     public User save(User user) {
         if (user.getId() == null) {
             Long userId = fateUserService.register(user.getPhone(), CertificateType.PhoneNum, user.getPassword());
+            if (userId == 0) {
+                throw new ModelNotFoundException("用户创建失败");
+            }
             user.setId(userId);
         }
         user.setPassword("");
