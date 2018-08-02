@@ -114,7 +114,7 @@ public class IndexController extends BaseController {
         permissionService.save(p);
 
         storePermission("basic", "quarter",
-                new BasePermission[]{new BasePermission("view", "查看", true), new BasePermission("add", "添加", true)});
+                new BasePermission[]{new BasePermission("view", "查看", true), new BasePermission("add", "添加", true), new BasePermission("edit", "编辑", true)});
         storePermission("basic", "permission", new BasePermission[]{new BasePermission("view", "查看", false)});
 
 //        p = new Permission();
