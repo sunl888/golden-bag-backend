@@ -9,5 +9,5 @@ RUN cd /code && npm install --registry=https://registry.npm.taobao.org \
 
 FROM maven:3.5.4-jdk-8-alpine
 COPY . /app
-COPY --from=builder /code/dist /app
+COPY --from=builder /code/dist /src/main/resources/static
 CMD ["nginx", "-g", "daemon off;"]
