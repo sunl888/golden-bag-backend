@@ -172,7 +172,11 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         // 设置直接经理评价
         savedAssessment.setDirectManagerEvaluation(assessment.getDirectManagerEvaluation());
         savedAssessment.setStatus(Assessment.Status.DIRECT_MANAGER_EVALUATED);// Status 设置为直接经理已经评价
+        System.out.println(assessment.getAssessmentProjectScores().size());
 
+        if (assessment.getAssessmentProjectScores().size() <= 0) {
+            throw new NoScoreException("请把表单数据填写完整在尝试重新提交");
+        }
         for (AssessmentProjectScore assessmentProjectScore : assessment.getAssessmentProjectScores()) {
             AssessmentProject assessmentProject = assessmentProjectScore.getAssessmentProject();
             AssessmentProjectScore aps = assessmentProjectScoreService.findByAssessmentProjectAndAssessment(assessmentProject, savedAssessment);
