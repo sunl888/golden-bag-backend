@@ -25,13 +25,18 @@ public class TemplateController extends BaseController {
 
     public TemplateController(@Autowired AssessmentTemplateService assessmentTemplateService) {
         this.assessmentTemplateService = assessmentTemplateService;
+    }
 
-        PermissionInterceptor.addSpecialAbilitie(getClass(), "storeProject", "edit");
-        PermissionInterceptor.addSpecialAbilitie(getClass(), "updateProject", "edit");
-        PermissionInterceptor.addSpecialAbilitie(getClass(), "storeProjectItem", "edit");
-        PermissionInterceptor.addSpecialAbilitie(getClass(), "updateProjectItem", "edit");
-        PermissionInterceptor.addSpecialAbilitie(getClass(), "storeTemplateInput", "edit");
-        PermissionInterceptor.addSpecialAbilitie(getClass(), "updateTemplateInput", "edit");
+    static {
+        PermissionInterceptor.addSpecialAbilitie(TemplateController.class, "storeProject", "edit");
+        PermissionInterceptor.addSpecialAbilitie(TemplateController.class, "updateProject", "edit");
+        PermissionInterceptor.addSpecialAbilitie(TemplateController.class, "storeProjectItem", "edit");
+        PermissionInterceptor.addSpecialAbilitie(TemplateController.class, "updateProjectItem", "edit");
+        PermissionInterceptor.addSpecialAbilitie(TemplateController.class, "storeTemplateInput", "edit");
+        PermissionInterceptor.addSpecialAbilitie(TemplateController.class, "updateTemplateInput", "edit");
+        PermissionInterceptor.addSpecialAbilitie(TemplateController.class, "deleteProjectItem", "edit");
+        PermissionInterceptor.addSpecialAbilitie(TemplateController.class, "deleteTemplateInput", "edit");
+        PermissionInterceptor.addSpecialAbilitie(TemplateController.class, "deleteProject", "edit");
     }
 
     @Autowired

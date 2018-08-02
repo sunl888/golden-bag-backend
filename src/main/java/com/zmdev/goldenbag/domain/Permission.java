@@ -31,6 +31,7 @@ public class Permission implements Comparable<Permission> {
         modules.put("selfEvaluation", "员工自评");
         modules.put("indirectManagerAuditComments", "间接经理建议");
         modules.put("directManagerScore", "直接经理评分");
+        modules.put("summary", "考核汇总");
     }
 
     @Id
@@ -43,7 +44,6 @@ public class Permission implements Comparable<Permission> {
     private String description;
 
     @Column(nullable = false)
-    @JsonIgnore
     private Boolean menuable;
     // handlerMethod.getShortLogMessage();
     // @Column(nullable = false, unique = true)

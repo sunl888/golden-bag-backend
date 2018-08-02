@@ -11,6 +11,7 @@ import com.zmdev.goldenbag.service.AssessmentTemplateService;
 import com.zmdev.goldenbag.service.QuarterService;
 import com.zmdev.goldenbag.utils.ExportAssessment;
 import com.zmdev.goldenbag.web.Auth;
+import com.zmdev.goldenbag.web.insterceptor.PermissionInterceptor;
 import com.zmdev.goldenbag.web.result.Result;
 import com.zmdev.goldenbag.web.result.ResultGenerator;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -30,9 +31,10 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+// 考核汇总
 @RestController
 @RequestMapping(value = "/assessments", produces = "application/json;charset=UTF-8")
-public class AssessmentController {
+public class SummaryController {
 
     private final AssessmentService assessmentService;
     private final AssessmentTemplateService assessmentTemplateService;
@@ -41,12 +43,16 @@ public class AssessmentController {
     private Auth auth;
 
     @Autowired
-    public AssessmentController(AssessmentService assessmentService, Auth auth, AssessmentTemplateService assessmentTemplateService, ExportAssessment exportAssessment, QuarterService quarterService) {
+    public SummaryController(AssessmentService assessmentService, Auth auth, AssessmentTemplateService assessmentTemplateService, ExportAssessment exportAssessment, QuarterService quarterService) {
         this.assessmentService = assessmentService;
         this.auth = auth;
         this.assessmentTemplateService = assessmentTemplateService;
         this.exportAssessment = exportAssessment;
         this.quarterService = quarterService;
+    }
+
+    static {
+        PermissionInterceptor.addSpecialAbilitie(SummaryController.class, "show", "show");
     }
 
     /**

@@ -25,12 +25,12 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     private UserService userService;
 
     @Autowired
-    public WebSecurityConfig(AuthInterceptor authInterceptor, PermissionService permissionService, Auth auth, UserService userService,TemplateInterceptor templateInterceptor) {
+    public WebSecurityConfig(AuthInterceptor authInterceptor, PermissionService permissionService, Auth auth, UserService userService, TemplateInterceptor templateInterceptor) {
         this.authInterceptor = authInterceptor;
         this.permissionService = permissionService;
         this.auth = auth;
         this.userService = userService;
-        this.templateInterceptor=templateInterceptor;
+        this.templateInterceptor = templateInterceptor;
     }
 
 
@@ -41,9 +41,9 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/auth/*", "/error", "/fate/callback", "/fate/logout");
         // 权限验证拦截器
 //        registry.addInterceptor(new PermissionInterceptor(userService, auth, permissionService)).addPathPatterns("/**")
-//                .excludePathPatterns("/test/*", "/error", "/login", "/error", "/fate/callback", "/fate/logout");
+        // 单个导出考核记录接口不做权限验证 在此接口内部用代码做验证
+//                .excludePathPatterns("assessments/export/*", "templates/types", "templates/get_template", "/test/*", "/error", "/login", "/error", "/fate/callback", "/fate/logout");
         // 模板编辑拦截器
-        registry.addInterceptor(templateInterceptor).addPathPatterns("/**")
-                .excludePathPatterns("/");
+        registry.addInterceptor(templateInterceptor).addPathPatterns("/templates/**");
     }
 }
