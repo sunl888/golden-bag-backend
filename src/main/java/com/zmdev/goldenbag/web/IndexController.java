@@ -338,92 +338,106 @@ public class IndexController extends BaseController {
     }
 
     private void setUpAssessmentInputs() {
-        Optional<AssessmentTemplate> staff_template = templateService.findById(1L);
-        Optional<AssessmentTemplate> manager_template = templateService.findById(2L);
-
-        AssessmentInput assessmentInput_1 = new AssessmentInput();
-        assessmentInput_1.setAssessmentTemplate(staff_template.get());
-        assessmentInput_1.setTitle("1．工作总结（包括主要工作内容，计划完成情况、主要成果，个人取得的进步等）：");
-        assessmentInputService.save(assessmentInput_1);
-        AssessmentInput assessmentInput_2 = new AssessmentInput();
-        assessmentInput_2.setAssessmentTemplate(staff_template.get());
-        assessmentInput_2.setTitle("2．你觉得自身工作中还存在哪些问题及改进计划？对公司的工作有何意见和建议？");
-        assessmentInputService.save(assessmentInput_2);
-        AssessmentInput assessmentInput_3 = new AssessmentInput();
-        assessmentInput_3.setAssessmentTemplate(staff_template.get());
-        assessmentInput_3.setTitle("3．你下一个阶段的工作目标和计划：");
-        assessmentInputService.save(assessmentInput_3);
-
-        AssessmentInput assessmentInput_4 = new AssessmentInput();
-        assessmentInput_4.setAssessmentTemplate(manager_template.get());
-        assessmentInput_4.setTitle("1．工作总结（包括主要工作内容，计划完成情况、主要成果，个人取得的进步等）：");
-        assessmentInputService.save(assessmentInput_4);
-        AssessmentInput assessmentInput_5 = new AssessmentInput();
-        assessmentInput_5.setAssessmentTemplate(manager_template.get());
-        assessmentInput_5.setTitle("2．你觉得自身工作中还存在哪些问题及改进计划？对公司的工作有何意见和建议？");
-        assessmentInputService.save(assessmentInput_5);
-        AssessmentInput assessmentInput_6 = new AssessmentInput();
-        assessmentInput_6.setAssessmentTemplate(manager_template.get());
-        assessmentInput_6.setTitle("3．你下一个阶段的工作目标和计划：");
-        assessmentInputService.save(assessmentInput_6);
+        Quarter current = quarterService.findCurrentQuarter();
+        List<AssessmentTemplate> assessmentTemplates = templateService.findByQuarter(current);
+        for (AssessmentTemplate template : assessmentTemplates) {
+            AssessmentInput assessmentInput_1 = new AssessmentInput();
+            assessmentInput_1.setAssessmentTemplate(template);
+            assessmentInput_1.setTitle("1．工作总结（包括主要工作内容，计划完成情况、主要成果，个人取得的进步等）：");
+            assessmentInputService.save(assessmentInput_1);
+            AssessmentInput assessmentInput_2 = new AssessmentInput();
+            assessmentInput_2.setAssessmentTemplate(template);
+            assessmentInput_2.setTitle("2．你觉得自身工作中还存在哪些问题及改进计划？对公司的工作有何意见和建议？");
+            assessmentInputService.save(assessmentInput_2);
+            AssessmentInput assessmentInput_3 = new AssessmentInput();
+            assessmentInput_3.setAssessmentTemplate(template);
+            assessmentInput_3.setTitle("3．你下一个阶段的工作目标和计划：");
+            assessmentInputService.save(assessmentInput_3);
+        }
     }
 
     private void setUpAssessmentProjects() {
-        Optional<AssessmentTemplate> staff_template = templateService.findById(1L);
-        Optional<AssessmentTemplate> manager_template = templateService.findById(2L);
+        Quarter current = quarterService.findCurrentQuarter();
+        List<AssessmentTemplate> assessmentTemplates = templateService.findByQuarter(current);
+        for (AssessmentTemplate template : assessmentTemplates) {
+            AssessmentProject assessmentProject_1 = new AssessmentProject();
+            assessmentProject_1.setSort(0);
+            assessmentProject_1.setAssessmentTemplate(template);
+            assessmentProject_1.setItems(null);
+            assessmentProject_1.setTitle(" 基础操守");
+            assessmentProjectService.save(assessmentProject_1);
+            AssessmentProjectItem assessmentProjectItem_11 = new AssessmentProjectItem(10, "A.非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用，有很强的自我约束能力。", assessmentProject_1);
+            assessmentProjectItemRepository.save(assessmentProjectItem_11);
+            AssessmentProjectItem assessmentProjectItem_12 = new AssessmentProjectItem(7, "B.较自觉遵守公司及驻场的规章制度，有较强的自我约束能力。", assessmentProject_1);
+            assessmentProjectItemRepository.save(assessmentProjectItem_12);
+            AssessmentProjectItem assessmentProjectItem_13 = new AssessmentProjectItem(4, "C.一般能遵守公司及驻场的规章制度，有一定的自我约束能力。", assessmentProject_1);
+            assessmentProjectItemRepository.save(assessmentProjectItem_13);
 
-        AssessmentProject assessmentProject_1 = new AssessmentProject();
-        assessmentProject_1.setSort(0);
-        assessmentProject_1.setAssessmentTemplate(staff_template.get());
-        assessmentProject_1.setItems(null);
-        assessmentProject_1.setTitle(" 基础操守");
-        assessmentProjectService.save(assessmentProject_1);
-        AssessmentProjectItem assessmentProjectItem_11 = new AssessmentProjectItem(10, " A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用，有很强的自我约束能力。", assessmentProject_1);
-        assessmentProjectItemRepository.save(assessmentProjectItem_11);
-        AssessmentProjectItem assessmentProjectItem_12 = new AssessmentProjectItem(7, "B. 较自觉遵守公司及驻场的规章制度，有较强的自我约束能力。", assessmentProject_1);
-        assessmentProjectItemRepository.save(assessmentProjectItem_12);
-        AssessmentProjectItem assessmentProjectItem_13 = new AssessmentProjectItem(4, "C. 一般能遵守公司及驻场的规章制度，有一定的自我约束能力。", assessmentProject_1);
-        assessmentProjectItemRepository.save(assessmentProjectItem_13);
+            AssessmentProject assessmentProject_2 = new AssessmentProject();
+            assessmentProject_2.setSort(0);
+            assessmentProject_2.setAssessmentTemplate(template);
+            assessmentProject_2.setItems(null);
+            assessmentProject_2.setTitle(" 工作态度");
+            assessmentProjectService.save(assessmentProject_2);
+            AssessmentProjectItem assessmentProjectItem_21 = new AssessmentProjectItem(10, "A.对公司及公司文化有很高的认同感，有团队合作精神，具有积极正面的工作态度，昂扬向上的精神风貌，工作任劳任怨，认真负责，一丝不苟，不惧困难，敢于担当，主动性强。", assessmentProject_2);
+            assessmentProjectItemRepository.save(assessmentProjectItem_21);
+            AssessmentProjectItem assessmentProjectItem_22 = new AssessmentProjectItem(7, "B.认可公司文化，工作较为积极主动，有较强的责任心。", assessmentProject_2);
+            assessmentProjectItemRepository.save(assessmentProjectItem_22);
+            AssessmentProjectItem assessmentProjectItem_23 = new AssessmentProjectItem(4, "C.没有公司文化概念，但工作态度较为端正，无较大负面情绪。", assessmentProject_2);
+            assessmentProjectItemRepository.save(assessmentProjectItem_23);
 
-        AssessmentProject assessmentProject_2 = new AssessmentProject();
-        assessmentProject_2.setSort(0);
-        assessmentProject_2.setAssessmentTemplate(staff_template.get());
-        assessmentProject_2.setItems(null);
-        assessmentProject_2.setTitle(" 工作态度");
-        assessmentProjectService.save(assessmentProject_2);
-        AssessmentProjectItem assessmentProjectItem_21 = new AssessmentProjectItem(10, " A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用，有很强的自我约束能力。", assessmentProject_2);
-        assessmentProjectItemRepository.save(assessmentProjectItem_21);
-        AssessmentProjectItem assessmentProjectItem_22 = new AssessmentProjectItem(7, "B. 较自觉遵守公司及驻场的规章制度，有较强的自我约束能力。", assessmentProject_2);
-        assessmentProjectItemRepository.save(assessmentProjectItem_22);
-        AssessmentProjectItem assessmentProjectItem_23 = new AssessmentProjectItem(4, "C. 一般能遵守公司及驻场的规章制度，有一定的自我约束能力。", assessmentProject_2);
-        assessmentProjectItemRepository.save(assessmentProjectItem_23);
+            AssessmentProject assessmentProject_3 = new AssessmentProject();
+            assessmentProject_3.setSort(0);
+            assessmentProject_3.setAssessmentTemplate(template);
+            assessmentProject_3.setItems(null);
+            assessmentProject_3.setTitle("岗位技能");
+            assessmentProjectService.save(assessmentProject_3);
+            AssessmentProjectItem assessmentProjectItem_31 = new AssessmentProjectItem(10, " A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用，有很强的自我约束能力。", assessmentProject_3);
+            assessmentProjectItemRepository.save(assessmentProjectItem_31);
+            AssessmentProjectItem assessmentProjectItem_32 = new AssessmentProjectItem(7, "B. 较自觉遵守公司及驻场的规章制度，有较强的自我约束能力。", assessmentProject_3);
+            assessmentProjectItemRepository.save(assessmentProjectItem_32);
+            AssessmentProjectItem assessmentProjectItem_33 = new AssessmentProjectItem(4, "C. 一般能遵守公司及驻场的规章制度，有一定的自我约束能力。", assessmentProject_3);
+            assessmentProjectItemRepository.save(assessmentProjectItem_33);
 
+            AssessmentProject assessmentProject_4 = new AssessmentProject();
+            assessmentProject_4.setSort(0);
+            assessmentProject_4.setAssessmentTemplate(template);
+            assessmentProject_4.setItems(null);
+            assessmentProject_4.setTitle("学习进步");
+            assessmentProjectService.save(assessmentProject_4);
+            AssessmentProjectItem assessmentProjectItem_41 = new AssessmentProjectItem(10, "A.具有丰富的专业知识和高超的本岗位工作技能，并在工作中能够得以充分发挥，是本岗位的能手，完全达到岗位要求。", assessmentProject_4);
+            assessmentProjectItemRepository.save(assessmentProjectItem_41);
+            AssessmentProjectItem assessmentProjectItem_42 = new AssessmentProjectItem(7, "B.具有较好的专业知识和本岗位较高的技能，工作中能够得到展现。", assessmentProject_4);
+            assessmentProjectItemRepository.save(assessmentProjectItem_42);
+            AssessmentProjectItem assessmentProjectItem_43 = new AssessmentProjectItem(4, "C.专业知识一般，技能初步符合职责需要。", assessmentProject_4);
+            assessmentProjectItemRepository.save(assessmentProjectItem_43);
 
-        AssessmentProject assessmentProject_3 = new AssessmentProject();
-        assessmentProject_3.setSort(0);
-        assessmentProject_3.setAssessmentTemplate(manager_template.get());
-        assessmentProject_3.setItems(null);
-        assessmentProject_3.setTitle("岗位技能");
-        assessmentProjectService.save(assessmentProject_3);
-        AssessmentProjectItem assessmentProjectItem_31 = new AssessmentProjectItem(10, " A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用，有很强的自我约束能力。", assessmentProject_3);
-        assessmentProjectItemRepository.save(assessmentProjectItem_31);
-        AssessmentProjectItem assessmentProjectItem_32 = new AssessmentProjectItem(7, "B. 较自觉遵守公司及驻场的规章制度，有较强的自我约束能力。", assessmentProject_3);
-        assessmentProjectItemRepository.save(assessmentProjectItem_32);
-        AssessmentProjectItem assessmentProjectItem_33 = new AssessmentProjectItem(4, "C. 一般能遵守公司及驻场的规章制度，有一定的自我约束能力。", assessmentProject_3);
-        assessmentProjectItemRepository.save(assessmentProjectItem_33);
+            AssessmentProject assessmentProject_5 = new AssessmentProject();
+            assessmentProject_5.setSort(0);
+            assessmentProject_5.setAssessmentTemplate(template);
+            assessmentProject_5.setItems(null);
+            assessmentProject_5.setTitle("工作效率");
+            assessmentProjectService.save(assessmentProject_5);
+            AssessmentProjectItem assessmentProject_51 = new AssessmentProjectItem(10, "A.效率高，执行力强，且能提前、创新和超额完成任务。", assessmentProject_5);
+            assessmentProjectItemRepository.save(assessmentProject_51);
+            AssessmentProjectItem assessmentProject_52 = new AssessmentProjectItem(7, "B.执行力较强，能够按时较好地完成任务。", assessmentProject_5);
+            assessmentProjectItemRepository.save(assessmentProject_52);
+            AssessmentProjectItem assessmentProject_53 = new AssessmentProjectItem(4, "C.执行力一般，能够基本完成任务。", assessmentProject_5);
+            assessmentProjectItemRepository.save(assessmentProject_53);
 
-        AssessmentProject assessmentProject_4 = new AssessmentProject();
-        assessmentProject_4.setSort(0);
-        assessmentProject_4.setAssessmentTemplate(manager_template.get());
-        assessmentProject_4.setItems(null);
-        assessmentProject_4.setTitle("学习进步");
-        assessmentProjectService.save(assessmentProject_4);
-        AssessmentProjectItem assessmentProjectItem_41 = new AssessmentProjectItem(10, " A. 非常自觉遵守公司及驻场的各项规章制度，以身作则，起模范带头作用，有很强的自我约束能力。", assessmentProject_4);
-        assessmentProjectItemRepository.save(assessmentProjectItem_41);
-        AssessmentProjectItem assessmentProjectItem_42 = new AssessmentProjectItem(7, "B. 较自觉遵守公司及驻场的规章制度，有较强的自我约束能力。", assessmentProject_4);
-        assessmentProjectItemRepository.save(assessmentProjectItem_42);
-        AssessmentProjectItem assessmentProjectItem_43 = new AssessmentProjectItem(4, "C. 一般能遵守公司及驻场的规章制度，有一定的自我约束能力。", assessmentProject_4);
-        assessmentProjectItemRepository.save(assessmentProjectItem_43);
+            AssessmentProject assessmentProject_6 = new AssessmentProject();
+            assessmentProject_6.setSort(0);
+            assessmentProject_6.setAssessmentTemplate(template);
+            assessmentProject_6.setItems(null);
+            assessmentProject_6.setTitle("工作质量");
+            assessmentProjectService.save(assessmentProject_6);
+            AssessmentProjectItem assessmentProject_61 = new AssessmentProjectItem(10, "A.工作质量很高，保持高水准，发生错误率极低。", assessmentProject_6);
+            assessmentProjectItemRepository.save(assessmentProject_61);
+            AssessmentProjectItem assessmentProject_62 = new AssessmentProjectItem(7, "B.工作质量较高，正确率较高，有错很快改正。", assessmentProject_6);
+            assessmentProjectItemRepository.save(assessmentProject_62);
+            AssessmentProjectItem assessmentProject_63 = new AssessmentProjectItem(4, "C.工作质量一般，基本上符合要求，偶尔出现错误。", assessmentProject_6);
+            assessmentProjectItemRepository.save(assessmentProject_63);
+        }
     }
 
     private class BasePermission {
