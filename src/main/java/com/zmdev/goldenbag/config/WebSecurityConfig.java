@@ -5,6 +5,7 @@ import com.zmdev.fatesdk.spring_insterceptor.AuthInterceptor;
 import com.zmdev.goldenbag.service.PermissionService;
 import com.zmdev.goldenbag.service.UserService;
 import com.zmdev.goldenbag.web.Auth;
+import com.zmdev.goldenbag.web.insterceptor.TemplateInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,6 +16,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
     private AuthInterceptor authInterceptor;
 
+    private TemplateInterceptor templateInterceptor;
+
     private PermissionService permissionService;
 
     private Auth auth;
@@ -22,11 +25,12 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     private UserService userService;
 
     @Autowired
-    public WebSecurityConfig(AuthInterceptor authInterceptor, PermissionService permissionService, Auth auth, UserService userService) {
+    public WebSecurityConfig(AuthInterceptor authInterceptor, PermissionService permissionService, Auth auth, UserService userService,TemplateInterceptor templateInterceptor) {
         this.authInterceptor = authInterceptor;
         this.permissionService = permissionService;
         this.auth = auth;
         this.userService = userService;
+        this.templateInterceptor=templateInterceptor;
     }
 
 
@@ -38,5 +42,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         // 权限验证拦截器
 //        registry.addInterceptor(new PermissionInterceptor(userService, auth, permissionService)).addPathPatterns("/**")
 //                .excludePathPatterns("/test/*", "/error", "/login", "/error", "/fate/callback", "/fate/logout");
+        // 模板编辑拦截器
+        registry.addInterceptor(templateInterceptor).addPathPatterns("/**")
+                .excludePathPatterns("/");
     }
 }
