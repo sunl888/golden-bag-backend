@@ -6,7 +6,7 @@ services:
     volumes:
       - ~/.m2:/root/.m2
     ports:
-      - "8083"
+      - "8083:8080"
 #   command: mvn clean spring-boot:run -Dspring.profiles.active=docker
     command: mvn clean spring-boot:run
     environment:
