@@ -50,36 +50,37 @@ public class MeController extends BaseController {
     public Result reviewList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         User currentUser = auth.getUser();
 
+        Page<Map<String, Object>> assessments = null;
         List<User> users = userService.findByDirectManager(currentUser);
-
-        Page<Map<String, Object>> assessments = assessmentService.findByUserInAndStatus(
-                users,
-                Assessment.Status.SUBMITTED,
-                PageRequest.of(page, size, new Sort(Sort.Direction.DESC, "updatedAt"))
-        );
-
+        if (users.size() > 0) {
+            assessments = assessmentService.findByUserInAndStatus(
+                    users,
+                    Assessment.Status.SUBMITTED,
+                    PageRequest.of(page, size, new Sort(Sort.Direction.DESC, "updatedAt"))
+            );
+        }
         return ResultGenerator.genSuccessResult(assessments);
     }
 
     /**
      * 间接经理获取其需要评价的考核记录列表
      *
-     * @param page
-     * @param size
+     * @param page int
+     * @param size int
      * @return Result
      */
     @GetMapping("comment_list")
     public Result commentList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         User currentUser = auth.getUser();
-
+        Page<Map<String, Object>> assessments = null;
         List<User> users = userService.findByIndirectManager(currentUser);
-
-        Page<Map<String, Object>> assessments = assessmentService.findByUserInAndStatus(
-                users,
-                Assessment.Status.DIRECT_MANAGER_EVALUATED,
-                PageRequest.of(page, size, new Sort(Sort.Direction.DESC, "updatedAt"))
-        );
-
+        if (users.size() > 0) {
+            assessments = assessmentService.findByUserInAndStatus(
+                    users,
+                    Assessment.Status.DIRECT_MANAGER_EVALUATED,
+                    PageRequest.of(page, size, new Sort(Sort.Direction.DESC, "updatedAt"))
+            );
+        }
         return ResultGenerator.genSuccessResult(assessments);
     }
 
