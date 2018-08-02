@@ -167,6 +167,43 @@ public class IndexController extends BaseController {
         p.setUpdatedAt(new Date());
         p.setMenuable(true);
         permissionService.save(p);
+
+        p = new Permission();
+        p.setName("assessment.summary.show");
+        p.setDisplayName("显示指定的考核记录");
+        p.setDescription("显示指定的考核记录");
+        p.setCreatedAt(new Date());
+        p.setUpdatedAt(new Date());
+        p.setMenuable(false);
+        permissionService.save(p);
+
+        p = new Permission();
+        p.setName("assessment.summary.view");
+        p.setDisplayName("查看");
+        p.setDescription("查看考核记录");
+        p.setCreatedAt(new Date());
+        p.setUpdatedAt(new Date());
+        p.setMenuable(true);
+        permissionService.save(p);
+
+
+        p = new Permission();
+        p.setName("assessment.summary.batchExportByAssessmentIds");
+        p.setDisplayName("批量导出");
+        p.setDescription("批量导出考核记录");
+        p.setCreatedAt(new Date());
+        p.setUpdatedAt(new Date());
+        p.setMenuable(true);
+        permissionService.save(p);
+
+        p = new Permission();
+        p.setName("assessment.summary.batchExportByQuarterIds");
+        p.setDisplayName("按季度批量导出");
+        p.setDescription("按季度批量导出考核记录");
+        p.setCreatedAt(new Date());
+        p.setUpdatedAt(new Date());
+        p.setMenuable(true);
+        permissionService.save(p);
     }
 
     private void setupRole() {

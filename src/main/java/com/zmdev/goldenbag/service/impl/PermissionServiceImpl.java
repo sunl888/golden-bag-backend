@@ -21,11 +21,11 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long, Per
             String moduleName = Permission.getModules().get(permission.getModuleName());
 
             if (!formatData.containsKey(topModuleName)) {
-                Map<String, List<Permission>> m = new HashMap<>();
+                // Map<String, List<Permission>> m = new HashMap<>();
                 // List<Permission> l = new ArrayList<>();
                 //l.add(permission);
                 //m.put(moduleName, l);
-                formatData.put(topModuleName, m);
+                formatData.put(topModuleName, new HashMap<>());
             }
 
             Map<String, List<Permission>> m = formatData.get(topModuleName);
