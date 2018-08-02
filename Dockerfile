@@ -7,6 +7,7 @@ RUN cd /code && npm install --registry=https://registry.npm.taobao.org \
     && npm run build
 
 
-FROM nginx:1.13-alpine
-COPY --from=builder /code/dist /var/www
+FROM maven:3.5.4-jdk-8-alpine
+COPY . /app
+COPY --from=builder /code/dist /app
 CMD ["nginx", "-g", "daemon off;"]
