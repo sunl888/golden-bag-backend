@@ -21,8 +21,8 @@ public class RoleController {
 
     private RoleService roleService;
 
-    public RoleController() {
-        PermissionInterceptor.addSpecialAbilitie(getClass(), "permission", "view");
+    static {
+        PermissionInterceptor.addSpecialAbilitie(RoleController.class, "permission", "view");
     }
 
     @Autowired
