@@ -64,4 +64,12 @@ public class QuarterController extends BaseController {
         quarter.setId(id);
         return ResultGenerator.genSuccessResult(quarterService.save(quarter));
     }
+
+    @GetMapping("/current")
+    public Result getCurrentQuarter() {
+        Quarter currentQuarter = quarterService.findCurrentQuarter();
+        if (currentQuarter == null)
+            throw new ModelNotFoundException("季度不存在");
+        return ResultGenerator.genSuccessResult(currentQuarter);
+    }
 }
