@@ -1,20 +1,32 @@
 version: '3'
 services:
-  app:
-    build: .
+  golden-bag-backend_nginx_a:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./deploy/nginx/sites-available/:/etc/nginx/sites-available/
+    ports:
+      - "8082:80"
+    networks:
+      - app_net
+
+  golden-bag-backend_a:
+    image: maven:3.5.4-jdk-8-alpine
     working_dir: /app
     volumes:
       - .:/app
       - ~/.m2:/root/.m2
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
 #   command: mvn clean spring-boot:run -Dspring.profiles.active=docker
     command: mvn clean spring-boot:run
     environment:
       - "SPRING_PROFILES_ACTIVE=docker"
     networks:
-      - app_env
+      - app_net
 networks:
-  app_env:
+  app_net:
     external:
-      name: app_env
+      name: app_net

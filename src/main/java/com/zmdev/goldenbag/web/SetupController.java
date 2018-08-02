@@ -13,8 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@RequestMapping(value = "/test", produces = "application/json;charset=UTF-8")
-public class IndexController extends BaseController {
+@RequestMapping(value = "/setup", produces = "application/json;charset=UTF-8")
+public class SetupController extends BaseController {
 
     private PermissionService permissionService;
 
@@ -279,7 +279,7 @@ public class IndexController extends BaseController {
         userService.save(lili);
     }
 
-    @GetMapping("setup")
+    @GetMapping("/")
     public String setup() {
         setupPermission();
         setupRole();

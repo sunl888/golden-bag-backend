@@ -16,7 +16,6 @@ import java.util.Map;
 public class GoldenBagApplication {
 
     public static void main(String[] args) {
-
         SpringApplication.run(GoldenBagApplication.class, args);
     }
 }
