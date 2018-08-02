@@ -1,7 +1,11 @@
 package com.zmdev.goldenbag.web.assessment;
 
 
-import com.zmdev.goldenbag.domain.*;
+import com.zmdev.goldenbag.domain.Assessment;
+import com.zmdev.goldenbag.domain.AssessmentTemplate;
+import com.zmdev.goldenbag.domain.Quarter;
+import com.zmdev.goldenbag.domain.User;
+import com.zmdev.goldenbag.exception.AuthorizationException;
 import com.zmdev.goldenbag.exception.ModelNotFoundException;
 import com.zmdev.goldenbag.service.*;
 import com.zmdev.goldenbag.utils.ExportAssessment;
@@ -40,6 +44,8 @@ public class SummaryController {
     private UserService userService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private PermissionService permissionService;
 
     @Autowired
     public SummaryController(AssessmentService assessmentService, Auth auth, AssessmentTemplateService assessmentTemplateService, ExportAssessment exportAssessment, QuarterService quarterService) {
@@ -67,10 +73,14 @@ public class SummaryController {
         User user = assessment.orElseThrow(
                 () -> new ModelNotFoundException("不存在该考核记录")
         ).getUser();
+        if (auth.getUser() == null) {
+            throw new AuthorizationException("请登陆");
+        }
         // 只有自己、直接经理、间接经理可以查看
         // TODO 这里不能hasRole
-        Role role = roleService.findByName("管理员");
-        if (user.equals(auth.getUser()) || user.getDirectManager().equals(auth.getUser()) || user.getIndirectManager().equals(auth.getUser()) || userService.hasRole(auth.getUser(), role))
+//        Role role = roleService.findByName("管理员");
+        boolean hasPermission = userService.hasPermission(auth.getUser(), permissionService.findByName("assessment.summary.show"));
+        if (hasPermission || user.equals(auth.getUser()) || user.getDirectManager().equals(auth.getUser()) || user.getIndirectManager().equals(auth.getUser()) /*|| userService.hasRole(auth.getUser(), role)*/)
             return ResultGenerator.genSuccessResult(assessment.get());
         return ResultGenerator.genFailResult("不能偷看别人的考核记录哦--");
     }
