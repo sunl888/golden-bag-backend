@@ -54,6 +54,8 @@ public interface AssessmentService extends BaseService<Assessment, Long> {
 
     List<Assessment> findByIds(Long[] ids);
 
-    Page<Assessment> findByQuarter(Quarter quarter,Pageable pageable);
+    Page<Assessment> findByQuarter(Quarter quarter, Pageable pageable);
+
+    Page<Assessment> findByQuarterAndStatusIs(Quarter quarter, Assessment.Status status, Pageable pageable);
 }
 

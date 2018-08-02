@@ -293,6 +293,10 @@ public class AssessmentServiceImpl extends BaseServiceImpl<Assessment, Long, Ass
         return repository.findByQuarter(quarter, pageable);
     }
 
+    public Page<Assessment> findByQuarterAndStatusIs(Quarter quarter, Assessment.Status status, Pageable pageable) {
+        return repository.findByQuarterAndStatusIs(quarter, status, pageable);
+    }
+
     public List<Assessment> findByUser(User user) {
         return repository.findByUser(user);
     }
