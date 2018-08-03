@@ -1,6 +1,7 @@
 package com.zmdev.goldenbag.web.template_module;
 
 import com.zmdev.goldenbag.domain.*;
+import com.zmdev.goldenbag.exception.AuthorizationException;
 import com.zmdev.goldenbag.exception.ModelNotFoundException;
 import com.zmdev.goldenbag.service.AssessmentTemplateService;
 import com.zmdev.goldenbag.service.QuarterService;
@@ -151,6 +152,9 @@ public class TemplateController extends BaseController {
         Quarter currentQuarter = quarterService.findCurrentQuarter();
         if (currentQuarter.getId() == null) {
             throw new ModelNotFoundException("没有设置当前季度");
+        }
+        if (user == null) {
+            throw new AuthorizationException("没有登陆");
         }
         AssessmentTemplate assessmentTemplate = assessmentTemplateService.findByTypeAndQuarter(user.getType(), currentQuarter);
         return ResultGenerator.genSuccessResult(assessmentTemplate);
