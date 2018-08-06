@@ -1,20 +1,20 @@
-version: '3'
+version: "3"
 services:
-  app:
+  golden-bag-backend_a:
     build: .
     working_dir: /app
     volumes:
-      - .:/app
       - ~/.m2:/root/.m2
     ports:
-      - "8080:8080"
+      - "8083:8080"
 #   command: mvn clean spring-boot:run -Dspring.profiles.active=docker
     command: mvn clean spring-boot:run
     environment:
       - "SPRING_PROFILES_ACTIVE=docker"
     networks:
-      - app_env
+      - app_net
+
 networks:
-  app_env:
+  app_net:
     external:
-      name: app_env
+      name: app_net

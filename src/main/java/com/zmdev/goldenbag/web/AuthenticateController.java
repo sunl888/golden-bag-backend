@@ -61,6 +61,7 @@ public class AuthenticateController extends BaseController {
 
         String redirect = "redirect:" + fateConfiguration.getFateURL() + "/logout?app_id=" + fateConfiguration.getAppId();
         if (referer != null) {
+
             redirect += "&callback=" + referer;
         }
         return redirect;
